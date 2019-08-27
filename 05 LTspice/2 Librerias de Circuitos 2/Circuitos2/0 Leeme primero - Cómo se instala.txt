@@ -1,0 +1,78 @@
+***************************************************
+Instrucciones para instalar el progama LTspiceXVII y
+la carpeta Circuitos2 de componentes
+de Teoría de Circuitos II. Facultad de Ingeniería.
+Universidad Nacional de la Patagonia SJB.
+6 de agosto de 2019.
+****************************************************
+
+El programa LTspice XVII es una versión x64 del LTspice
+que funciona más rapido y permite configurar facilmente
+las bibliotecas de símbolos propios. Ademas tiene
+más opciones de personalización del visualizador de ondas.
+También al utilizar UNICODE permite el agregado del símbolo omega
+para expresar correctamente el valor de la resistencia con su unidad.
+Además permite ver los circuitos en las carpetas antes de abrirlos
+si se usa la Vista de íconos grandes.
+
+
+1. Se instala el programa que está en la carpeta 1 LTspice.
+(* Este es nuevo programa LTspiceXVII.exe. Desinstalar el anterior LTspiceIV *)
+
+   Se puede instalar en el directorio por omisión 
+
+2. Se copia la carpeta Circuitos2 que está en 2 Librerias de Circuitos,
+
+    en la carpeta sym del programa LTspice
+
+que se encuentra en la carpeta Documentos o Mis documentos
+del usuario, que es particular de cada computadora.
+
+C:\Users\"Nombre del Usuario"\Documents\LTspiceXVII\lib\sym
+
+Se abre LTspiceXVII y se hace New schematics (Es el primer ícono a la izquierda). 
+Cuando se pica en el ícono de simbolos (una compuerta a la izquierda de la mano abierta)
+aparece la carpeta Circuitos2 como la primera antes de la
+carpeta Comparators en la ventana de este directorio sym
+Ver el archivo:
+"1 Muestra que esta instalada la biblioteca Circuitos2.png"
+
+
+3) Si ahora se pica dos veces sobre el archivo Componentes ideales.asc 
+que esta en esta carpeta,
+deben aparecer los símbolos de algunos de ellos con el letrero de 
+Teoría de Circuitos II y el de instalación correcta de los componentes de 
+Teoría de Circuitos II. 
+Ver archivo:
+"2 Muestra que se ha instalado correctamente.png"
+
+4) Para utilizar los componentes se abre LTspice y se hace File-New Schematic.
+Se pica en el símbolo de la compuerta, que está entre el símbolo de un diodo
+y la mano abierta y se abre una ventana Select Component Symbol.
+
+En el cuadro inferior debe aparecer la indicación de la carpeta
+[Circuitos2]
+antes de las otras del programa.
+
+Picando sobre esta carpeta se muestran las disintas carpetas de componentes.
+Si se abre la de componentes ideales y se pica sobre girador, aparece el dibujo
+de un girador.
+Ver archivo:
+"3 Muestra los componentes ideales de Circuitos2.png"
+Si se hace OK, este símbolo se transfiere al diagrama circuital.
+Ver archivo:
+"4 Muestra el componente girador en el diagrama.png"
+
+
+5) En la carpeta: 3 Ejemplos de Circuitos 2 se proporcionan
+varios circuitos de ejemplo  y en la carpeta: 4 Notas sobre LTspice
+varios archivos en PDF para ampliar conocimientos sobre LTspice.
+
+¡Felicitaciones! y manos a la obra...
+
+La cátedra de Teoría de Circuitos II
+
+
+
+
+

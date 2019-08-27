@@ -1,0 +1,116 @@
+* Librería de Teoría de Circuitos II
+* Para LTspice
+* Hecha por EP
+* 3/04/2014
+*
+* ==========================================================
+* Librería de Bloques de Teoría de Circuitos II
+* ======================================================
+*
+* Bloque Escalón unitario
+.subckt escalon 1
+V1 1 0 PULSE(0 {valor} {retardo} 1ps 1ps {Tsim} {Tsim} 1)
+.param valor=1
+.param Tsim=100s
+.param retardo=0s
+.ends escalon
+
+* Bloque de Ganancia
+.subckt ganancia en sal
++params: K=1
+E1 sal 0 en 0 {K}
+.ends ganancia
+
+* Impulso de Dirac
+.subckt impulso 1
++params: Tret = 0.1ms
+*******Vinicial Von Tret    tr    tf   ton   tperiodo nciclos
+V1 1 0 PULSE(0 {Vi} {Tret} 0.1ps  0.1ps {Ton} {Tsim} 1)
+*V1 1 0 PULSE(0 {Vi} {Tret} 0.1ps  0.1ps {Ton} {Tsim} 10000)
+.param Vi=10000meg
+.param Ton=1fs
+.param Tsim=100s
+.ends impulso
+
+* Bloque Integrador
+* H(s)=1/s
+*
+.subckt integrador en sal
+G1 0 1 en 0 1
+C1 1 0 1 IC=0
+R1 1 0 1e12
+E1 sal 0 1 0 1
+.ends integrador
+
+* Bloque Restador de dos entradas
+.subckt restador2 enP enN sal
+E1 N001 0 enN 0 -1
+E2 sal N001 enP 0 1
+.ends restador2
+
+* Bloque Sumador de dos entradas
+.subckt sumador2 en1 en2 sal
+E1 N001 0 en1 0 1
+E2 sal N001 en2 0 1
+.ends sumador2
+
+* Bloque Sumador de 3 entradas
+.subckt sumador3 en1 en2 en3 sal
+E1 N001 0 en1 0 1
+E2 N002 N001 en2 0 1
+E3 sal N002 en3 0 1
+.ends sumador3
+
+* Bloque Sumador de cinco entradas
+.subckt Sumador5 en1 en2 en3 en4 en5 sal
+G5 0 N004 0 en5 1
+R1 N004 0 1
+G1 0 N003 N004 en4 1
+R2 N003 0 1
+G2 0 N002 N003 en3 1
+R3 N002 0 1
+G3 0 N001 N002 en2 1
+R4 N001 0 1
+G4 0 sal en1 N001 1
+R5 sal 0 1
+.ends Sumador5
+
+*----------------------
+* Sumador de cinco entradas redondo
+.subckt Sum5 in1 in2 in3 in4 in5 out
+G5 0 N004 0 in5 1
+R1 N004 0 1
+G1 0 N003 N004 in4 1
+R2 N003 0 1
+G2 0 N002 N003 in3 1
+R3 N002 0 1
+G3 0 N001 N002 in2 1
+R4 N001 0 1
+G4 0 out in1 N001 1
+R5 out 0 1
+.ends Sum5
+*----------------------
+
+* Sumador redondo con flechitas de ingreso de señal
+.subckt sumaf in1 in2 out
+*E1 N001 0 in1 0 1
+*E2 out N001 in2 0 1
+G1 0 out in2 N001 1k
+G2 0 N001 0 in1 1
+R1 N001 0 1
+R2 out 0 1m
+.ends sumaf
+
+* Restador redondo con flechitas de ingreso de señal
+.subckt restaf inP inN out
+E1 N001 0 inN 0 -1
+E2 out N001 inP 0 1
+.ends restaf
+
+* Bloque Sumador de 3 entradas
+.subckt sumador3 en1 en2 en3 sal
+E1 N001 0 en1 0 1
+E2 N002 N001 en2 0 1
+E3 sal N002 en3 0 1
+.ends sumador3
+

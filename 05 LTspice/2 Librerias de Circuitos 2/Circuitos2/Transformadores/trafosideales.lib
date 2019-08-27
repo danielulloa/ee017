@@ -1,0 +1,83 @@
+* Transformador Ideal TFI con la corriente
+* en el primario entrando y en el secundario saliendo
+*  1_______   _______3
+*    +     ) (     +  -------> I2
+*          ) (
+*    V1    ) (     V2= n * V1
+*          ) (     I2= I1 / n
+*    -     ) (     -
+*  2_______) (_______4
+*
+* Parámetros
+*      n=relación de vueltas 1:n (primario:secundario)
+*    V2/V1 = n ;    1 : n
+* Las relaciones constitutivas son:
+* V2=n*V1 y I2= I1 / n
+**********************************************************
+.subckt TFI 1  2  3  4
++params: n=1
+F1 2 1 E1 {n}   ; Fuente de corriente controlada por corriente
+E1 3 5 1 2 {n}  ; Fuente de tensión controlada por tensión
+R1 5 4 1n       ; Resistencia de la fuente de tensión para que no sea ideal
+.ends TFI
+**********************************************************
+
+
+* Autotransformador Ideal con la corriente I1
+* en el primario entrando y en el secundario saliendo I2
+*
+*    ----->I1
+*  1 ________
+*    +       )
+*            )
+*    V1      )______2 -------> I2
+*       |    )
+*       |I3  )   V2  (Devanado de derivación)
+*       `    )
+*  3 -_______)______3
+*
+*
+* Las relaciones constitutivas son:
+* V2=n*V1 y I1=n*I2
+*
+* Además en el nodo de derivación se cumple que: I1=I2+I3
+* Entonces I3=I1-I2= n*I2-I2= (n-1)*I2  => I3= (n-1)* I2
+* I2 = I3 /(n-1) y por lo tanto I1= n* I2 = n/(n-1) *I3
+* Es decir I1= n/(n-1) *I3. Esta es la ecuación que se implementa abajo
+
+
+**********************************************************
+.subckt autotraforeductor 1  2  3
++ params: n=0.5                       ; Relación de transformación n = V2/V1
++ a={limit(0.0001,0.999999,{n})}      ; Valor intermedio entre nmin=0.0001, nmax=0.999999 y n
+*
+F1 1 2 E1 {a/(a-1)}  ; Fuente de corriente controlada por corriente  I1= n * I 2= (n/(n-1))* I3. La fuente de corriente F hace circular la
+                     ; la corriente I1 desde el nodo 1 al nodo 2 y es proporcional a la corriente del secundario. La corriente a través de la fuente E1
+                     ; que entra desde el nodo 2 al nodo 3 es la corriente I3 del devanado de derivación, por lo tanto la corriente de
+                     ; de salida I2 se debe expresar en función de I3. De esta manera se implementa I1= n * I 2 con I1 entrado e I2 saliendo.
+*
+E1 2 4 1 3 {a}       ; Fuente de tensión controlada por tensión       V2 = n V1 (La tensión de salida V2=V2_3 está controlada por
+                     ; La tensión de entrada V1=V1_3 con una ganancia igual a la relación de transformación n
+R1 4 3 1n            ; Resistencia de la fuente de tensión para que no sea ideal
+.ends autotraforeductor
+**********************************************************
+* n=limit(x,y,z) Intermediate value of x, y, and z
+
+* n stays between x and y
+
+**********************************************************
+.subckt autotrafoelevador 1  2  3
++ params: n=2                     ; Relación de transformación n = V2/V1
++ a={limit(1.000001,1g,{n})}      ; Valor intermedio entre nmin=1.000001, nmax=1g y n
+*
+F1 1 2 E1 {a/(a-1)}  ; Fuente de corriente controlada por corriente  I1= n * I 2= (n/(n-1))* I3. La fuente de corriente F hace circular la
+                     ; la corriente I1 desde el nodo 1 al nodo 2 y es proporcional a la corriente del secundario. La corriente a través de la fuente E1
+                     ; que entra desde el nodo 2 al nodo 3 es la corriente I3 del devanado de derivación, por lo tanto la corriente de
+                     ; de salida I2 se debe expresar en función de I3. De esta manera se implementa I1= n * I 2 con I1 entrado e I2 saliendo.
+*
+E1 2 4 1 3 {a}       ; Fuente de tensión controlada por tensión       V2 = n V1 (La tensión de salida V2=V2_3 está controlada por
+                     ; La tensión de entrada V1=V1_3 con una ganancia igual a la relación de transformación n
+R1 4 3 1n            ; Resistencia de la fuente de tensión para que no sea ideal
+.ends autotrafoelevador
+**********************************************************
+

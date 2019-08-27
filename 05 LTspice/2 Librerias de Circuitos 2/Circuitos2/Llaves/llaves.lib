@@ -1,0 +1,33 @@
+* Teoría de Circuitos II
+* ======================================================
+* Modelos de llaves dependientes del tiempo
+* ======================================================
+* LLaves que se abren y se cierran para un determinado tiempo
+* Tienen como parámetros, además del tiempo, la resistencia
+* con la llave abierta y con la llave cerrada
+
+* Para los análisis de DC y AC , la llave estará Abierta.
+.SUBCKT  Ltcerrar  1  2  PARAMS:
++ tcerrar=0     ; time at which switch begins to close
++ ttran=1u     ; time required to switch states (must be realistic, not 0)
++ Rclosed=1m ; Closed state resistance
++ Ropen=1T   ; Open state resistance (Ropen/Rclosed < 1E15)
+V1 3 0 pulse(0 1 {tcerrar} {ttran} 1 10k 11k)
+S1 1 2 3 0 Smod
+.model Smod Vswitch(Ron={Rclosed} Roff={Ropen})
+.ends
+* Fin del modelo de Ltcerrar
+
+* Para los anális de DC y AC, la llave estará Cerrada.
+.SUBCKT  Ltabrir   1  2  PARAMS:
++ tabrir=0      ; time at which switch begins to open
++ ttran=1u     ; time required to switch states (must be realistic, not 0)
++ Rclosed=1m ; Closed state resistance
++ Ropen=1T   ; Open state resistance (Ropen/Rclosed < 1E15)
+V1 3 0 pulse(1 0 {tabrir} {ttran} 1 10k 11k)
+S1 1 2 3 0 Smod
+.model Smod Vswitch(Ron={Rclosed} Roff={Ropen})
+.ends
+* Fin del modelo Ltabrir
+
+* Fin de los modelos de llaves dependientes del tiempo

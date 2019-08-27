@@ -1,0 +1,113 @@
+* Librería de Teoría de Circuitos II
+* Para LTspice
+* Hecha por EP. Adaptada de Internet.
+* 3/08/2014
+*
+* =============================================================
+* Librería de Funciones Matemáticas de Teoría de Circuitos II
+* =============================================================
+
+* Arco Coseno
+.subckt Acos in out
+BI1 0 out I=acos(v(in)) Rpar=1
+.ends Acos
+*----------------------
+* Arco Seno
+.subckt Asin in out
+BI1 0 out I=asin(v(in)) Rpar=1
+.ends Asin
+*----------------------
+* Arco Tangente
+.subckt Atan in out
+BI1 0 out I=atan(v(in)) Rpar=1
+.ends Atan
+*----------------------
+* Constante
+.subckt constante 1
+V1 1 0 {C}
+.ends constante
+*---------------------
+* Coseno
+.subckt Cos in out
+BI1 0 out I=cos(v(in)) Rpar=1
+.ends Cos
+*----------------------
+* Decibeles para relación de tensiones
+.subckt decibel in out
+BI1 0 out I=20*log10(v(in)) Rpar=1
+.ends decibel
+*----------------------
+* Divisor
+.subckt Div in1 in2 out
+BI1 0 out I=v(in1)/v(in2) Rpar=1
+.ends Div
+*----------------------
+* e a la X
+.subckt Exp in out
+BI1 0 out I=exp(v(in)) Rpar=1 tripdt={tripdt}
+.param x=1
+.ends Exp
+*----------------------
+* Logaritmo Natural
+.subckt Ln in out
+BI1 0 out I=ln(v(in)) Rpar=1
+.ends Ln
+*----------------------
+* Logarítmo de Base 10
+.subckt Log in out
+BI1 0 out I=log10(v(in)) Rpar=1
+.ends Log
+*----------------------
+* Multiplicador
+.subckt Mult in1 in2 out
+BI1 0 out I=v(in1)*v(in2) Rpar=1 tripdt={tripdt}
+.ends Mult
+*----------------------
+* Abs(X) a la potencia Y
+.subckt Pwr in out
+BI1 0 out I=pwr(v(in),y) Rpar=1 tripdt={tripdt}
+.param y=1
+.ends Pwr
+*----------------------
+* Signo(X) por Abs(X) a la potencia Y
+.subckt Pwrs in out
+BI1 0 out I=pwrs(v(in),y) Rpar=1 tripdt={tripdt}
+.param y=1
+.ends Pwrs
+*---------------------
+* Raíz cuadrada
+.subckt Sqrt in out
+BI1 0 out I=sqrt(v(in)) Rpar=1 tripdt={tripdt}
+.ends Sqrt
+*----------------------
+* Restador dif
+.subckt Dif in1 in2 out
+G1 0 out in1 in2 1k
+R1 out 0 1m
+.ends Dif
+*----------------------
+* Seno
+.subckt Sin in out
+BI1 0 out I=sin(v(in)) Rpar=1
+.ends Sin
+*----------------------
+* Sumador redondo con patitas
+.subckt Suma in1 in2 out
+G1 0 out in2 N001 1k
+G2 0 N001 0 in1 1
+R1 N001 0 1
+R2 out 0 1m
+.ends Suma
+*----------------------
+* Tangente
+.subckt Tan in out
+BI1 0 out I=tan(v(in)) Rpar=1 tripdt={tripdt}
+.ends Tan
+*----------------------
+* Valor Absoluto
+.subckt Abs in out
+BI1 0 out I=abs(v(in)) Rpar=1 tripdt={tripdt}
+.ends Abs
+*----------------------
+
+

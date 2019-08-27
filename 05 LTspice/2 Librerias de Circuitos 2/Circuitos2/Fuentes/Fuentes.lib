@@ -1,0 +1,45 @@
+* Teoría de Circuitos II
+* ======================================================
+* Modelos de Baterías
+* ======================================================
+* Se utiliza para alimentar los circuitos integrados mediante un
+* símbolo de un terminal para que el dibujo quede más prolijo
+.subckt Vterminal 1
+VDC 1 0 {V}
+.ends
+* Fin Fuente de tensión continua representada mediante un terminal
+
+* ======================================================
+* Generadores ideales
+* ======================================================
+
+* Fuente Escalón
+.subckt FuenteEscalon 1 0
++params: valor=1 retardo=0s
+*******  Vinicial Von    Tret    tr  tf   ton tperiodo nciclos
+V1 1 0 PULSE(0 {valor} {retardo} 1ps 1ps {Tsim} {Tsim} 1)
+.param Tsim=100s
+.ends FuenteEscalon
+
+* Impulso de Dirac
+.subckt FuenteImpulso 1 0
++params: retardo = 0.1ms
+*******  Vinicial Von    Tret    tr  tf   ton tperiodo nciclos
+V1 1 0 PULSE(0 {Vi} {retardo} 0.1ps  0.1ps {Ton} {Tsim} 1)
+*V1 1 0 PULSE(0 {Vi} {Tret} 0.1ps  0.1ps {Ton} {Tsim} 10000) ; para un tren de pulsos
+.param Vi=10000meg
+.param Ton=1fs
+.param Tsim=100ms
+.ends FuenteImpulso
+
+
+* ======================================================
+* Modelos de una masa
+* ======================================================
+* Para poner el símbolo con tres rayitas
+* en vez del triángulo para la masa, se modela
+* como una resistencia de 1e-15 ohm
+.subckt masa 1
+R1 1 0 1e-15
+.ends
+

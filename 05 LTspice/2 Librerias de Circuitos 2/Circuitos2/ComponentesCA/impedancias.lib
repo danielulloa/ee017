@@ -1,0 +1,57 @@
+* ======================================================
+* Impedancias para análisis .AC
+* ======================================================
+
+* Reactancia Inductiva XL
+*                    XL
+*             1      _____     2
+* Reactancia  o-----|_____|----o
+*
+.subckt XL 1 2
++params: XL=1 f={f}
+L1 1 2 {XL/{2*pi*f}}
+.backanno
+.ends XL
+
+* Reactancia Capacitiva XC
+*                    XC
+*             1      _____     2
+* Reactancia  o-----|_____|----o
+*
+.subckt XC 1 2
++params: XC=1 f={f}
+C1 1 2 {1/{2*pi*f*XC}}
+.backanno
+.ends XC
+
+* Impedancia ZRL en serie
+*             1     R    3     L      2
+* Impedancia  o---^^^^^--x---@@@@@----o
+.subckt ZRLs 1 2
++params: Rs=1k Ls=1m
+R1 1 3 {Rs}
+L1 3 2 {Ls}
+.backanno
+.ends ZRLs
+
+
+* Impedancia ZRC en serie
+*             1     R    3    C      2
+* Impedancia  o---^^^^^--x---| |----o
+.subckt ZRCs 1 2
++params: Rs=1k Cs=1u
+R1 1 3 {Rs}
+C1 3 2 {Cs}
+.backanno
+.ends ZRCs
+
+* Impedancia ZRLC en serie
+*             1     R    3      L     4    C     2
+* Impedancia  o---^^^^^--x---@@@@@----x---| |----o
+.subckt ZRLCs 1 2
++params: Rs=1k Ls=1m Cs=1u
+R1 1 3 {Rs}
+L1 3 4 {Ls}
+C1 4 2 {Cs}
+.backanno
+.ends ZRLCs

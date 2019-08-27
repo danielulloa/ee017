@@ -1,0 +1,4 @@
+* Bornera
+.subckt borne 1
+R1 1 0 1T
+.ends borne

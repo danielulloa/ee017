@@ -1,0 +1,17 @@
+Ubicación de la carpeta Magneticos
+
+La librería magnéticos se debe poner dentro de la
+carpeta Circuitos2 en LTspice
+que en Windows 10 figura en la carpeta Documentos
+
+La dirección es:
+
+C:\...\Documents\LTspiceXVII\lib\sym\Circuitos2\Magneticos
+
+Si se abre el archivo Componetes de Circuitos Magnéticos.asc
+que está en esta carpeta Magneticos y se pueden observar los
+distintos tipos de componentes es que se la ha instalado bien.
+(Ver imagen Biblioteca Magneticos en esta carpeta)
+
+Cátedra de Teoría de Circuitos II
+11/02/2019

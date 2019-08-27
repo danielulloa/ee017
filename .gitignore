@@ -1,0 +1,12 @@
+/01\ Introducción
+/03\ Bibliografia
+/04\ Documentos
+/05\ LTspice/4\ Notas\ sobre\ LTspice
+/05\ LTspice/*.pdf
+/07\ Otros\ simuladores
+/08\ Programas\ Filtros
+/09\ Programas
+/10\ Video\ Feynman
+*.exe
+*.raw
+*.fft

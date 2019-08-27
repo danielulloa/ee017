@@ -1,0 +1,12 @@
+* Con está sintaxis LTspice pone
+* automáticamente el parámetro período
+* En el símbolo y queda funcionando perfectamente.
+* Luego se reacomoda el dibujo según nuestras necesidades
+*
+.subckt promediador ent sal
++periodo=1ms
+T1 ent 0 vdemorada 0 Td={periodo} Z0=1g
+R1 vdemorada 0 1g
+G1 0 sal ent vdemorada 1
+C1 sal 0 {periodo} ic=0 Rser=0 Lser=0 Rpar=1g Cpar=0
+.ends promediador

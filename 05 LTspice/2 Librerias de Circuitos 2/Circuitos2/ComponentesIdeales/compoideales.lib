@@ -1,0 +1,144 @@
+* Librería de Teoría de Circuitos II
+* Para LTspice
+* Hecha por EP
+* 3/04/2014
+*
+* ==========================================================
+* Librería de componentes ideales de Teoría de Circuitos II
+* ==========================================================
+
+
+* AMPI
+.subckt ampi p n s params: Ren=1e9, Rsal=1, A=1e9
+Ren p n {Ren}					; resistencia de entrada
+Esal s1 0 value={A*v(p,n)}	; ganancia de tensión de lazo abierto
+Rsal s1 s {Rsal}			; resistencia de salida
+.ends ampi
+
+* opamp copiado del ampi
+.subckt opamp p n s params: Ren=1e9, Rsal=1, A=1e9
+Ren p n {Ren}					; resistencia de entrada
+Esal s1 0 value={A*v(p,n)}	; ganancia de tensión de lazo abierto
+Rsal s1 s {Rsal}			; resistencia de salida
+.ends opamp
+
+* Conversor Generalizado de impedancias simulando L
+.subckt cgi e s
++params: C4=100nF R1=10k
+*R11 e 2 10k
+R2 2 3 1k
+R3 3 4 1k
+G1  e 2 LAPLACE { V(e, 2) } { 1/R1 } ; Resistencia R1
+G2  4 s LAPLACE { V(4, s) } { s*C4 } ; Capacitor C4
+Rent1 e 3 10meg
+Rent2 s 3 10meg
+eop1 4 0 e 3 9.6e6
+eop2 2 0 s 3 9.6e6
+.ends cgi
+
+* Componente D
+.subckt compoD 1 2 params: D=1f
+G    1 2 laplace { V(1, 2) } { s*s*D }
+R1  1 2 1g
+.ends compoD
+
+* Girador Ideal
+.subckt girador 1 2 3 4 params: giro=0.001
+Gent 2 1  value={giro*v(3,4)}
+Gsal 3 4  value={giro*v(1,2)}
+R1 1 0 1g
+R2 2 0 1g
+R3 3 0 1g
+R4 4 0 1g
+.ends girador
+
+* Amplificador de transconductancia ideal dual
+.subckt otadual p n ss se
++params: gm=0.001
+R1 p n 10meg
+Gsal se ss  VALUE {gm*V(p,n)}
+R2 ss se 10meg
+.ends otadual
+
+* OTA
+.subckt otai p n s params: gm=0.001
+R1 p n 10meg
+Gsal s 0 value={gm*v(p,n)}
+R2 s 0 10meg
+.ends otai
+
+* Transferidor de salida doble
+.subckt transdoble Y X Z +Z
+R1 Y 0 100meg
+R2 Z 0 100meg
+R4 +Z 0 100meg
+E 4 0 Y 0  1
+R3 4 5 1u
+V0 5 X 0
+F1 0 Z V0 1
+F2 0 +Z V0 1
+.ends transdoble
+
+* Transferidor de salida dual
+.subckt transdual Y X +Z -Z
+R1 Y 0 100meg
+R2 +Z 0 100meg
+R4 -Z 0 100meg
+E 4 0 Y 0  1
+R3 4 5 1u
+V0 5 X 0
+F1 0 +Z V0 1
+F2 -Z 0 V0 1
+.ends transdual
+
+* Multiple output current controlled
+* current conveyor transconductance amplifier
+* Transferidor MO-CCCTA
+.subckt transmul Y X +Z -Z +O -O params: gm=0.001
+R1 Y 0 100meg
+R2 +Z 0 100meg
+R4 -Z 0 100meg
+E 4 0 Y 0 {1/gm}
+R3 4 5 1u
+V0 5 X 0
+F1 0 +Z V0 1
+F2 -Z 0 V0 1
+G1 +O 0 value={gm*v(+O,0)}
+G2 -O 0 value={-gm*v(+O,0)}
+.ends transmul
+
+* Transportador de corriente ideal positivo
+.subckt transpip Y X Z
+R1 Y 0 1g
+R2 Z 0 1g
+E 4 0 Y 0  1
+R3 4 5 1u
+V0 5 X 0
+F 0 Z V0 1
+.ends transpip
+
+* Transportador de corriente ideal negativo
+.subckt transpin Y X Z
+R1 Y 0 1g
+R2 Z 0 1g
+E 4 0 Y 0  1
+R3 4 5 1u
+V0 5 X 0
+F Z 0 V0 1
+.ends transpin
+
+* Seguidor de corriente (Current Follower)
+.subckt cf e s
+VA e 0 0
+F 0 s VA 1
+R1 0 s 1g
+.ends cf
+
+
+.subckt transimp 1 2 3 4
+* Amplificador de transimpedancia ideal
+XTranspip1   2 1 3 transpip
+X_A1         3 4 4 ampi
+.ends transimp
+
+

@@ -1,0 +1,136 @@
+* Librería de Teoría de Circuitos II
+* Para LTspice
+* Hecha por EP. Inspirada en la de Marcos Alonso de la Univ. de Oviedo, España.
+* 11/02/2019
+*
+* =============================================================
+* Librería de componentes magnéticos de Teoría de Circuitos II
+* =============================================================
+
+* FMM
+* Se le ingresan como parámetros N = número de vueltas
+* e I = corriente por el arrollamiento
+.subckt fmm 1 2
+E1 1 3 value={N*I}
+R1 3 2 0.1m
+.ends fmm
+
+
+* RELUCTOR LINEAL CON SALIDA DE SU VALOR
+* Se usa la palabra reluctor cuando se calcula su valor
+.subckt reluctor 1 2 3
+* Se convierten las unidades ingresadas en cm a m y en cm^2 a m^2.
+.param L=Lr*1e-2
+.param A=Ar*1e-4
+* fd, factor de dispersión
+* ur, permeabilidad relativa
+* L, Longitud en m
+* A, Área en m^2
+.param u0=4*pi*1e-7
+*
+RL 1 2 {L/(ur*u0*A*fd)}
+*
+* Salida Reluctor. Acá se proporciona el valor del reluctor calculado
+ER 3 0 value={L/(ur*u0*A*fd)}
+RR 3 0 10k
+.ends reluctor
+
+* RELUCTOR DE UN ENTREHIERRO CON SALIDA DE SU VALOR
+* Se usa la palabra reluctor cuando se calcula su valor
+.subckt entrehierro 1 2 3
+* Se convierten las unidades ingresadas en cm a m y en cm^2 a m^2.
+.param Le=Lr*1e-2
+.param Ae=Ar*1e-4
+* fd, factor de dispersión del campo magnético en los bordes del entrehierro
+* Le, Longitud en m
+* Ae, Área del entrehierro en m^2
+.param u0=4*pi*1e-7
+*
+Re 1 2 {Le/(u0*Ae*fd)}
+*
+* Salida Reluctor. Acá se proporciona el valor del reluctor calculado
+ER 3 0 value={Le/(u0*Ae*fd)}
+RR 3 0 10k
+.ends entrehierro
+
+
+* RELUCTOR NO LINEAL CON LA APROXIMACIÓN DE BRAUER
+* CON DIMENSIONES INGRESADAS EN CM O CM^2 Y CON SALIDA de B , H y RELUCTANCIA
+.subckt reluctorbr 1 2 3 4 5
+* 2, pin positivo de la fmm
+* 1, pin negativo de la fmm
+* 0, 3 salida de B
+* 0, 4 salida de H
+* L: longitud. Se ingresa en cm y se convierte a m
+* A: Área. Se ingresa en cm^2 y se convierte a m^2
+* k1, k2, k3, Los tres coeficientes del material de acuerdo con la aproximación de Brauer
+
+.func ut(B) { 1/( k1*exp(k2*B*B) + k3 ) } ; permeabilidad total
+
+* Se convierten las unidades a m y m^2
+.param L=Lr*1e-2
+.param A=Ar*1e-4
+
+* Acá se calcula la fmm que cae sobe el reluctor en función de la longitud lm,
+* el área A, la permeabilidad um y el flujo por la reluctancia
+Em 1 2a value={(L/(V(um,2)*A))*I(Em)}
+Rm 2a 2 1m ; pequeña resistencia para evitar lazos de tensión
+
+* Acá se calcula el campo magnético como flujo por el reluctor dividido el area del reluctor
+Gmb 2 Bm value={I(Em)/A}
+Rbm Bm 2 1
+
+* Acá se calcula el valor de la permeabilidad um en función de B
+Gmu 2 um value={ut(V(Bm,2))}
+Rmu um 2 1
+
+* Salida B. Acá se proporciona el campo magnético B que existe sobre el reluctor en el punto de trabajo
+EB 3 0 value={V(Bm,2)}
+RB 3 0 10k
+
+* Salida H. Acá se proporciona el campo magnético H que existe sobre el reluctor H=B/u
+EH 4 0 value={V(Bm,2)/V(um,2)}
+RH 4 0 10k
+
+* Salida R. Acá se proporciona la reluctancia R en el punto de trabajo
+ER 5 0 value={L/(V(um,2)*A)}
+RR 5 0 10k
+
+.ends reluctorbr
+
+
+
+* RELUCTOR NO LINEAL CON LA APROXIMACIÓN DE FROHLICH
+.subckt reluctorf 1 2 3 4
+; 2, pin positivo de la fmm
+; 1, pin negativo de la fmm
+; 3, 4, salida de B
+; L, longitud
+; A, Área
+; alfa beta son los coeficientes del material de acuerdo con la aproximación de Frölich
+
+.func ut(x) alfa - beta*x  ; permeabilidad total
+
+* Acá se calcula la fmm que cae sobe el reluctor en función de la longitud lm
+* el área Am la permeabilidad um y el flujo por la reluctancia
+Em 1 2a value={(L/(V(um,2)*A))*I(Em)}
+Rm 2a 2 1m ; pequeña resistencia para evitar lazos de tensión
+* Acá se calcula el campo magnetico como flujo por el reluctor dividido el area del reluctor
+Gmb 2 Bm value={I(Em)/A}
+Rbm Bm 2 1
+* Acá se calcula el valor de la permeabilidad  um en función de B
+Gmu 2 um value={ut(V(Bm,2))}
+Rmu um 2 1
+;
+; Salida B. Acá se proporciona el campo magnético B que existe sobre el reluctor
+EB 3 4 value={V(Bm,2)}
+RB 3 4 100k
+;
+.ends reluctorf
+
+
+
+
+
+
+

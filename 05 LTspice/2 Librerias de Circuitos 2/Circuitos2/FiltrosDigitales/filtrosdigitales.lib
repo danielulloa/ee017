@@ -1,0 +1,65 @@
+* Librería de Teoría de Circuitos II
+* Para LTspice
+* Hecha por EP
+* 3/04/2014
+*
+* ==========================================================
+* Librería de componentes para Filtros Digitales
+* de Teoría de Circuitos II
+* ==========================================================
+
+* Subcircuito de retardo z^-1
+.subckt retardoz1 ent sal
++params: Ts = 1s
+T1 ent 0 salZ 0 Z0=1 TD={Ts}
+E1 sal 0 VALUE {1 * V(SalZ)}
+R0 salZ 0  1
+.ends retardoz1
+
+* Subcircuito de retardo z^-1
+.subckt retardoz ent sal
++params: Ta = 1s
+T1 ent 0 salZ 0 Z0=1 TD={Ta}
+E_sep sal 0 VALUE {1 * V(SalZ)}
+R0 salZ 0  1
+.ends retardoz
+
+* Otro modelo del subcircuito de retardo z^-1
+.subckt retardozs ent sal
++params: Ts = 1s
+E1 N001 0 ent 0 2
+R1 N001 N002 50
+T2 N002 0 sal 0 Td={TS} Z0=50
+R2 sal 0 50
+.ends retardozs
+
+
+* Bloque de Ganancia
+.subckt ganancia en sal
++params: K=1
+E1 sal 0 en 0 {K}
+.ends ganancia
+
+* Sumador redondo con flechitas de ingreso de señal
+.subckt sumaf in1 in2 out
+*E1 N001 0 in1 0 1
+*E2 out N001 in2 0 1
+G1 0 out in2 N001 1k
+G2 0 N001 0 in1 1
+R1 N001 0 1
+R2 out 0 1m
+.ends sumaf
+
+* Restador redondo con flechitas de ingreso de señal
+.subckt restaf inP inN out
+E1 N001 0 inN 0 -1
+E2 out N001 inP 0 1
+.ends restaf
+
+* Bloque Sumador de 3 entradas
+.subckt sumador3 en1 en2 en3 sal
+E1 N001 0 en1 0 1
+E2 N002 N001 en2 0 1
+E3 sal N002 en3 0 1
+.ends sumador3
+
