@@ -25,3 +25,6 @@ Yn=[1/(R1+ZC1)+1/(R2+ZL1) -1/(R2+ZL1);-1/(R2+ZL1) 1/(R3+ZC2)+1/(R2+ZL1)];
 Vn=In.*Yn^-1;
 Vn(1)
 Vn(2)
+[abs(Vn(1)) angle(Vn(1))*180/pi]
+[abs(Vn(2)) angle(Vn(2))*180/pi]
+

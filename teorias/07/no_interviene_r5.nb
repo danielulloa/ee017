@@ -1,0 +1,74 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      1661,         64]
+NotebookOptionsPosition[      1361,         51]
+NotebookOutlinePosition[      1710,         66]
+CellTagsIndexPosition[      1667,         63]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"A", "=", 
+   RowBox[{"(", GridBox[{
+      {
+       RowBox[{
+        RowBox[{"1", "/", "R1"}], "+", 
+        RowBox[{"1", "/", "R2"}], "+", 
+        RowBox[{"1", "/", "R3"}]}], 
+       RowBox[{
+        RowBox[{"-", "1"}], "/", "R2"}]},
+      {
+       RowBox[{
+        RowBox[{"-", "1"}], "/", "R2"}], 
+       RowBox[{
+        RowBox[{"1", "/", "R2"}], "+", 
+        RowBox[{"1", "/", "R4"}]}]}
+     }], ")"}]}], ";", 
+  RowBox[{"B", "=", 
+   RowBox[{"(", GridBox[{
+      {
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "Vg2"}], "/", "R1"}], "-", 
+        RowBox[{"Vg1", "/", "R1"}]}]},
+      {"Ig"}
+     }], ")"}]}]}]], "Input",
+ CellChangeTimes->{{3.775924687079963*^9, 
+  3.7759247509812527`*^9}},ExpressionUUID->"97673785-8f1a-4efa-ac38-\
+1b9d061d4629"]
+},
+WindowSize->{1366, 685},
+WindowMargins->{{-8, Automatic}, {Automatic, -8}},
+FrontEndVersion->"11.2 para Microsoft Windows (64-bit) (September 10, 2017)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 799, 29, 44, "Input",ExpressionUUID->"97673785-8f1a-4efa-ac38-1b9d061d4629"]
+}
+]
+*)
+
+(* End of internal cache information *)
+
