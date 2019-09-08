@@ -7,12 +7,12 @@
 /08\ Programas\ Filtros
 /09\ Programas
 /10\ Video\ Feynman
+/laboratorios/01/informe/*.pdf
 *.exe
 *.raw
 *.fft
 *.log
 *.synctex.gz
 *.aux
-.gitignore
 *.toc
 *.out
