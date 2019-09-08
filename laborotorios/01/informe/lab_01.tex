@@ -55,28 +55,45 @@
 \section{Modelado Matemático}
 El circuito a modelar se muestra a continuación %sopenca
 \begin{center}
-    \includegraphics[width=300px]{circuito}
+%    \includegraphics[width=300px]{circuito}
 \end{center} 
-%Agrego cada equacion que deje en comentarios en mathematica o solo las que utilizamos? 
-Para la primera ecuación se analizó el nodo Vn y se considero que el amplificador operacional es ideal, entonces $i_{n}[t]=0$
-y la corriente que pasa por %la rama RLC (il) es igual a la corriente que pasa por la resistencia R2.
-%\text{il}=\text{C1} \text{Vc}'(t);i \text{R2}=\frac{\text{Vn}-\text{Vo}(t)}{\text{R2}};\text{Vn}=\frac{\text{RB} \text{Vo}(t)}{\text{RA}+\text{RB}};i \text{R2}=\frac{(-\text{Ra}) \text{Vo}(t)}{\text{R2} (\text{Ra}+\text{Rb})};\frac{(-\text{Ra}) \text{Vo}(t)}{\text{R2} (\text{Ra}+\text{Rb})}=\text{C1} \text{Vc}'(t)
-
- \begin{equation}
-\text{eq1}=\text{C1} s \text{Vc}(s)-\text{C1} \text{v0}(t)+\frac{\text{Ra} \text{Vo}(s)}{\text{R2} (\text{Ra}+\text{Rb})}=0
+Se consideró el amplificador operacional ideal y se analizó el nodo $V_{n}$.
+Se tiene dos corrientes en $V_{n}$, la correspondiente al RLC y la que pasa por la resistencia R2. \\
+\begin{equation}
+i(t)=i_{r2}(t)
 \end{equation}
+Sabiendo que la corriente que pasa por el RLC es la del capacitor dado a que es el elemento con condiciones iniciales, esta es igual a 
+\begin{equation}
+i(t)=C_{1}*V_{c}'(t)
+\end{equation}
+y la corriente que pasa por la resistencia R2 
+\begin{equation}
+i_{r2}(t)=\frac{V_{n}(t)-V_{o}(t)}{R2}
+\end{equation}
+Donde las tensiones $V_{n}(t)$ y $V_{p}(t)$ son iguales al considerar que el amplificador operacional es ideal, y su vez , que  $V_{p}$ es la tensión de un divisor de tensión formado por las resistencias Ra y Rb y la tensión de salida  $V_{o}(t)$. 
 
 \begin{equation}
-\text{eq2}=\text{C1} \text{L1} \left(s^2 \text{Vc}(s)-s \text{v0}(t)\right)+\text{C1} (\text{R1}+\text{R2}) (s \text{Vc}(s)-\text{v0}(t))+\text{Vc}(s)-\text{Vo}(s)=0
+V_{p}(t)=\frac{\text{Rb}* V_{o}(t)}{\text{Ra}+\text{Rb}}
 \end{equation}
-
-
-
-
+De esta manera se obtiene la primera ecuación de nuestro sistema, a la cual se le aplicó la transformada de Laplace, obteniendo 
+\begin{equation}
+eq1=C{1}* (s V_{c}(s)-V_{c}(t))+\frac{\text{Ra}* V_{o}(s)}{\text{R2} \text{Ra}+\text{R2} \text{Rb}}
+\end{equation}
+Para la segunda ecuación se recorrio la malla que contiene a los componentes R1,R2, C, y L, cuya suma de las tensiones es igual a la tensión en la salida. 
+\begin{equation}
+\ V_{o}(t)=\ V_{c}(t)+ V_{l}(t)+ V_{r}(t)
+\end{equation}
+\begin{equation}
+V_{o}(t)=C*L*V_{c}''(t)+ C*(\text{R1}+\text{R2})*V_{o}'(t)+V_{c}(t)
+\end{equation}
+Nuevamente se aplico la transformada de Laplace, obtiendo la segunda ecuación
+\begin{equation}
+eq2 = V_{c}(s) - V_{o}(s) + C1*(R1 + R2)*(s*V_{c}(t) - V_{0}(t)) + 
+L1*C1*(s^{2}*V_{c}(t) - s*V_{0}(t))
+\end{equation}
 \section{Respuesta Temporal}
 \section{Barrido Paramétrico}
 \section{Conclusión}
 \end{document} 
 
-%el tema es como haces vos para ver el pdf que se va generando ?
 
