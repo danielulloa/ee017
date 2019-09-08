@@ -45,5 +45,38 @@
 \tableofcontents
 \newpage
 \section{Introducción}
+
 \section{Objetivos}
-\end{document}
+\begin{itemize}
+    \item Modelar e interpretar el Circuito
+    \item Obtener la respuesta temporal de la tensión de salida y graficarla en Mathematica
+    \item Realizar un barrido paramétrico sobre la resistencia $R_B$ y observar las diferentes respuestas.
+\end{itemize}
+\section{Modelado Matemático}
+El circuito a modelar se muestra a continuación %sopenca
+\begin{center}
+    \includegraphics[width=300px]{circuito}
+\end{center} 
+%Agrego cada equacion que deje en comentarios en mathematica o solo las que utilizamos? 
+Para la primera ecuación se analizó el nodo Vn y se considero que el amplificador operacional es ideal, entonces $i_{n}[t]=0$
+y la corriente que pasa por %la rama RLC (il) es igual a la corriente que pasa por la resistencia R2.
+%\text{il}=\text{C1} \text{Vc}'(t);i \text{R2}=\frac{\text{Vn}-\text{Vo}(t)}{\text{R2}};\text{Vn}=\frac{\text{RB} \text{Vo}(t)}{\text{RA}+\text{RB}};i \text{R2}=\frac{(-\text{Ra}) \text{Vo}(t)}{\text{R2} (\text{Ra}+\text{Rb})};\frac{(-\text{Ra}) \text{Vo}(t)}{\text{R2} (\text{Ra}+\text{Rb})}=\text{C1} \text{Vc}'(t)
+
+ \begin{equation}
+\text{eq1}=\text{C1} s \text{Vc}(s)-\text{C1} \text{v0}(t)+\frac{\text{Ra} \text{Vo}(s)}{\text{R2} (\text{Ra}+\text{Rb})}=0
+\end{equation}
+
+\begin{equation}
+\text{eq2}=\text{C1} \text{L1} \left(s^2 \text{Vc}(s)-s \text{v0}(t)\right)+\text{C1} (\text{R1}+\text{R2}) (s \text{Vc}(s)-\text{v0}(t))+\text{Vc}(s)-\text{Vo}(s)=0
+\end{equation}
+
+
+
+
+\section{Respuesta Temporal}
+\section{Barrido Paramétrico}
+\section{Conclusión}
+\end{document} 
+
+%el tema es como haces vos para ver el pdf que se va generando ?
+
