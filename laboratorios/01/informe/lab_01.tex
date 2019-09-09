@@ -59,19 +59,21 @@
 \newpage
 \section{Introducción}
 \begin{center}
-    \begin{circuitikz}[american voltages]
+    \begin{circuitikz}[american voltages,american inductors]
         \draw (0,0) node [op amp](amp){};
-        \draw (amp.-) to [C,l=$C$,v_<=$V_{C(0)}$] ++(-2,0) to [L,l=$L$,i_>=$i$] ++(-2,0) to [R,l=$R_1$] ++(-2,0) node[ground]{};
+        \draw (amp.-) to [C,l=$C$,v_<=$V_{C(0)}$] ++(-2,0) to [L,l=$L$,i>_=$i$] ++(-2,0) to [R,l=$R_1$] ++(-2,0) node[ground]{};
         \draw (amp.-) to[short,*-] ++(0,1.5) coordinate (leftR2) to[R,l=$R_2$] (leftR2 -| amp.out) to[short,-*] (amp.out);
         \draw (amp.out) to [R,l=$R_a$]++(0,-2) coordinate (rightRa);
         \draw (amp.+) to [short]++(0,-1.51) to [short,-*](rightRa) node [right] {$V_p$};
         \draw (rightRa) to [R,l=$R_b$]++(0,-2) node[ground]{};
-        \draw (amp.out) to [short,*-o]++(1,0)node [right] {$V_{o(t)}$};
+        \draw (amp.out) to [short,*-o]++(1,0)node [right] {$V_{o(t)}$};	
+        \draw (amp.up) --++(0,0.1) node[vcc]{12\,\textnormal{V}};
+        \draw (amp.down) --++(0,-0.1) node[vee]{-12\,\textnormal{V}};
     \end{circuitikz} 
 \end{center}
 
 
-El sistema de la figura lleva el nombre de oscilador con resistencia negativa, por inspección, se puede observar que el circuito es una configuración RLC serie acompañada de un conversor de impedancias negativas:
+El sistema de la figura lleva el nombre de oscilador con resistencia negativa, por inspección, se puede observar que el circuito es una configuración RLC serie acompañada de un Conversor de Impedancias Negativas:
 %conversor imp negativa
 \begin{center}
     \begin{circuitikz}[american voltages]
@@ -86,10 +88,10 @@ El sistema de la figura lleva el nombre de oscilador con resistencia negativa, p
 \end{center}
 
 La impedancia de entrada de este circuito es $Z_{in}=V_1/I_1$. Si las resistencias $R_1$ y $R_2$ son iguales 
-la impedancia es la negativa del elemento Z. Entonces se puede representar el circuito de la siguiente manera:
+ entonces la impedancia $Z_{in}=-Z$. Por lo tanto se puede representar el circuito de la siguiente manera:
 
 \begin{center}
-    \begin{circuitikz}[american voltages]
+    \begin{circuitikz}[american voltages,american inductors]
         \draw (0,0) -- (0,-1) node[ground]{}; 
         \draw (0,0) to[R, l=$R_1$] (2,0);
         \draw (2,0) to [L,l=$L_1$,i_<=$i_L$] (4,0);
@@ -98,7 +100,7 @@ la impedancia es la negativa del elemento Z. Entonces se puede representar el ci
         \draw (8,0) -- (8,-1) node[ground]{};
     \end{circuitikz}
 \end{center}
-Esta impedancia negativa $Z_{in}$ compensa las pérdidas de energía en resistencia $R_1$ y como consecuencia se tiene un oscilador.
+Esta impedancia negativa $Z_{in}$ compensa las pérdidas de energía en la resistencia $R_1$ y como consecuencia el circuito se comporta como un oscilador.
 
 El circuito RLC junto al conversor de impedancia negativas conforman un sistema de segundo orden. El modelo teórico de la función de transferencia se muestra a continuación:
 \begin{equation}
@@ -108,13 +110,15 @@ El circuito RLC junto al conversor de impedancia negativas conforman un sistema 
     \begin{itemize} 
     	\item k: ganancia estática
     	\item $\xi$: factor de amortiguamiento
-    	\item $\tau$
+    	\item $1/\tau$: frecuencia natural no amortiguada
     \end{itemize}
-       La posición de los polos está determinada por el factor de amortiguamiento, $\xi$. Para obtener la caracteristica de un oscilador los polos deben ser imaginarios puros, por lo tanto 
+       La posición de los polos está determinada por el factor de amortiguamiento, $\xi$. 
+         \begin{equation}
+       p_{1,2}=\frac{1}{\tau}\left(-\xi\pm\sqrt{\xi^2-1}\right)
+       \end{equation}
+       Para obtener la característica de un oscilador los polos deben ser imaginarios puros, por lo tanto 
        $\xi$ debe ser nula. 
-    \begin{equation}
-        p_{1}=\frac{\xi  (-\tau)-\sqrt{\xi ^2 \tau^2-\tau^2}}{\tau^2} ;p_{2}=\frac{\sqrt{\xi ^2 \tau^2-\tau^2}-\xi  \tau}{\tau^2}
-    \end{equation}
+  
 
     %\xi=0$
 
@@ -140,21 +144,22 @@ Para modelar el circuito se tuvieron en cuenta algunas consideraciones
     \item La salida del sistema es la tensión a la salida del Amplificador Operacional
 \end{itemize}
 
-\begin{circuitikz}[american voltages]
+\begin{circuitikz}[american voltages,american inductors]
 	\draw (0,0) node [op amp](amp){};
-	\draw (amp.-) to [C,l=$C$,v_<=$V_{C(0)}$] ++(-2,0) to [smeter, t=A, l=$i\text{=}C\frac{dV}{dt}$]++(-2,0) to [L,l=$L$,i_>=$i$] ++(-2,0) to [R,l=$R_1$] ++(-2,0) node[ground]{};
+	\draw (amp.-) to [C,l=$C$,v_<=$V_{C(0)}$] ++(-2,0) to [smeter, t=A, l=$i\text{=}C\frac{dV}{dt}$]++(-2,0) to [L,l=$L$,i>_=$i$] ++(-2,0) to [R,l=$R_1$] ++(-2,0) node[ground]{};
 	\draw (amp.-) to[short,*-] ++(0,1.5) coordinate (leftR2) to[R,l=$R_2$,i<=$i$] (leftR2 -| amp.out) to[short,-*] (amp.out);
 	\draw (amp.out) to [R,l=$R_a$]++(0,-2) coordinate (rightRa);
 	\draw (amp.+) to [short]++(0,-1.51) to [short,-*](rightRa) node [right] {$V_p$};
 	\draw (rightRa) to [R,l=$R_b$]++(0,-2) node[ground]{};
-	\draw (amp.out) to [short,*-o]++(1,0)node [right] {$V_{o(t)}$};
+	\draw (amp.out) to [short,*-o]++(1,0)node [right] {$V_{o(t)}$};	
+	\draw (amp.up) --++(0,0.1) node[vcc]{12\,\textnormal{V}};
+	\draw (amp.down) --++(0,-0.1) node[vee]{-12\,\textnormal{V}};	
 \end{circuitikz}
-
 Para la primera ecuación se analizó el nodo $V_n$, en donde se tiene que:
 \begin{equation}   
 i(t)=i_{R2}(t)
 \end{equation}
-Expresando las corrientes en términos .....
+Expresando las corrientes en términos forma diferencial
 \begin{equation}
 i(t)=C*V_{c}'(t)
 \end{equation} 
@@ -170,7 +175,7 @@ Donde las tensiones $V_{n}(t)$ y $V_{p}(t)$ son iguales al considerar que el amp
 
 De esta manera se obtiene la primera ecuación de nuestro sistema, a la cual se le aplicó la transformada de Laplace. 
 \begin{equation}
-eq1=C* (s V_{c}(s)-V_{c}(t))-\frac{R_{a}* V_{o}(s)}{R_{2} R_{a} +R_{2} R_{b}}
+eq1:C* (s V_{c}(s)-V_{c}(t))-\frac{R_{a}* V_{o}(s)}{R_{2} R_{a} +R_{2} R_{b}}
 \end{equation}
 Para la segunda ecuación se analizó la malla que contiene a los componentes $R_{1},R_{2}, C$ , $L$ y $V_{o}(s)$ 
 \begin{equation}
@@ -242,7 +247,7 @@ C=1u F
 \section{Barrido Paramétrico}
 Para observar el comportamiento del circuito ante cambios en el valor de la resistencia equivalente se realiza un barrido paramétrico en LTSpice:
 \begin{center}
-    \begin{circuitikz}[american voltages]
+    \begin{circuitikz}[american voltages, american inductors]
 	\draw (0,0) node [op amp](amp){};
 	\draw (amp.-) to [C=1<\micro\farad>] ++(-2,0) to [L=10<\milli\henry>] ++(-2,0) to [R=1<\kilo\ohm>] ++(-2,0) node[ground]{};
 	\draw (amp.-) to[short,*-] ++(0,1.5) coordinate (leftR2) to[R=1<\kilo\ohm>] (leftR2 -| amp.out) to[short,-*] (amp.out);
@@ -251,7 +256,9 @@ Para observar el comportamiento del circuito ante cambios en el valor de la resi
 	\draw (rightRa) to [R,l=$\{Rb\}$]++(0,-2) node[ground]{};
 	\draw (amp.out) to [short,*-o]++(1,0)node [right] {$V_{o(t)}$};
 	\node at (-5.6,-2.5){.tran 20ms uic};
-	\node at (-4,-3){.step param Rb list 0.99k 1k 1.2k};
+	\node at (-4,-3){.step param Rb list 0.99k 1k 1.2k};	
+	\draw (amp.up) --++(0,0.1) node[vcc]{12\,\textnormal{V}};
+	\draw (amp.down) --++(0,-0.1) node[vee]{-12\,\textnormal{V}};
 \end{circuitikz}
 \end{center}
 
