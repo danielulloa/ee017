@@ -1,0 +1,21 @@
+* C:\Users\Dani\Desktop\ee017\laboratorios\01\simulaciones\spice\simulacion_oscilador_res_neg.asc
+R1 N002 0 {R1}
+R2 salida N001 {R2}
+V1 vcc 0 12
+V2 0 vee 12
+L1 N002 N003 {L} Rser=0
+C1 N001 N003 {C}
+RA salida N004 {RA}
+RB N004 0 {RB}
+XU1 N004 N001 vcc vee salida level.2 Avol=1Meg GBW=10Meg Slew=10Meg ilimit=25m rail=0 Vos=0 phimargin=45 en=0 enk=0 in=0 ink=0 Rin=500Meg
+.param R1=1k
+.param R2=1k
+.param RA=1k
+.param L=10m
+.param C=1u
+.tran 0 2.5m 1u uic
+;.step param RB list 0.7k 0.95k 0.96k 0.99k 1k
+.param RB=1005
+.lib UniversalOpamps2.sub
+.backanno
+.end
