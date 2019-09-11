@@ -1,0 +1,90 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[left=2.00cm,right=1.00cm,top=2.00cm,bottom=2.00cm]{geometry}
+\usepackage{tikz}
+\usetikzlibrary{babel}
+\usepackage[siunitx, RPvoltages]{circuitikz}
+\usetikzlibrary{bending,arrows.meta,positioning,calc,positioning}
+\author{Daniel Ulloa}
+\title{Informe}
+\begin{document}
+
+\section{Inicios en CircuiTikZ}
+
+Para comenzar es necesario cargar algunos paquetes adicionales, ya que CircuiTikZ da problemas si se está utilizando con babel.
+\begin{align*}
+	&\backslash usepackage\{tikz\}\\
+	&\backslash usetikzlibrary\{babel\}\\
+	&\backslash usepackage[siunitx, RPvoltages]\{circuitikz\}	
+\end{align*}
+
+Fundamental utilizar el manual actualizado de CircuiTikz:
+
+\url{http://mirrors.ctan.org/graphics/pgf/contrib/circuitikz/doc/circuitikzmanual.pdf}\\
+
+\subsection{Primer circuito}
+Primero vamos a dibujar una fuente y dos resistencias.
+
+\begin{center}
+	\begin{circuitikz}[american voltages]
+		\draw (0,0) node[ground]{}; 	% Se dibuja en el origen el nodo de referencia
+		\draw (0,0) to [V](0,2);		% Una fuente entre GND y un punto a 2 unidades en y, coordenada absoluta
+		\draw (0,2) 					% desde el punto (x,y)=(0,2) 
+			to [R]++(2,0) 				% se dibuja una resistencia horizontal a 2 unidades relativas 		
+				to [R]++(0,-2) 			% se dibuja una resistencia vertical a 2 unidades relativas del elemento anterior
+					node[ground]{};		% conexion a gnd
+				%	to [short,-*](0,0); % una forma alternativa para conectar al origen 
+	\end{circuitikz}
+\end{center}
+
+\subsection{Agregando nodos}
+Para agregar nodos es útil la instrucción \textsc{coordinate} para referenciar un punto a una etiqueta, luego nos permite continuar dibujando desde ese nodo.
+\begin{center}
+	\begin{circuitikz}[american voltages]
+		\draw (0,0) node[ground]{}; 
+		\draw (0,0) to [V](0,2);
+		\draw (0,2) 
+			to [R]++(2,0) 
+				to [short,*-]++(0,0) coordinate (nodo1)
+					to [R]++(0,-2)
+						node[ground]{};
+		\draw (nodo1) to [short,-o]++(1,0); % conectamos un cable y una salida
+	\end{circuitikz}
+\end{center}
+
+Agreguemos más nodos y diferentes componentes:
+
+\begin{center}
+	\begin{circuitikz}[american voltages]
+		\draw (0,0) node[ground]{}; 
+		\draw (0,0) to [sV](0,2);
+		\draw (0,2) to [R]++(2,0) to [short,*-]++(0,0) coordinate (nodo1) to [C]++(0,-2) node[ground]{};
+		\draw (nodo1) to [L]++(2,0) to [short,*-]++(0,0) coordinate (nodo2) to [R]++(0,-2) node[ground]{};
+		\draw (nodo2) to [R]++(2,0) to [short,*-]++(0,0) coordinate (nodo3) to [zzDo,invert]++(0,-2) node[ground]{};
+		\draw (nodo3) to [short,-o]++(1,0);
+	\end{circuitikz}
+\end{center}
+\subsection{Dibujando Amplificadores Operacionales}
+Es importante utilizar coordenadas relativas y etiquetar las coordenadas de los nodos para poder dibujar correctamente los elementos de retroalimentacion.
+\begin{center}
+	\begin{circuitikz}[american voltages]
+		\draw (0,0) node[ground]{}; 
+		\draw (0,0) to [V](0,2);
+		\draw (0,2) to [R]++(2,0) to [short,*-]++(0,0) coordinate (nodo1) to [R]++(0,-2) node[ground]{};
+		\draw (nodo1) to [short]++(1,0) node[op amp, anchor=+] (opamp){};
+		\draw (opamp.out) to [R]++(0,-2) node[ground]{};
+		\draw (opamp.-) to [short,-*]++(0,1) coordinate (node3);
+		\draw (node3) to [R]++(-2,0) coordinate (vo) node[ground]{};
+		\draw (node3) to [R](vo -| opamp.out) to [short,-*](opamp.out);
+		
+	\end{circuitikz}
+\end{center}
+
+
+\end{document}
