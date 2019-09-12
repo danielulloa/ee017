@@ -6,6 +6,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx} % paquete para incluir imagenes
+\graphicspath{ {C:/Users/Vicky/Documents/ee017/laboratorios/01/imagenes/}}
 \usepackage[margin=1in,bottom=1in]{geometry}
 \usepackage{hyperref} % paquete para tener marcadores en el pdf
 \usepackage{tikz}
@@ -148,7 +149,6 @@ Para modelar el circuito se tuvieron en cuenta algunas consideraciones
     \item La salida del sistema es la tensión a la salida del Amplificador Operacional
 \end{itemize}
 
-<<<<<<< HEAD
 \begin{circuitikz}[american voltages,american inductors]
 	\draw (0,0) node [op amp](amp){};
 	\draw (amp.-) to [C,l=$C$,v_<=$V_{C(0)}$] ++(-2,0) to [smeter, t=A, l=$i\text{=}C\frac{dV}{dt}$]++(-2,0) to [L,l=$L$,i>_=$i$] ++(-2,0) to [R,l=$R_1$] ++(-2,0) node[ground]{};
@@ -161,7 +161,6 @@ Para modelar el circuito se tuvieron en cuenta algunas consideraciones
 	\draw (amp.down) --++(0,-0.1) node[vee]{-12\,\textnormal{V}};	
 \end{circuitikz}
 
-=======
 \begin{center}
     \begin{circuitikz}[american voltages,american inductors]
         \draw (0,0) node [op amp](amp){};
@@ -175,7 +174,7 @@ Para modelar el circuito se tuvieron en cuenta algunas consideraciones
         \draw (amp.down) --++(0,-0.1) node[vee]{-12\,\textnormal{V}};	
     \end{circuitikz}
 \end{center}
->>>>>>> b38d83e486b7feaeab3462c4af542e69fbb9a115
+	
 Para la primera ecuación se analizó el nodo $V_n$, en donde se tiene que:
 \begin{equation*}   
 i(t)=i_{R2}(t)
@@ -194,7 +193,7 @@ De esta manera se obtiene la primera ecuación de nuestro sistema, a la cual se 
 eq1=C(s V_{c}(s)-V_{c}(t))-\frac{R_{a} V_{o}(s)}{R_{2} R_{a} +R_{2} R_{b}}
 \end{equation}
 Para la segunda ecuación se analizó la malla que contiene a los componentes $R_{1},R_{2}, C$ , $L$ y $V_{o}(s)$ 
-<<<<<<< HEAD
+
 \begin{align*}
  V_{o}(t)&=\ V_{C}(t)+ V_{L}(t)+ V_{r}(t)\\
 V_{o}(t)&=LC\frac{d V_{c}^{2}(t)}{dt^{2}}+ C(R_{1}+R_{2})\frac{d V_{c}(t)}{dt}+V_{c}(t)
@@ -231,7 +230,7 @@ Por último se verificó que los polos son puros imaginarios lo cual cumple con 
  \begin{equation*}
 p_{1,2}=-\frac{i}{\sqrt{\text{L}\text{C}}},\frac{i}{\sqrt{\text{L}\text{C}}}
 \end{equation*}
-=======
+
 \begin{equation}
 \ V_{o}(t)=\ V_{C}(t)+ V_{L}(t)+ V_{L}(t)
 \end{equation}
@@ -265,8 +264,6 @@ K=\frac{CR_{2}*(R_{a}+R_{b})}{R_{a}}
 
 Un coeficiente de amortiguamiento nulo implica que las resistencias $R_1$,$R_2$,$R_a$ y $R_b$ deben ser iguales. 
 
-
->>>>>>> b38d83e486b7feaeab3462c4af542e69fbb9a115
 \section{Respuesta Temporal}
 Para la respuesta temporal del oscilador aplicamos la antitransformada o inversa de Laplace considerando el nuevo valor de la función de transferencia $H(s)$.
 \begin{equation*}
@@ -276,7 +273,19 @@ Si consideramos que las resistencias $R_{a}$ y $R_{b}$ son iguales, la expresió
 \begin{equation*}
 H(t)=-\frac{2 \sqrt{C} R_{2}}{\sqrt{\text{L}}} \sin \left(\frac{t}{\sqrt{LC}}\right)
 \end{equation*}
-La función obtenida es una sinusoidal con una amplitud que depende de los elementos $C_{1}$, $R_{2}$, $L_{1}$
+La función obtenida es una sinusoidal con una amplitud que depende de los elementos $C_{1}$, $R_{2}$, $L_{1}$.
+Si hacemos variar la resistencia $R_{2}$ la impedancia $Z_{in}$ vista desde el circuito RLC ya no compensa a la resistencia $R_{1}$, en consecuencia obtendremos otra respuesta temporal. Para ilustrar las diferentes respuestas al variar $R_{2}$ se realizo el siguiente grafico en mathematica
+\begin{center}
+	\includegraphics[scale=0.5]{respuestatemporal1}
+	\includegraphics[scale=0.7]{respuestatemporal2}
+\end{center}	
+En donde las diferentes respuestas están diferenciadas por trazos de diferentes colores:
+\begin{itemize}
+	\item Verde: Respuesta criticamente amortiguada.
+	\item Rojo: Respuesta oscilatoria.
+	\item Negro: Respuesta inestable.
+	\item Azul: Respuesta subamortiguada. 
+\end{itemize}
 
 %V_{o(t)}=\frac{d}{\sqrt{b}}\left[e^{\left(-a-\dfrac{\sqrt{b}}{c}\right)t}-e^{\left(-a+\dfrac{\sqrt{b}}{c}\right)t}\right]
 %En donde: 
@@ -333,8 +342,17 @@ Se obtuvieron las siguientes respuestas
     \end{axis}
     \end{tikzpicture}
 \end{center}
+En donde las diferentes respuestas están diferenciadas por trazos de diferentes colores:
+\begin{itemize}
+	\item Verde: Respuesta criticamente amortiguada.
+	\item Rojo: Respuesta oscilatoria.
+	\item Negro: Respuesta inestable.
+	\item Azul: Respuesta subamortiguada. 
+\end{itemize}
 
-Se puede observar que el trazo verde representa una respuesta criticamente amortiguada, el trazo azul una respuesta sobreamortiguada, el trazo rojo un oscilador y el trazo negro una respuesta inestable. En comparación a la respuesta obtenida en Mathematica la amplitud es menor, pero esto se debe a que en la simulación el amplificador operacional no es ideal y representa un amplificador con cierta impedancia de entrada y salida, una ganancia a lazo abierto que no es infinita, una corriente de bias adicional en la retroalimentación y una corriente que circula en las entradas inversora y no inversora.
+%Se puede observar que el trazo verde representa una respuesta criticamente amortiguada, el trazo azul una respuesta sobreamortiguada, el trazo rojo un oscilador y el trazo negro una respuesta inestable. 
+
+En comparación a la respuesta obtenida en Mathematica la amplitud es menor, pero esto se debe a que en la simulación el amplificador operacional no es ideal y representa un amplificador con cierta impedancia de entrada y salida, una ganancia a lazo abierto que no es infinita, una corriente de bias adicional en la retroalimentación y una corriente que circula en las entradas inversora y no inversora.
 
 \section{Conclusión}
 \end{document} 
