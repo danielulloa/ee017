@@ -87,8 +87,12 @@ El sistema de la figura lleva el nombre de oscilador con resistencia negativa, p
     \end{circuitikz}
 \end{center}
 
-La impedancia de entrada de este circuito es $Z_{in}=V_1/I_1$. Si las resistencias $R_1$ y $R_2$ son iguales 
- entonces la impedancia $Z_{in}=-Z$. Por lo tanto se puede representar el circuito de la siguiente manera:
+La impedancia de entrada de este circuito es $Z_{in}=V_1/I_1$.
+
+\begin{equation*}
+%R1=\frac{R2*Rb}{Ra}
+\end{equation*}
+Si las resistencias $R_1$ y $R_2$ son iguales entonces la impedancia $Z_{in}=-Z$. Por lo tanto se puede representar el circuito de la siguiente manera:
 
 \begin{center}
     \begin{circuitikz}[american voltages,american inductors]
@@ -100,27 +104,27 @@ La impedancia de entrada de este circuito es $Z_{in}=V_1/I_1$. Si las resistenci
         \draw (8,0) -- (8,-1) node[ground]{};
     \end{circuitikz}
 \end{center}
+
 Esta impedancia negativa $Z_{in}$ compensa las pérdidas de energía en la resistencia $R_1$ y como consecuencia el circuito se comporta como un oscilador.
 
 El circuito RLC junto al conversor de impedancia negativas conforman un sistema de segundo orden. El modelo teórico de la función de transferencia se muestra a continuación:
-\begin{equation}
+\begin{equation*}
     H(s)=\dfrac{Y(s)}{U(s)}=\dfrac{K}{s^{2}\tau^{2}+2\xi \tau s+1}
-    \end{equation}
-    En los sistemas de segundo orden existen tres parámetros a considerar:
+\end{equation*}
+
+En los sistemas de segundo orden existen tres parámetros a considerar:
     \begin{itemize} 
     	\item k: ganancia estática
     	\item $\xi$: factor de amortiguamiento
     	\item $1/\tau$: frecuencia natural no amortiguada
     \end{itemize}
        La posición de los polos está determinada por el factor de amortiguamiento, $\xi$. 
-         \begin{equation}
+       \begin{equation*}
        p_{1,2}=\frac{1}{\tau}\left(-\xi\pm\sqrt{\xi^2-1}\right)
-       \end{equation}
+       \end{equation*}
        Para obtener la característica de un oscilador los polos deben ser imaginarios puros, por lo tanto 
        $\xi$ debe ser nula. 
-  
-
-    %\xi=0$
+ 
 
 \section{Objetivos}
 \begin{itemize}
@@ -144,6 +148,20 @@ Para modelar el circuito se tuvieron en cuenta algunas consideraciones
     \item La salida del sistema es la tensión a la salida del Amplificador Operacional
 \end{itemize}
 
+<<<<<<< HEAD
+\begin{circuitikz}[american voltages,american inductors]
+	\draw (0,0) node [op amp](amp){};
+	\draw (amp.-) to [C,l=$C$,v_<=$V_{C(0)}$] ++(-2,0) to [smeter, t=A, l=$i\text{=}C\frac{dV}{dt}$]++(-2,0) to [L,l=$L$,i>_=$i$] ++(-2,0) to [R,l=$R_1$] ++(-2,0) node[ground]{};
+	\draw (amp.-) to[short,*-] ++(0,1.5) coordinate (leftR2) to[R,l=$R_2$,i<=$i$] (leftR2 -| amp.out) to[short,-*] (amp.out);
+	\draw (amp.out) to [R,l=$R_a$]++(0,-2) coordinate (rightRa);
+	\draw (amp.+) to [short]++(0,-1.51) to [short,-*](rightRa) node [right] {$V_p$};
+	\draw (rightRa) to [R,l=$R_b$]++(0,-2) node[ground]{};
+	\draw (amp.out) to [short,*-o]++(1,0)node [right] {$V_{o(t)}$};	
+	\draw (amp.up) --++(0,0.1) node[vcc]{12\,\textnormal{V}};
+	\draw (amp.down) --++(0,-0.1) node[vee]{-12\,\textnormal{V}};	
+\end{circuitikz}
+
+=======
 \begin{center}
     \begin{circuitikz}[american voltages,american inductors]
         \draw (0,0) node [op amp](amp){};
@@ -157,29 +175,63 @@ Para modelar el circuito se tuvieron en cuenta algunas consideraciones
         \draw (amp.down) --++(0,-0.1) node[vee]{-12\,\textnormal{V}};	
     \end{circuitikz}
 \end{center}
+>>>>>>> b38d83e486b7feaeab3462c4af542e69fbb9a115
 Para la primera ecuación se analizó el nodo $V_n$, en donde se tiene que:
-\begin{equation}   
+\begin{equation*}   
 i(t)=i_{R2}(t)
-\end{equation}
-Expresando las corrientes en términos forma diferencial
-\begin{equation}
-i(t)=C*V_{c}'(t)
-\end{equation} 
-\begin{equation}
-i_{R2}(t)=\frac{V_{o}(t)-V_{n}(t)}{R_{2}}
-\end{equation}
-
-\begin{equation}
-V_{p}(t)=\frac{R_{b}* V_{o}(t)}{R_{a}+R_{b}}
-\end{equation}
+\end{equation*}
+Expresando las corrientes de forma diferencial
+\begin{align*}
+i(t)&=C\frac{d V_{c}(t)}{dt} \\
+i_{R2}(t)&=\frac{V_{o}(t)-V_{n}(t)}{R_{2}} \\
+V_{p}(t)&=\frac{R_{b} V_{o}(t)}{R_{a}+R_{b}}
+\end{align*}
 Donde las tensiones $V_{n}(t)$ y $V_{p}(t)$ son iguales al considerar que el amplificador operacional es ideal.
 
 
 De esta manera se obtiene la primera ecuación de nuestro sistema, a la cual se le aplicó la transformada de Laplace. 
 \begin{equation}
-eq1:C* (s V_{c}(s)-V_{c}(t))-\frac{R_{a}* V_{o}(s)}{R_{2} R_{a} +R_{2} R_{b}}
+eq1=C(s V_{c}(s)-V_{c}(t))-\frac{R_{a} V_{o}(s)}{R_{2} R_{a} +R_{2} R_{b}}
 \end{equation}
 Para la segunda ecuación se analizó la malla que contiene a los componentes $R_{1},R_{2}, C$ , $L$ y $V_{o}(s)$ 
+<<<<<<< HEAD
+\begin{align*}
+ V_{o}(t)&=\ V_{C}(t)+ V_{L}(t)+ V_{r}(t)\\
+V_{o}(t)&=LC\frac{d V_{c}^{2}(t)}{dt^{2}}+ C(R_{1}+R_{2})\frac{d V_{c}(t)}{dt}+V_{c}(t)
+\end{align*}
+Nuevamente se aplico la transformada de Laplace, obtiendo la segunda ecuación
+\begin{equation}
+eq2 = V_{c}(s) - V_{o}(s) + C(R_{1} + R_{2})(sV_{c}(s) - v_{0}(t)) + 
+LC(s^{2}V_{c}(s) - sv_{0}(t))
+\end{equation}
+Con estas dos ecuaciones es posible obtener las tensiones de salida y entrada del sistema y su función de transferencia 
+\begin{equation*}
+H(s)=\frac{C R_{2} (R_{a}+R_{b})}{s*R_{a}C (s*\text{L} +R_{1}+2 R_{2})-s*\text{C}R_{2} R_{b} -R_{a}}
+\end{equation*}
+Reordenando la función de transferencia
+\begin{equation*}
+H(s)=-\frac{\frac{CR_{2}*(R_{a}+R_{b})}{R_{a}}}{1+(CR_{1}-\frac{CR_{2}R_{b}}{R_{a}})s+(LC)s^{2}}
+\end{equation*}
+\\
+Comparando la función de transferencia obtenida con la función del modelo teórico se determinaron los parámetros $\xi$, $\tau$ y k 
+\begin{align*}
+K&=\frac{CR_{2}(R_{a}+R_{b})}{R_{a}}\\
+\tau&=\sqrt{LC}\\
+\xi&=\dfrac{-CR_{1}+\frac{CR_{2}R_{b}}{R_{a}}}{2\sqrt{LC}}\\
+\end{align*}
+%despejando la ecuacion anterior para un coeficiente de xi nulo, podemos observar que R1 tiene que ser igual a .... 
+%Lo cual coincide con la condición de que para que el circuito se comporte como un oscilador R1 debe estar compesada por la impedancia del conversor de impedancia. 
+Un coeficiente de amortiguamiento nulo implica que la resistencia $R_{1}$ debe ser igual a la impedancia vista desde el circuito RLC.
+\begin{align*}
+\xi&=0\\
+R_{1}&=\frac{R_{2}R_{b}}{R_{a}}\\
+H(s)&=-\frac{\frac{R_{2}C (R_{a}+R_{b})}{R_{a}}}{\left(LCs^2+1\right)}
+\end{align*}
+Por último se verificó que los polos son puros imaginarios lo cual cumple con la característica de un oscilador.
+ \begin{equation*}
+p_{1,2}=-\frac{i}{\sqrt{\text{L}\text{C}}},\frac{i}{\sqrt{\text{L}\text{C}}}
+\end{equation*}
+=======
 \begin{equation}
 \ V_{o}(t)=\ V_{C}(t)+ V_{L}(t)+ V_{L}(t)
 \end{equation}
@@ -214,38 +266,28 @@ K=\frac{CR_{2}*(R_{a}+R_{b})}{R_{a}}
 Un coeficiente de amortiguamiento nulo implica que las resistencias $R_1$,$R_2$,$R_a$ y $R_b$ deben ser iguales. 
 
 
+>>>>>>> b38d83e486b7feaeab3462c4af542e69fbb9a115
 \section{Respuesta Temporal}
-Para la respuesta temporal del oscilador aplicamos la antitransformada o inversa de Laplace obteniendo la respuesta al escalón
-\begin{equation}
-    V_{o(t)}=\frac{d}{\sqrt{b}}\left[e^{\left(-a-\dfrac{\sqrt{b}}{c}\right)t}-e^{\left(-a+\dfrac{\sqrt{b}}{c}\right)t}\right]
-\end{equation}
+Para la respuesta temporal del oscilador aplicamos la antitransformada o inversa de Laplace considerando el nuevo valor de la función de transferencia $H(s)$.
+\begin{equation*}
+-\frac{\sqrt{\text{C}} R_{2} (R_{a}+R_{b}) \sin \left(\frac{t}{\sqrt{\text{C}} \sqrt{\text{L}}}\right)}{\sqrt{\text{L}} R_{a}}
+\end{equation*}
+Si consideramos que las resistencias $R_{a}$ y $R_{b}$ son iguales, la expresión se puede simplificar quedando de la siguiente manera
+\begin{equation*}
+H(t)=-\frac{2 \sqrt{C} R_{2}}{\sqrt{\text{L}}} \sin \left(\frac{t}{\sqrt{LC}}\right)
+\end{equation*}
+La función obtenida es una sinusoidal con una amplitud que depende de los elementos $C_{1}$, $R_{2}$, $L_{1}$
 
-En donde: 
-\begin{equation}
-a=\frac{R_{1}}{2 \text{L}}+\frac{R_{2} R_{b}}{2 \text{L} R_{a}}+\frac{R_{2}}{\text{L}}
-\end{equation}
-\begin{equation}
-b=(\text{C} R_{1} R_{a} +2 \text{C} R_{2} R_{a} +\text{C} R_{2} R_{b})^2-4 \text{C} \text{L} R_{a}^2
-\end{equation}
-\begin{equation}
-c=2 \text{L} \text{C} R_{a}
-\end{equation}
-\begin{equation}
-d= (R_{a}+R_{b})R_{2}C
-\end{equation}
+%V_{o(t)}=\frac{d}{\sqrt{b}}\left[e^{\left(-a-\dfrac{\sqrt{b}}{c}\right)t}-e^{\left(-a+\dfrac{\sqrt{b}}{c}\right)t}\right]
+%En donde: 
+%a=\frac{R_{1}}{2 \text{L}}+\frac{R_{2} R_{b}}{2 \text{L} R_{a}}+\frac{R_{2}}{\text{L}}
+%b=(\text{C} R_{1} R_{a} +2 \text{C} R_{2} R_{a} +\text{C} R_{2} R_{b})^2-4 \text{C} \text{L} R_{a}^2
+%c=2 \text{L} \text{C} R_{a}
+%d= (R_{a}+R_{b})R_{2}C
+%R=1000
+%L=10mH
+%C=1u F
 
-Se propuso valores para los elementos del sistema y se gráfico la respuesta temporal, obteniendo el siguiente gráfico
-%mathamticaaaaa
-
-\begin{equation}
-R=1000
-\end{equation}
-\begin{equation}
-L=10mH
-\end{equation}
-\begin{equation}
-C=1u F
-\end{equation}
 \section{Barrido Paramétrico}
 Para observar el comportamiento del circuito ante cambios en el valor de la resistencia equivalente se realiza un barrido paramétrico en LTSpice:
 \begin{center}
