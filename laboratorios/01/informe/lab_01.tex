@@ -20,7 +20,7 @@
 			\ifnum\coordindex>#2\def\pgfmathresult{}\fi
 		}
 }}
-\author{Ulloa Daniel}
+\author{Ulloa Daniel & Rodriguez Victoria}
 \begin{document}
 
 \begin{titlepage}
@@ -64,7 +64,7 @@
         \draw (amp.-) to [C,l=$C$,v_<=$V_{C(0)}$] ++(-2,0) to [L,l=$L$,i>_=$i$] ++(-2,0) to [R,l=$R_1$] ++(-2,0) node[ground]{};
         \draw (amp.-) to[short,*-] ++(0,1.5) coordinate (leftR2) to[R,l=$R_2$] (leftR2 -| amp.out) to[short,-*] (amp.out);
         \draw (amp.out) to [R,l=$R_a$]++(0,-2) coordinate (rightRa);
-        \draw (amp.+) to [short]++(0,-1.51) to [short,-*](rightRa) node [right] {$V_p$};
+        \draw (amp.+) to [short]++(0,-1.51) to [short,-*](rightRa) node [right]{};
         \draw (rightRa) to [R,l=$R_b$]++(0,-2) node[ground]{};
         \draw (amp.out) to [short,*-o]++(1,0)node [right] {$V_{o(t)}$};	
         \draw (amp.up) --++(0,0.1) node[vcc]{12\,\textnormal{V}};
@@ -148,6 +148,7 @@ Para modelar el circuito se tuvieron en cuenta algunas consideraciones
     \item La salida del sistema es la tensión a la salida del Amplificador Operacional
 \end{itemize}
 
+<<<<<<< HEAD
 \begin{circuitikz}[american voltages,american inductors]
 	\draw (0,0) node [op amp](amp){};
 	\draw (amp.-) to [C,l=$C$,v_<=$V_{C(0)}$] ++(-2,0) to [smeter, t=A, l=$i\text{=}C\frac{dV}{dt}$]++(-2,0) to [L,l=$L$,i>_=$i$] ++(-2,0) to [R,l=$R_1$] ++(-2,0) node[ground]{};
@@ -160,6 +161,21 @@ Para modelar el circuito se tuvieron en cuenta algunas consideraciones
 	\draw (amp.down) --++(0,-0.1) node[vee]{-12\,\textnormal{V}};	
 \end{circuitikz}
 
+=======
+\begin{center}
+    \begin{circuitikz}[american voltages,american inductors]
+        \draw (0,0) node [op amp](amp){};
+        \draw (amp.-) to [C,l=$C$,v_<=$V_{C(0)}$] ++(-2,0) to [smeter, t=A, l=$i\text{=}C\frac{dV}{dt}$]++(-2,0) to [L,l=$L$,i>_=$i$] ++(-2,0) to [R,l=$R_1$] ++(-2,0) node[ground]{};
+        \draw (amp.-) to[short,*-] ++(0,1.5) coordinate (leftR2) to[R,l=$R_2$,i<=$i$] (leftR2 -| amp.out) to[short,-*] (amp.out);
+        \draw (amp.out) to [R,l=$R_a$]++(0,-2) coordinate (rightRa);
+        \draw (amp.+) to [short]++(0,-1.51) to [short,-*](rightRa) node [right] {$V_p$};
+        \draw (rightRa) to [R,l=$R_b$]++(0,-2) node[ground]{};
+        \draw (amp.out) to [short,*-o]++(1,0)node [right] {$V_{o(t)}$};	
+        \draw (amp.up) --++(0,0.1) node[vcc]{12\,\textnormal{V}};
+        \draw (amp.down) --++(0,-0.1) node[vee]{-12\,\textnormal{V}};	
+    \end{circuitikz}
+\end{center}
+>>>>>>> b38d83e486b7feaeab3462c4af542e69fbb9a115
 Para la primera ecuación se analizó el nodo $V_n$, en donde se tiene que:
 \begin{equation*}   
 i(t)=i_{R2}(t)
@@ -178,6 +194,7 @@ De esta manera se obtiene la primera ecuación de nuestro sistema, a la cual se 
 eq1=C(s V_{c}(s)-V_{c}(t))-\frac{R_{a} V_{o}(s)}{R_{2} R_{a} +R_{2} R_{b}}
 \end{equation}
 Para la segunda ecuación se analizó la malla que contiene a los componentes $R_{1},R_{2}, C$ , $L$ y $V_{o}(s)$ 
+<<<<<<< HEAD
 \begin{align*}
  V_{o}(t)&=\ V_{C}(t)+ V_{L}(t)+ V_{r}(t)\\
 V_{o}(t)&=LC\frac{d V_{c}^{2}(t)}{dt^{2}}+ C(R_{1}+R_{2})\frac{d V_{c}(t)}{dt}+V_{c}(t)
@@ -214,6 +231,42 @@ Por último se verificó que los polos son puros imaginarios lo cual cumple con 
  \begin{equation*}
 p_{1,2}=-\frac{i}{\sqrt{\text{L}\text{C}}},\frac{i}{\sqrt{\text{L}\text{C}}}
 \end{equation*}
+=======
+\begin{equation}
+\ V_{o}(t)=\ V_{C}(t)+ V_{L}(t)+ V_{L}(t)
+\end{equation}
+\begin{equation}
+V_{o}(t)=C*L*V_{c}''(t)+ C*(R_{1}+R_{2})*V_{o}'(t)+V_{c}(t)
+\end{equation}
+Nuevamente se aplico la transformada de Laplace, obtiendo la segunda ecuación:
+\begin{equation}
+eq2 : V_{c}(s) - V_{o}(s) + C(R_{1} + R_{2})(s*V_{c}(t) - v_{0}(t)) + 
+LC(s^{2}*V_{c}(t) - s*v_{0}(t))
+\end{equation}
+Con estas dos ecuaciones es posible obtener las tensiones de salida y entrada del sistema y obtener la función de transferencia:
+\begin{equation}
+H(s)=\frac{C R_{2} (R_{a}+R_{b})}{s*R_{a}C (s*\text{L} +R_{1}+2 R_{2})-s*\text{C}R_{2} R_{b} -R_{a}}
+\end{equation}
+Reordenando:
+\begin{equation}
+H(s)=\frac{\frac{CR_{2}*(R_{a}+R_{b})}{R_{a}}}{-1+(-CR_{1}+\frac{CR_{2}R_{b}}{R_{a}})s-(LC)s^{2}}
+\end{equation}
+\\
+Comparando las funciones de trasnferencia obtenida y del modelo teórico se determinaron los parámetros $\xi$, $\tau$ y k 
+\begin{equation}
+K=\frac{CR_{2}*(R_{a}+R_{b})}{R_{a}}
+\end{equation}
+\begin{equation}
+\tau=\sqrt{LC}
+\end{equation}
+\begin{equation}
+\xi=\dfrac{-CR_{1}+\frac{CR_{2}R_{b}}{R_{a}}}{2\sqrt{LC}}
+\end{equation}
+
+Un coeficiente de amortiguamiento nulo implica que las resistencias $R_1$,$R_2$,$R_a$ y $R_b$ deben ser iguales. 
+
+
+>>>>>>> b38d83e486b7feaeab3462c4af542e69fbb9a115
 \section{Respuesta Temporal}
 Para la respuesta temporal del oscilador aplicamos la antitransformada o inversa de Laplace considerando el nuevo valor de la función de transferencia $H(s)$.
 \begin{equation*}
@@ -239,7 +292,7 @@ La función obtenida es una sinusoidal con una amplitud que depende de los eleme
 Para observar el comportamiento del circuito ante cambios en el valor de la resistencia equivalente se realiza un barrido paramétrico en LTSpice:
 \begin{center}
     \begin{circuitikz}[american voltages, american inductors]
-	\draw (0,0) node [op amp](amp){};
+	\draw (0,0) node [op amp](amp){U1};
 	\draw (amp.-) to [C=1<\micro\farad>] ++(-2,0) to [L=10<\milli\henry>] ++(-2,0) to [R=1<\kilo\ohm>] ++(-2,0) node[ground]{};
 	\draw (amp.-) to[short,*-] ++(0,1.5) coordinate (leftR2) to[R=1<\kilo\ohm>] (leftR2 -| amp.out) to[short,-*] (amp.out);
 	\draw (amp.out) to [R=1<\kilo\ohm>]++(0,-2) coordinate (rightRa);
@@ -247,7 +300,7 @@ Para observar el comportamiento del circuito ante cambios en el valor de la resi
 	\draw (rightRa) to [R,l=$\{Rb\}$]++(0,-2) node[ground]{};
 	\draw (amp.out) to [short,*-o]++(1,0)node [right] {$V_{o(t)}$};
 	\node at (-5.6,-2.5){.tran 20ms uic};
-	\node at (-4,-3){.step param Rb list 0.99k 1k 1.2k};	
+	\node at (-4,-3){.step param Rb list 850 990 1k 1005};	
 	\draw (amp.up) --++(0,0.1) node[vcc]{12\,\textnormal{V}};
 	\draw (amp.down) --++(0,-0.1) node[vee]{-12\,\textnormal{V}};
 \end{circuitikz}
@@ -281,21 +334,7 @@ Se obtuvieron las siguientes respuestas
     \end{tikzpicture}
 \end{center}
 
+Se puede observar que el trazo verde representa una respuesta criticamente amortiguada, el trazo azul una respuesta sobreamortiguada, el trazo rojo un oscilador y el trazo negro una respuesta inestable. En comparación a la respuesta obtenida en Mathematica la amplitud es menor, pero esto se debe a que en la simulación el amplificador operacional no es ideal y representa un amplificador con cierta impedancia de entrada y salida, una ganancia a lazo abierto que no es infinita, una corriente de bias adicional en la retroalimentación y una corriente que circula en las entradas inversora y no inversora.
+
 \section{Conclusión}
 \end{document} 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
