@@ -309,7 +309,7 @@ Para observar el comportamiento del circuito ante cambios en el valor de la resi
 	\draw (rightRa) to [R,l=$\{Rb\}$]++(0,-2) node[ground]{};
 	\draw (amp.out) to [short,*-o]++(1,0)node [right] {$V_{o(t)}$};
 	\node at (-5.6,-2.5){.tran 20ms uic};
-	\node at (-4,-3){.step param Rb list 850 990 1k 1005};	
+	\node at (-4,-3){.step param Rb list 500 800 920 1k 1005 };	
 	\draw (amp.up) --++(0,0.1) node[vcc]{12\,\textnormal{V}};
 	\draw (amp.down) --++(0,-0.1) node[vee]{-12\,\textnormal{V}};
 \end{circuitikz}
@@ -321,24 +321,20 @@ Se obtuvieron las siguientes respuestas
     \begin{tikzpicture}[
         ]
         \begin{axis}[
-        xlabel=$Tiempo$, ylabel=$V_{o(t)}$, grid=major,legend entries={$850\Omega$,$990\Omega$,$1000\Omega$,$1005\Omega$}
+        xlabel=$Tiempo$, ylabel=$V_{o(t)}$, grid=major,legend entries={$500\Omega$,$800\Omega$,$920\Omega$}
         ]
-        \addplot[color=green,
-        select coords between index={1}{400},
-        filter discard warning=false, unbounded coords=discard
-        ] table [x index=0, y index=1]{r850.txt};
-        \addplot[color=blue,
-        select coords between index={1}{400},
-        filter discard warning=false, unbounded coords=discard
-        ] table [x index=0, y index=1]{r990.txt};
         \addplot[color=red,
         select coords between index={1}{400},
         filter discard warning=false, unbounded coords=discard
-        ] table [x index=0, y index=1]{r1k.txt};
-        \addplot[color=black,
+        ] table [x index=0, y index=1]{r500.txt};
+        \addplot[color=green,
         select coords between index={1}{400},
         filter discard warning=false, unbounded coords=discard
-        ] table [x index=0, y index=1]{r1005.txt};
+        ] table [x index=0, y index=1]{r800.txt};
+        \addplot[color=blue,
+        select coords between index={1}{400},
+        filter discard warning=false, unbounded coords=discard
+        ] table [x index=0, y index=1]{r920.txt};
     \end{axis}
     \end{tikzpicture}
 \end{center}
@@ -349,6 +345,23 @@ En donde las diferentes respuestas están diferenciadas por trazos de diferentes
 	\item Negro: Respuesta inestable.
 	\item Azul: Respuesta subamortiguada. 
 \end{itemize}
+\begin{center}
+    \begin{tikzpicture}[
+        ]
+        \begin{axis}[
+        xlabel=$Tiempo$, ylabel=$V_{o(t)}$, grid=major,legend entries={$1000\Omega$,$1005\Omega$}
+        ]
+        \addplot[color=gray,
+        select coords between index={1}{400},
+        filter discard warning=false, unbounded coords=discard
+        ] table [x index=0, y index=1]{r500.txt};
+        \addplot[color=orange,
+        select coords between index={1}{400},
+        filter discard warning=false, unbounded coords=discard
+        ] table [x index=0, y index=1]{r800.txt};
+    \end{axis}
+    \end{tikzpicture}
+\end{center}
 
 %Se puede observar que el trazo verde representa una respuesta criticamente amortiguada, el trazo azul una respuesta sobreamortiguada, el trazo rojo un oscilador y el trazo negro una respuesta inestable. 
 
