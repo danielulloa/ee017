@@ -29,7 +29,7 @@ Fundamental utilizar el manual actualizado de CircuiTikz:
 \url{http://mirrors.ctan.org/graphics/pgf/contrib/circuitikz/doc/circuitikzmanual.pdf}\\
 
 \subsection{Primer circuito}
-Primero vamos a dibujar una fuente y dos resistencias.
+Vamos a dibujar una fuente y dos resistencias.
 
 \begin{center}
 	\begin{circuitikz}[american voltages]
@@ -70,6 +70,22 @@ Agreguemos más nodos y diferentes componentes:
 		\draw (nodo3) to [short,-o]++(1,0);
 	\end{circuitikz}
 \end{center}
+
+Ahora agregar componentes a los nodos es sencillo, conectemos un capacitor entre los nodos 1 y 2.
+
+\begin{center}
+	\begin{circuitikz}[american voltages]
+		\draw (0,0) node[ground]{}; 
+		\draw (0,0) to [sV](0,2);
+		\draw (0,2) to [R]++(2,0) to [short,*-]++(0,0) coordinate (nodo1) to [C]++(0,-2) node[ground]{};
+		\draw (nodo1) to [L]++(2,0) to [short,*-]++(0,0) coordinate (nodo2) to [R]++(0,-2) node[ground]{};
+		\draw (nodo2) to [R]++(2,0) to [short,*-]++(0,0) coordinate (nodo3) to [zzDo,invert]++(0,-2) node[ground]{};
+		\draw (nodo3) to [short,-o]++(1,0);
+		\draw (nodo1) to [short]++(0,1) to [C]++(2,0) to [short]++(0,-1);
+	\end{circuitikz}
+\end{center}
+
+
 \subsection{Dibujando Amplificadores Operacionales}
 Es importante utilizar coordenadas relativas y etiquetar las coordenadas de los nodos para poder dibujar correctamente los elementos de retroalimentacion.
 \begin{center}
@@ -81,10 +97,11 @@ Es importante utilizar coordenadas relativas y etiquetar las coordenadas de los 
 		\draw (opamp.out) to [R]++(0,-2) node[ground]{};
 		\draw (opamp.-) to [short,-*]++(0,1) coordinate (node3);
 		\draw (node3) to [R]++(-2,0) coordinate (vo) node[ground]{};
-		\draw (node3) to [R](vo -| opamp.out) to [short,-*](opamp.out);
-		
+		\draw (node3) to [R](vo -| opamp.out) to [short,-*](opamp.out);		
 	\end{circuitikz}
 \end{center}
+
+
 
 
 \end{document}
