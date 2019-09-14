@@ -106,7 +106,7 @@ Si las resistencias $R_1$ y $R_2$ son iguales entonces la impedancia $Z_{in}=-Z$
     \end{circuitikz}
 \end{center}
 
-Esta impedancia negativa $Z_{in}$ compensa las pérdidas de energía en la resistencia $R_1$ y como consecuencia el circuito se comporta como un oscilador.
+Esta impedancia negativa $Z_{in}$ compensa las pérdidas de energía en la resistencia $R_1$ y como consecuencia el circuito se comporta como un oscilador con frecuencia angular $\frac{1}{\sqrt{LC}}$.
 
 El circuito RLC junto al conversor de impedancia negativas conforman un sistema de segundo orden. El modelo teórico de la función de transferencia se muestra a continuación:
 \begin{equation*}
@@ -165,7 +165,7 @@ Para la primera ecuación se analizó el nodo $V_n$, en donde se tiene que:
 \begin{equation*}   
 i(t)=i_{R2}(t)
 \end{equation*}
-Expresando las corrientes de forma diferencial
+Expresando las corrientes de forma diferencial:
 \begin{align*}
 i(t)&=C\frac{d V_{c}(t)}{dt} \\
 i_{R2}(t)&=\frac{V_{o}(t)-V_{n}(t)}{R_{2}} \\
@@ -190,12 +190,13 @@ V_{c}(s) - V_{o}(s) + C(R_{1} + R_{2})(sV_{c}(s) - v_{0}(t)) +
 LC(s^{2}V_{c}(s) - sv_{0}(t)) = 0
 \end{equation}
 Con estas dos ecuaciones es posible obtener las tensiones de salida y entrada del sistema y su función de transferencia 
-\begin{equation*}
-H(s)=\frac{C R_{2} (R_{a}+R_{b})}{sR_{a}C (s\text{L} +R_{1}+2 R_{2})-s\text{C}R_{2} R_{b} -R_{a}}
-\end{equation*}
+\begin{align*}
+H(s)&=\frac{C R_{2} (R_{a}+R_{b})}{sR_{a}C (s\text{L} +R_{1}+2 R_{2})-s\text{C}R_{2} R_{b} -R_{a}}\\
+H(s)&=\frac{CR_2(R_a+R_b)}{s^2R_aLC+s(CR_2R_b-CR_1Ra)-R_a}
+\end{align*}
 Reordenando la función de transferencia
 \begin{equation*}
-H(s)=-\frac{\frac{CR_{2}*(R_{a}+R_{b})}{R_{a}}}{(LC)s^{2}-(CR_{1}-\frac{CR_{2}R_{b}}{R_{a}})s+1}
+H(s)=\frac{-\frac{CR_{2}(R_{a}+R_{b})}{R_{a}}}{-s^{2}(LC)+s(CR_1-\frac{CR_2R_b}{R_a})+1}
 \end{equation*}
 \\
 Comparando la función de transferencia obtenida con la función del modelo teórico se determinaron los parámetros $\xi$, $\tau$ y K
@@ -341,11 +342,11 @@ En donde las diferentes respuestas están diferenciadas por trazos de diferentes
         \addplot[color=gray,
         select coords between index={1}{400},
         filter discard warning=false, unbounded coords=discard
-        ] table [x index=0, y index=1]{r500.txt};
+        ] table [x index=0, y index=1]{r1000.txt};
         \addplot[color=orange,
         select coords between index={1}{400},
         filter discard warning=false, unbounded coords=discard
-        ] table [x index=0, y index=1]{r800.txt};
+        ] table [x index=0, y index=1]{r1005.txt};
     \end{axis}
     \end{tikzpicture}
 \end{center}
