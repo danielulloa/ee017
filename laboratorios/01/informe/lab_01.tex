@@ -6,7 +6,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx} % paquete para incluir imagenes
-\graphicspath{ {C:/Users/Vicky/Documents/ee017/laboratorios/01/imagenes/}}
+\graphicspath{ {imagenes/}}
 \usepackage[margin=1in,bottom=1in]{geometry}
 \usepackage{hyperref} % paquete para tener marcadores en el pdf
 \usepackage{tikz}
@@ -115,7 +115,7 @@ El circuito RLC junto al conversor de impedancia negativas conforman un sistema 
 
 En los sistemas de segundo orden existen tres parámetros a considerar:
     \begin{itemize} 
-    	\item k: ganancia estática
+    	\item K: ganancia estática
     	\item $\xi$: factor de amortiguamiento
     	\item $1/\tau$: frecuencia natural no amortiguada
     \end{itemize}
@@ -160,20 +160,6 @@ Para modelar el circuito se tuvieron en cuenta algunas consideraciones
 	\draw (amp.up) --++(0,0.1) node[vcc]{12\,\textnormal{V}};
 	\draw (amp.down) --++(0,-0.1) node[vee]{-12\,\textnormal{V}};	
 \end{circuitikz}
-
-\begin{center}
-    \begin{circuitikz}[american voltages,american inductors]
-        \draw (0,0) node [op amp](amp){};
-        \draw (amp.-) to [C,l=$C$,v_<=$V_{C(0)}$] ++(-2,0) to [smeter, t=A, l=$i\text{=}C\frac{dV}{dt}$]++(-2,0) to [L,l=$L$,i>_=$i$] ++(-2,0) to [R,l=$R_1$] ++(-2,0) node[ground]{};
-        \draw (amp.-) to[short,*-] ++(0,1.5) coordinate (leftR2) to[R,l=$R_2$,i<=$i$] (leftR2 -| amp.out) to[short,-*] (amp.out);
-        \draw (amp.out) to [R,l=$R_a$]++(0,-2) coordinate (rightRa);
-        \draw (amp.+) to [short]++(0,-1.51) to [short,-*](rightRa) node [right] {$V_p$};
-        \draw (rightRa) to [R,l=$R_b$]++(0,-2) node[ground]{};
-        \draw (amp.out) to [short,*-o]++(1,0)node [right] {$V_{o(t)}$};	
-        \draw (amp.up) --++(0,0.1) node[vcc]{12\,\textnormal{V}};
-        \draw (amp.down) --++(0,-0.1) node[vee]{-12\,\textnormal{V}};	
-    \end{circuitikz}
-\end{center}
 	
 Para la primera ecuación se analizó el nodo $V_n$, en donde se tiene que:
 \begin{equation*}   
@@ -190,9 +176,9 @@ Donde las tensiones $V_{n}(t)$ y $V_{p}(t)$ son iguales al considerar que el amp
 
 De esta manera se obtiene la primera ecuación de nuestro sistema, a la cual se le aplicó la transformada de Laplace. 
 \begin{equation}
-eq1=C(s V_{c}(s)-V_{c}(t))-\frac{R_{a} V_{o}(s)}{R_{2} R_{a} +R_{2} R_{b}}
+C(s V_{c}(s)-V_{c}(t))-\frac{R_{a} V_{o}(s)}{R_{2} R_{a} +R_{2} R_{b}}=0
 \end{equation}
-Para la segunda ecuación se analizó la malla que contiene a los componentes $R_{1},R_{2}, C$ , $L$ y $V_{o}(s)$ 
+Para la segunda ecuación se analizó la malla que contiene a los componentes $R_{1},\ R_{2},\ C$, $L$ y $V_{o}(s)$ 
 
 \begin{align*}
  V_{o}(t)&=\ V_{C}(t)+ V_{L}(t)+ V_{r}(t)\\
@@ -200,21 +186,21 @@ V_{o}(t)&=LC\frac{d V_{c}^{2}(t)}{dt^{2}}+ C(R_{1}+R_{2})\frac{d V_{c}(t)}{dt}+V
 \end{align*}
 Nuevamente se aplico la transformada de Laplace, obtiendo la segunda ecuación
 \begin{equation}
-eq2 = V_{c}(s) - V_{o}(s) + C(R_{1} + R_{2})(sV_{c}(s) - v_{0}(t)) + 
-LC(s^{2}V_{c}(s) - sv_{0}(t))
+V_{c}(s) - V_{o}(s) + C(R_{1} + R_{2})(sV_{c}(s) - v_{0}(t)) + 
+LC(s^{2}V_{c}(s) - sv_{0}(t)) = 0
 \end{equation}
 Con estas dos ecuaciones es posible obtener las tensiones de salida y entrada del sistema y su función de transferencia 
 \begin{equation*}
-H(s)=\frac{C R_{2} (R_{a}+R_{b})}{s*R_{a}C (s*\text{L} +R_{1}+2 R_{2})-s*\text{C}R_{2} R_{b} -R_{a}}
+H(s)=\frac{C R_{2} (R_{a}+R_{b})}{sR_{a}C (s\text{L} +R_{1}+2 R_{2})-s\text{C}R_{2} R_{b} -R_{a}}
 \end{equation*}
 Reordenando la función de transferencia
 \begin{equation*}
-H(s)=-\frac{\frac{CR_{2}*(R_{a}+R_{b})}{R_{a}}}{1+(CR_{1}-\frac{CR_{2}R_{b}}{R_{a}})s+(LC)s^{2}}
+H(s)=-\frac{\frac{CR_{2}*(R_{a}+R_{b})}{R_{a}}}{(LC)s^{2}-(CR_{1}-\frac{CR_{2}R_{b}}{R_{a}})s+1}
 \end{equation*}
 \\
-Comparando la función de transferencia obtenida con la función del modelo teórico se determinaron los parámetros $\xi$, $\tau$ y k 
+Comparando la función de transferencia obtenida con la función del modelo teórico se determinaron los parámetros $\xi$, $\tau$ y K
 \begin{align*}
-K&=\frac{CR_{2}(R_{a}+R_{b})}{R_{a}}\\
+K&=-\frac{CR_{2}(R_{a}+R_{b})}{R_{a}}\\
 \tau&=\sqrt{LC}\\
 \xi&=\dfrac{-CR_{1}+\frac{CR_{2}R_{b}}{R_{a}}}{2\sqrt{LC}}\\
 \end{align*}
@@ -226,66 +212,66 @@ Un coeficiente de amortiguamiento nulo implica que la resistencia $R_{1}$ debe s
 R_{1}&=\frac{R_{2}R_{b}}{R_{a}}\\
 H(s)&=-\frac{\frac{R_{2}C (R_{a}+R_{b})}{R_{a}}}{\left(LCs^2+1\right)}
 \end{align*}
-Por último se verificó que los polos son puros imaginarios lo cual cumple con la característica de un oscilador.
+Por último se verificó que los polos están ubicados en el eje imaginario, lo cual cumple con la característica de un oscilador.
  \begin{equation*}
-p_{1,2}=-\frac{i}{\sqrt{\text{L}\text{C}}},\frac{i}{\sqrt{\text{L}\text{C}}}
+p_{1,2}=i\frac{1}{\sqrt{\text{L}\text{C}}},-i\frac{1}{\sqrt{\text{L}\text{C}}}
 \end{equation*}
-
-\begin{equation}
-\ V_{o}(t)=\ V_{C}(t)+ V_{L}(t)+ V_{L}(t)
-\end{equation}
-\begin{equation}
-V_{o}(t)=C*L*V_{c}''(t)+ C*(R_{1}+R_{2})*V_{o}'(t)+V_{c}(t)
-\end{equation}
-Nuevamente se aplico la transformada de Laplace, obtiendo la segunda ecuación:
-\begin{equation}
-eq2 : V_{c}(s) - V_{o}(s) + C(R_{1} + R_{2})(s*V_{c}(t) - v_{0}(t)) + 
-LC(s^{2}*V_{c}(t) - s*v_{0}(t))
-\end{equation}
-Con estas dos ecuaciones es posible obtener las tensiones de salida y entrada del sistema y obtener la función de transferencia:
-\begin{equation}
-H(s)=\frac{C R_{2} (R_{a}+R_{b})}{s*R_{a}C (s*\text{L} +R_{1}+2 R_{2})-s*\text{C}R_{2} R_{b} -R_{a}}
-\end{equation}
-Reordenando:
-\begin{equation}
-H(s)=\frac{\frac{CR_{2}*(R_{a}+R_{b})}{R_{a}}}{-1+(-CR_{1}+\frac{CR_{2}R_{b}}{R_{a}})s-(LC)s^{2}}
-\end{equation}
-\\
-Comparando las funciones de trasnferencia obtenida y del modelo teórico se determinaron los parámetros $\xi$, $\tau$ y k 
-\begin{equation}
-K=\frac{CR_{2}*(R_{a}+R_{b})}{R_{a}}
-\end{equation}
-\begin{equation}
-\tau=\sqrt{LC}
-\end{equation}
-\begin{equation}
-\xi=\dfrac{-CR_{1}+\frac{CR_{2}R_{b}}{R_{a}}}{2\sqrt{LC}}
-\end{equation}
-
-Un coeficiente de amortiguamiento nulo implica que las resistencias $R_1$,$R_2$,$R_a$ y $R_b$ deben ser iguales. 
-
 \section{Respuesta Temporal}
-Para la respuesta temporal del oscilador aplicamos la antitransformada o inversa de Laplace considerando el nuevo valor de la función de transferencia $H(s)$.
-\begin{equation*}
--\frac{\sqrt{\text{C}} R_{2} (R_{a}+R_{b}) \sin \left(\frac{t}{\sqrt{\text{C}} \sqrt{\text{L}}}\right)}{\sqrt{\text{L}} R_{a}}
-\end{equation*}
-Si consideramos que las resistencias $R_{a}$ y $R_{b}$ son iguales, la expresión se puede simplificar quedando de la siguiente manera
-\begin{equation*}
-H(t)=-\frac{2 \sqrt{C} R_{2}}{\sqrt{\text{L}}} \sin \left(\frac{t}{\sqrt{LC}}\right)
-\end{equation*}
-La función obtenida es una sinusoidal con una amplitud que depende de los elementos $C_{1}$, $R_{2}$, $L_{1}$.
-Si hacemos variar la resistencia $R_{2}$ la impedancia $Z_{in}$ vista desde el circuito RLC ya no compensa a la resistencia $R_{1}$, en consecuencia obtendremos otra respuesta temporal. Para ilustrar las diferentes respuestas al variar $R_{2}$ se realizo el siguiente grafico en mathematica
+Como vimos anteriormente el valor de $\xi$ determina la ubicación de los polos. Como se fijaron los valores de $R_1$,$R_a$,$R_b$,L y C, el componente que determina la respuesta del sistema es $R_2$.
 \begin{center}
-	\includegraphics[scale=0.5]{respuestatemporal1}
+	\includegraphics[scale=0.8]{polos1}
+\end{center}
+\begin{center}
+	\begin{tabular}{|c|c|c|}
+		\hline 
+		Color&$R_{2}$ & Tipo de Respuesta \\ 
+		\hline 
+		\hline 
+		Rojo&500 & Criticamente Amortiguada \\ 
+		\hline 
+		Verde&800 & Subamortiguada \\ 
+		\hline 
+		Azul&920 & Sobreamortiguada \\ 
+		\hline  
+		Gris&1000 &Oscilatoria \\ 
+		\hline 
+		Negro&1005&Inestable  \\ 
+		\hline 
+		Naranja&1200&Inestable  \\
+		\hline
+		Marrón&1250&Inestable  \\
+		\hline
+	\end{tabular} 
+\end{center}
+
+Dados los valores de la tabla para $R_2$ se graficaron las respuestas temporales
+\begin{center}
+	\includegraphics[scale=0.7]{respuestatemporal1}
 	\includegraphics[scale=0.7]{respuestatemporal2}
+	\includegraphics[scale=0.8]{respuestatemporal3}
 \end{center}	
-En donde las diferentes respuestas están diferenciadas por trazos de diferentes colores:
-\begin{itemize}
-	\item Verde: Respuesta criticamente amortiguada.
-	\item Rojo: Respuesta oscilatoria.
-	\item Negro: Respuesta inestable.
-	\item Azul: Respuesta subamortiguada. 
-\end{itemize}
+\begin{center}
+	\begin{tabular}{|c|c|c|}
+	\hline 
+	Color&$R_{2}$ & Tipo de Respuesta \\ 
+	\hline 
+	\hline 
+	Rojo&500 & Criticamente Amortiguada \\ 
+	\hline 
+	Verde&800 & Subamortiguada \\ 
+	\hline 
+	Azul&920 & Sobreamortiguada \\ 
+	\hline  
+	Gris&1000 &Oscilatoria \\ 
+	\hline 
+	Naranja&1005&Inestable  \\ 
+	\hline 
+	Marrón&1050&Inestable  \\
+	\hline
+\end{tabular} 
+\end{center}
+
+
 
 %V_{o(t)}=\frac{d}{\sqrt{b}}\left[e^{\left(-a-\dfrac{\sqrt{b}}{c}\right)t}-e^{\left(-a+\dfrac{\sqrt{b}}{c}\right)t}\right]
 %En donde: 
@@ -296,7 +282,7 @@ En donde las diferentes respuestas están diferenciadas por trazos de diferentes
 %R=1000
 %L=10mH
 %C=1u F
-
+\newpage
 \section{Barrido Paramétrico}
 Para observar el comportamiento del circuito ante cambios en el valor de la resistencia equivalente se realiza un barrido paramétrico en LTSpice:
 \begin{center}
@@ -308,14 +294,16 @@ Para observar el comportamiento del circuito ante cambios en el valor de la resi
 	\draw (amp.+) to [short]++(0,-1.51) to [short,-*](rightRa);
 	\draw (rightRa) to [R,l=$\{Rb\}$]++(0,-2) node[ground]{};
 	\draw (amp.out) to [short,*-o]++(1,0)node [right] {$V_{o(t)}$};
-	\node at (-5.6,-2.5){.tran 20ms uic};
-	\node at (-4,-3){.step param Rb list 500 800 920 1k 1005 };	
+	\node at (-5.8,-2.5){.tran 20ms uic};
+	\node at (-3.8,-3){.step param Rb list 500 800 920 1k 1005 };	
+	\node at (-5.6,-2){.ic V(N001) = 1};
+	\node at (-5.6,-1.5){.ic V(N004) = 0};
 	\draw (amp.up) --++(0,0.1) node[vcc]{12\,\textnormal{V}};
 	\draw (amp.down) --++(0,-0.1) node[vee]{-12\,\textnormal{V}};
 \end{circuitikz}
 \end{center}
 
-Se obtuvieron las siguientes respuestas
+Es necesario configurar la condición inicial del capacitor con una tensión de 1V, usando la etiqueta $\textsc{.IC}$ se puede establecer la condicion inicial de tensión en un nodo. Se obtuvieron las siguientes respuestas:
 
 \begin{center}
     \begin{tikzpicture}[
@@ -340,10 +328,9 @@ Se obtuvieron las siguientes respuestas
 \end{center}
 En donde las diferentes respuestas están diferenciadas por trazos de diferentes colores:
 \begin{itemize}
-	\item Verde: Respuesta criticamente amortiguada.
-	\item Rojo: Respuesta oscilatoria.
-	\item Negro: Respuesta inestable.
-	\item Azul: Respuesta subamortiguada. 
+	\item Rojo: Respuesta criticamente amortiguada.
+	\item Verde: Respuesta subamortiguada.
+	\item Azul: Respuesta sobreamortiguada.
 \end{itemize}
 \begin{center}
     \begin{tikzpicture}[
@@ -362,10 +349,17 @@ En donde las diferentes respuestas están diferenciadas por trazos de diferentes
     \end{axis}
     \end{tikzpicture}
 \end{center}
+\begin{itemize}
+	\item Gris: Respuesta oscilatoria.
+	\item Naranja: Respuesta inestable.
+\end{itemize}
 
 %Se puede observar que el trazo verde representa una respuesta criticamente amortiguada, el trazo azul una respuesta sobreamortiguada, el trazo rojo un oscilador y el trazo negro una respuesta inestable. 
-
-En comparación a la respuesta obtenida en Mathematica la amplitud es menor, pero esto se debe a que en la simulación el amplificador operacional no es ideal y representa un amplificador con cierta impedancia de entrada y salida, una ganancia a lazo abierto que no es infinita, una corriente de bias adicional en la retroalimentación y una corriente que circula en las entradas inversora y no inversora.
-
 \section{Conclusión}
+
+El sistema tiene un comportamiento oscilatorio cuando no existe amortiguamiento, es decir el valor de $\xi$ es nulo. Que un sistema tenga amortiguamiento significa que la energía se está disipando y luego de un determinado tiempo llegará a un equilibrio estable.
+
+Al realizar el modelo matemático se debe tener en cuenta de no utilizar ecuaciones integro-diferenciales ya que al aplicarle la transformada de Laplace se pierde información del sistema.
+  
+Se pudo graficar exitosamente en Mathematica la tensión de salida para diferentes tipos de respuesta.
 \end{document} 
