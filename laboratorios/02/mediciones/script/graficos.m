@@ -1,4 +1,8 @@
-filename="pewFile1";
+frecuencia=[];
+desfasaje=[];
+dv=[];
+for i=1:15
+filename=string(i);
 dist=430
 M=csvread(filename+'.csv',2,0);
 
@@ -24,10 +28,10 @@ v2=smooth(M(:,[3]),30);
 %puntero=find(t==ts)
 
 %figure(2)
-findpeaks(v1,'MinPeakDistance',dist)
-hold on
-findpeaks(v2,'MinPeakDistance',dist)
-hold off
+%findpeaks(v1,'MinPeakDistance',dist)
+%hold on
+%findpeaks(v2,'MinPeakDistance',dist)
+%hold off
 [v1M,v1Mt]=findpeaks(v1,'MinPeakDistance',dist);
 [v2M,v2Mt]=findpeaks(v2,'MinPeakDistance',dist);
 
@@ -37,12 +41,12 @@ diferencia=abs(A-B);
 if A<B
     for i=1:diferencia
         v1M=[v1M; v1M(end)]
-        v1Mt=[v1Mt; v1Mt(end)+mean(diff(v1Mt))]
+        v1Mt=[v1Mt; v1Mt(end)+median(diff(v1Mt))]
     end
 else
     for i=1:diferencia
         v2M=[v2M; v2M(end)]
-        v2Mt=[v2Mt; v2Mt(end)+mean(diff(v2Mt))]
+        v2Mt=[v2Mt; v2Mt(end)+median(diff(v2Mt))]
     end
 end
 
@@ -62,9 +66,22 @@ end
 % end
 
 dtV=v2Mt-v1Mt;
-dt=mean(dtV);
-dvV=v2M-v1M;
-dv=mean(dvV)
-periodo=(mean(diff(v1Mt))*ts);
-desfasaje=dt*ts*360/periodo
-frecuencia=2*pi*1/periodo
+dt=median(dtV);
+dvV=abs(v2M)./abs(v1M);
+dv=[dv;median(dvV)];
+periodo=(median(diff(v1Mt))*ts);
+%odoirep=[odoirep;(median(diff(v1Mt))*ts)];
+angulo = (dt*ts*360/periodo)
+if angulo>360
+    angulo=angulo-360
+elseif angulo <0
+        angulo = angulo+360
+end
+desfasaje=[desfasaje;angulo];
+frecuencia=[frecuencia;2*pi*1/periodo]
+end
+ganancia=real(10*log10(abs(dv)))
+yyaxis left
+semilogx(frecuencia,ganancia)
+yyaxis right
+semilogx(frecuencia,-1.*desfasaje)
