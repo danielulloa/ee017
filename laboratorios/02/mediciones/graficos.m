@@ -1,4 +1,4 @@
-filename="qewFile1";
+filename="dewFile0";
 dist=430
 M=csvread(filename+'.csv',2,0);
 offset=-31e-3;
@@ -29,6 +29,10 @@ findpeaks(v1,'MinPeakDistance',dist)
 hold on
 findpeaks(v2,'MinPeakDistance',dist)
 hold off
+title('Medición Osciloscopio')
+xlabel('Muestra [n]')
+ylabel('Tensión [V]')
+legend('CH1','Máx CH1','CH2','Máx CH2')
 [v1M,v1Mt]=findpeaks(v1,'MinPeakDistance',dist);
 [v2M,v2Mt]=findpeaks(v2,'MinPeakDistance',dist);
 

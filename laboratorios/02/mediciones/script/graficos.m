@@ -83,7 +83,7 @@ end
 desfasaje=[desfasaje;angulo];
 frecuencia=[frecuencia;2*pi*1/periodo]
 end
-ganancia=real(20*log10(abs(dv)))
+ganancia=real(20*log10(abs(dv)));
 %yyaxis left
 semilogx(frecuencia,ganancia,'*g')
 %yyaxis right

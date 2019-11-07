@@ -24,11 +24,18 @@ t=M(:,[1]);
 v1=M(:,[2]);
 %canal 2
 v2=M(:,[3]);
+figure(1)
+plot(t,v1,t,v2)
+title('Medición Osciloscopio')
+xlabel('Tiempo [s]')
+ylabel('Tensión [V]')
+legend('CH1','CH2')
 %aplica un offset porque la entrada era una onda cuadrada
 %con una amplitud vpp de 10V
 v2=v2-min(v2);
 %integra la onda cuadrada para encontrar el tON de
 %la onda cuadrada
+
 int1=cumtrapz(v1);
 [a,b]=findpeaks(int1,'MinPeakDistance',300);
 %recorta la señal a los valores de interes
@@ -37,8 +44,7 @@ t2=t(find(t==ts):b(2));
 %aplica un filtrado a la señal
 v2s=smooth(v2c,50);
 %plot de la respuesta al escalón
-figure(1)
-title('Medición vs Aproximación')
+figure(2)
 plot(t2,v2s,'-g')
 hold on
 
@@ -52,6 +58,10 @@ sys=tf([max(v2s)],[tau 1])
 
 %compara la respuesta medida con la aproximada
 step(sys)
+title('Medición vs Aproximación')
+xlabel('Tiempo[s]')
+ylabel('Tensión [V]')
+legend('Experimental','Aproximación')
 hold off
 
 %compara la respuesta aproximada con la real
@@ -61,9 +71,12 @@ C1=10e-9;C2=10e-9;R1=10e3;R2=100e3;
 realsys=tf([1],[C1*C2*R1*R2 C1*R1+C2*R2 1]);
 %transferencia del sistema aproximado a primer orden
 aproxsys=tf([1],[tau 1]);
-figure(2)
-title('Real vs Aproximación')
+figure(3)
 step(realsys)
 hold on
 step(aproxsys)
+title('Ideal vs Aproximación')
+xlabel('Tiempo[s]')
+ylabel('Tensión [V]')
+legend('Ideal','Aproximación')
 hold off
