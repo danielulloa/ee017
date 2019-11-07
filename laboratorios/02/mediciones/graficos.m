@@ -1,4 +1,4 @@
-filename="pewFile1";
+filename="qewFile1";
 dist=430
 M=csvread(filename+'.csv',2,0);
 
