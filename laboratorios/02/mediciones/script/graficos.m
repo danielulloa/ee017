@@ -1,6 +1,7 @@
 frecuencia=[];
 desfasaje=[];
 dv=[];
+offset=-31e-3
 
 for i=1:15
 filename=string(i);
@@ -24,6 +25,7 @@ end
 t=M(:,[1]);
 v1=smooth(M(:,[2]),30);
 v2=smooth(M(:,[3]),30);
+v2=v2-offset;
 %figure(1)
 %plot(t,v1,'g',t,v2,'r')
 %puntero=find(t==ts)
@@ -81,8 +83,13 @@ end
 desfasaje=[desfasaje;angulo];
 frecuencia=[frecuencia;2*pi*1/periodo]
 end
-ganancia=real(10*log10(abs(dv)))
-yyaxis left
-semilogx(frecuencia,ganancia)
-yyaxis right
-semilogx(frecuencia,-1.*desfasaje)
+ganancia=real(20*log10(abs(dv)));
+%yyaxis left
+semilogx(frecuencia,ganancia,'*g')
+%yyaxis right
+%semilogx(frecuencia,-1.*desfasaje)
+hold on
+C1=10e-9;C2=10e-9;R1=10e3;R2=100e3;
+%transferencia del sistema de segundo orden
+realsys=tf([1],[C1*C2*R1*R2 C1*R1+C2*R2 1]);
+bode(realsys)
