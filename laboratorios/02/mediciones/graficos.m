@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 filename="qewFile1";
+=======
+filename="dewFile0";
+>>>>>>> 9c16d57984c605e1155575f88475a2047f162bbc
 dist=430
 M=csvread(filename+'.csv',2,0);
-
+offset=-31e-3;
 fileID = fopen(filename+'.txt','r');
 C1 = textscan(fileID,'%s',1,'delimiter','\n', 'headerlines',15);
 fclose(fileID);
@@ -19,6 +23,7 @@ end
 t=M(:,[1]);
 v1=smooth(M(:,[2]),30);
 v2=smooth(M(:,[3]),30);
+v2=v2-offset;
 %figure(1)
 %plot(t,v1,'g',t,v2,'r')
 %puntero=find(t==ts)
@@ -28,6 +33,10 @@ findpeaks(v1,'MinPeakDistance',dist)
 hold on
 findpeaks(v2,'MinPeakDistance',dist)
 hold off
+title('Medición Osciloscopio')
+xlabel('Muestra [n]')
+ylabel('Tensión [V]')
+legend('CH1','Máx CH1','CH2','Máx CH2')
 [v1M,v1Mt]=findpeaks(v1,'MinPeakDistance',dist);
 [v2M,v2Mt]=findpeaks(v2,'MinPeakDistance',dist);
 
@@ -37,12 +46,12 @@ diferencia=abs(A-B);
 if A<B
     for i=1:diferencia
         v1M=[v1M; v1M(end)]
-        v1Mt=[v1Mt; v1Mt(end)+mean(diff(v1Mt))]
+        v1Mt=[v1Mt; v1Mt(end)+median(diff(v1Mt))]
     end
 else
     for i=1:diferencia
         v2M=[v2M; v2M(end)]
-        v2Mt=[v2Mt; v2Mt(end)+mean(diff(v2Mt))]
+        v2Mt=[v2Mt; v2Mt(end)+median(diff(v2Mt))]
     end
 end
 
@@ -62,9 +71,9 @@ end
 % end
 
 dtV=v2Mt-v1Mt;
-dt=mean(dtV);
+dt=median(dtV);
 dvV=v2M-v1M;
-dv=mean(dvV)
-periodo=(mean(diff(v1Mt))*ts);
+dv=median(dvV)
+periodo=(median(diff(v1Mt))*ts);
 desfasaje=dt*ts*360/periodo
 frecuencia=2*pi*1/periodo
