@@ -38,6 +38,7 @@ t2=t(find(t==ts):b(2));
 v2s=smooth(v2c,50);
 %plot de la respuesta al escalón
 figure(1)
+title('Medición vs Aproximación')
 plot(t2,v2s,'-g')
 hold on
 
@@ -61,6 +62,7 @@ realsys=tf([1],[C1*C2*R1*R2 C1*R1+C2*R2 1]);
 %transferencia del sistema aproximado a primer orden
 aproxsys=tf([1],[tau 1]);
 figure(2)
+title('Real vs Aproximación')
 step(realsys)
 hold on
 step(aproxsys)
