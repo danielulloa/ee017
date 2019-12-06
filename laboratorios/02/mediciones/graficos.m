@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+filename="qewFile1";
+=======
 filename="dewFile0";
+>>>>>>> 9c16d57984c605e1155575f88475a2047f162bbc
 dist=430
 M=csvread(filename+'.csv',2,0);
 offset=-31e-3;
