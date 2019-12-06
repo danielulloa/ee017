@@ -1,0 +1,93 @@
+\documentclass[10pt,a4paper]{article} % tamaño de letra y tipo de papel
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel} % paquete para que reconozca ñ y tildes
+\usepackage{amsmath}
+\usepackage{upgreek} 
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx} % paquete para incluir imagenes
+\graphicspath{ {imagenes/}}
+\usepackage[margin=1in,bottom=1in]{geometry}
+\usepackage{hyperref} % paquete para tener marcadores en el pdf
+\usepackage{tikz}
+\usetikzlibrary{babel}
+\usepackage[siunitx, RPvoltages]{circuitikz}
+\usetikzlibrary{bending,arrows.meta,positioning,calc,positioning}
+\usepackage{pgfplots}\pgfplotsset{compat=1.13}
+\usepackage{float}
+\usepackage[T1]{fontenc}
+\usepackage[numbered,framed]{matlab-prettifier}
+\pgfplotsset{width=12cm,legend style={at={(0.11,0.75)},anchor=south},select coords between index/.style 2 args={
+		x filter/.code={
+			\ifnum\coordindex<#1\def\pgfmathresult{}\fi
+			\ifnum\coordindex>#2\def\pgfmathresult{}\fi
+		}
+}}
+\author{Ulloa Daniel & Rodriguez Victoria}
+\begin{document}
+	\begin{titlepage}
+		\hbox{
+			\hspace*{0.15\textwidth} % Espacio desde el margen izquierdo
+			\rule{1pt}{\textheight} % Linea decorativa
+			\hspace*{0.05\textwidth} % Espacio entre la linea y el texto
+			\parbox[b]{0.75\textwidth}{ % Caja que restringe el espacio que puede ocupar el texto
+				{\noindent\Huge\bfseries Trabajo Final } % Titulo
+				\\ 
+				[2\baselineskip] 
+				{\large \textbf{Tema:} Dinámica de Circuitos} % Tema
+				\\[4\baselineskip]
+				{\large \textbf{Cátedra:} Teoría de Circuitos \textsc{II}} % Catedra
+				\\[1\baselineskip]
+				{\large \textbf{Año:} 2020} % Año
+				\\[1\baselineskip]
+				{\large \textit{\textbf{Docentes:} % Docentes
+						\textnormal{Ing. Costa}, Nicolás. 
+						\textnormal{Aux. Consiglio}, Dante}
+				}
+				\\[1\baselineskip]
+				{\large \textit{\textbf{Alumnos:} % Alumnos
+						\textnormal{Rodriguez}, Ana Victoria. 
+						\textnormal{Ulloa}, Daniel Alejandro}
+				}
+				\\[6\baselineskip]
+				{\large \textbf{Fecha de Entrega:} 11/02/2020}
+				\par %Para que el logo aparezca al pie
+				\vspace{0.35\textheight} % Ubicacion de la caja desde el margen superior
+				\center{\includegraphics[width=250px]{logo2.png}}
+				\\[1\baselineskip]
+		}}
+	\end{titlepage}
+	\tableofcontents
+	\newpage
+	\section{Introducción}
+	\section{Guía de Problemas}
+	\textbf{1} Escribir las ecuaciones de estado de un circuito formado por un inductor $L$ en paralelo con un capacitor $C$. Obtener la solucion en términos de la corriente inicial del inductor $i_L(0)$ y del voltaje inicial del capacitor $v_C(0)$. Mostrar que la trayectoria es una elipse en el espacio de estados.\\
+	
+	\textbf{2} Mostrar que los valores propios del circuito de la Figura \ref{fig1} son $-1\pm j$. Encontrar la solución completa para condiciones iniciales arbitrarias y una excitación arbitraria $E(t)$. Sea $C=1F$, $L=1H$, $R_1=R_2=1\Omega$. Graficar la trayectoria de la solución homogénea para dos condiciones iniciales en el espacio de estados.\\
+	 \begin{center}
+		\begin{circuitikz}[american voltages]\label{fig1}
+			\ctikzset{label/align = smart}
+			\draw (0,0) node[ground]{} 
+			(0,0) to [V,label=E(t)](0,2)
+			(0,2) to [R, label=$R_1$]++(2,0) to [short,-*]++(0,0) coordinate (nodo1) to [C,l=C]++(0,-2) node[ground]{}
+			(nodo1) to [L,label=L]++(2,0) to [R,l=$R_2$]++(0,-2) node[ground]{}
+			;
+		\end{circuitikz}
+	\\ Figura \ref{fig1}
+	\end{center}
+	
+	\textbf{3} Para el circuito de la Figura \ref{fig2}, $C_1=C_2=C_3=1F$, $R_1=R_2=1\Omega$. Mostrar que los valores propios son $-1$ y $-\frac{1}{3}$. Asumir que la excitacion $E(t)=10\cos(\omega t)$. Encontrar la respuesta de estado estacionario.
+	\begin{center}
+		\begin{circuitikz}[american voltages]\label{fig2}
+			\ctikzset{label/align = smart}
+			\draw (0,0) node[ground]{} 
+			(0,0) to [V,label=E(t)](0,2)
+			(0,2) to [R, label=$R_1$]++(2,0) to [short,-*]++(0,0) coordinate (nodo1) to [C,l=$C_1$]++(0,-2) node[ground]{}
+			(nodo1) to [C,label=$C_3$]++(2,0) to [short,-*]++(0,0) coordinate (nodo2) to [C,l=$C_2$]++(0,-2) node[ground]{}
+			(nodo2) to [short]++(2,0) to [R,label=$R_2$]++(0,-2) node[ground]{}
+			;
+		\end{circuitikz}
+		\\ Figura \ref{fig2}
+	\end{center}
+	
+\end{document} 
