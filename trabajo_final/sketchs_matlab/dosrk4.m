@@ -1,10 +1,8 @@
+%Ejercicio nº2
 clc;
 clear;
-%RK4
+
 %Valores de los componentes
-ti=0;
-tf=20;
-h=0.1;
 R1=1;
 R2=1;
 L1=1;
@@ -12,34 +10,71 @@ C1=1;
 E=1;
 
 %Condiciones Iniciales
-v0=10;
-i0=5;
+v0=1;
+i0=1;
+v02=1;
+i02=0.1;
 
-%Matrices
-M=[C1 0;0 -L1];
-N=[0 1;1 -R2];
-u=[E/R1;0];
+%Valores de tiempo y paso
+ti=0;
+tf=10;
+h=0.1;
+
+%Matrices del circuito 
+%Lleva la forma de:
+%M*(dx/dt)+N*x=u(t);
+
+M=[-C1 0;0 L1];
+N=[-1/R1 -1;-1 R2];
+u=[-E/R1;0];
+
+%Condiciones iniciales
 Xant=[v0;i0];
-P=-1.*(inv(M)*N);
-q=inv(M)*u;
-solu=[];
+Xant0=[v02;i02];
 
-%Autovalores
+%Se lleva a la forma 
+% dx/dt=q(t)-P*x
+
+P=-1.*(M\N);
+q=M\u;
+
+solu=[];
+solu2=[];
+
+%Calculo de Autovalores
+
 autoval=eig(P);
 [autovec,D]=eig(P);
-constantes = inv(autovec)*Xant;
+constantes = autovec\Xant;
+
+
+%Se lleva a la forma general de la solución 
+%x(t)=C1*V1*e^(lamda1*t)+C2*V2*e^(lamda2*t)
+
 syms t;
+
 v=constantes(1)*autovec(1,1)*exp(autoval(1)*t)+constantes(2)*autovec(1,2)*exp(autoval(2)*t);
 i1=constantes(1)*autovec(2,1)*exp(autoval(1)*t)+constantes(2)*autovec(2,2)*exp(autoval(2)*t);
+
+pretty(v)
+pretty(i1)
+
+%Gráficos
+
 figure(1);
-ezplot(v,[ti,tf]);
+fplot(v,[ti,tf]);
 hold on;
-ezplot(i1,[ti,tf]);
+fplot(i1,[ti,tf]);
 hold off;
+title('Solución mediante calculo de autovalores');
+
+
+
 
 figure(2);
-%Método
+%Método RK4
 for i= ti:h:tf
+    %Primera condición inicial 
     k1= (q+P*Xant).*h;
     Xant2=Xant+(k1.*0.5);
     k2=(q+P*Xant2).*h;
@@ -51,8 +86,19 @@ for i= ti:h:tf
     solu=[solu X];
     Xant=X;
     
+    %Segunda condición inicial 
+    k10= (q+P*Xant0).*h;
+    Xant20=Xant0+(k1.*0.5);
+    k20=(q+P*Xant20).*h;
+    Xant30=Xant0+(k2.*0.5);
+    k30=(q+P*Xant30).*h;
+    Xant40=Xant0+k3;
+    k40=(q+P*Xant40).*h;
+    X0=Xant0+(k10+2.*k20+2.*k30+k40)/6;
+    solu2=[solu2 X0];
+    Xant0=X0;
+    
     plot(i,X(1),'*g',i,X(2),'*b');
-   %  plot(i,X(2),'*b');
     title('Solución Respuesta temporal');
     xlabel('Tiempo');
     ylabel('Tensión/Corriente');
@@ -63,14 +109,16 @@ hold off
 
 figure(3); 
 solu=solu';
+solu2=solu2';
 t=ti:h:tf;
 plot(t,solu(:,1),'g',t,solu(:,2),'b');
 title('Solución respuesta temporal');
 xlabel('Tiempo');
 ylabel('Tensión/Corriente');
 
+
 figure(4);
-plot(solu(:,1),solu(:,2),'r');
+plot(solu(:,1),solu(:,2),'r',solu2(:,1),solu2(:,2),'g');
 title('Phase portrait');
 xlabel('Corriente');
 ylabel('Tensión'); 
