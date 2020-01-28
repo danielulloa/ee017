@@ -90,12 +90,15 @@
 		\\ Figura \ref{fig2}
 	\end{center}
 
-	\textbf{4} En el circuito de la figura, sea $v_{out}(t)$ el voltaje a traves de la resistencia $R_2$ y $E(t)=2e^-2t$ para $t\grq 0$ y $E(t)=0$ caso contrario. Mostrar que:
-	\begin{align}
-		contenidos...
-	\end{align}
+	\textbf{4} En el circuito de la figura, sea $v_{out}(t)$ el voltaje a traves de la resistencia $R_2$ y $E(t)=2e^-2t$ para $t\geq 0$ y $E(t)=0$ caso contrario. Mostrar que:\\
 	
-	\textbf{5} La fuente $E(t)$ del circuito de la figura se define como $E(t)=1V\ \forall t\leq 0$ y caso contrario $E(t)=0$. Mostrar que el valor a través de la resistencia $R_2$ para $t\grq 0$ es
+	$v_{out}(t)= \left\{ \begin{array}{lcc}
+		e^{-t}-\dfrac{8}{9}e^{-t}-\dfrac{1}{9}e^{-\frac{1}{5}t} &   si  & t \geq 0 \\
+		\\ 0 &   & otros\ casos.
+	\end{array}
+	\right.$
+	
+	\textbf{5} La fuente $E(t)$ del circuito de la figura se define como $E(t)=1V\ \forall t\leq 0$ y caso contrario $E(t)=0$. Mostrar que el valor a través de la resistencia $R_2$ para $t\geq 0$ es
 	\begin{equation}
 		v_2(t)=\frac{1}{2}e^{-t}+\frac{\sqrt{3}}{3}e^{-\dfrac{t}{2}}\sin \frac{\sqrt{3}}{3}t
 	\end{equation}
@@ -103,14 +106,40 @@
 	
 	\textbf{6} Aplicar el metodo $Backward\ Euler$ para resolver las ecuaciones de estado del problema anterior siendo $E(t)=\sin t + r(t)$ dónde $r(t)$ es un ruido aleatorio cuya amplitud se encuentra uniformemente distribuida en el rango $[-0.1,0.1]$. Graficar la salida.\\
 	
-	\textbf{7} En el circuito de la figura, suponer que el voltaje inicial del capacitor $C_1$ es $1V$, y que todas las condiciones iniciales restante son nulas. Mostrar que el voltaje a traves de $g_4$ para todo $t\grq 0$ está dado por la siguiente ecuación:
+	\textbf{7} En el circuito de la figura, suponer que el voltaje inicial del capacitor $C_1$ es $1V$, y que todas las condiciones iniciales restante son nulas. Mostrar que el voltaje a traves de $g_4$ para todo $t\geq 0$ está dado por la siguiente ecuación:
 	\begin{equation}
 		v_{4_n}(t)=0.225e^{\alpha t}\cos \beta t-0.0087e^{\alpha t}\sin \beta t-0.1434e^{\lambda_3 t}-0.0791e^{\lambda_4 t}
 	\end{equation}
 	
+	Dónde $\alpha=-0.5563$, $\beta=0.9145$, $\lambda_3=-1.1255$ y $\lambda_4=-0.6786$. Los valores de los elementos son $g_1=1S$, $g_2=2S$, $g_3=3S$, $g_4=4S$, $C_1=C_2=1F$, $L_1=L_2=1H$. Graficar la proyección de la trayectoria de estado en distintos planos $2D$ para estudiar la dinámica del circuito.\\
+	
 	\textbf{8} Mostar que en el circuito de la figura el voltaje a través de $R_2$ es, con una precision de 4 dígitos:
 	\begin{equation}
-		v_2(t)=\int_{0}^{t}\left[0.4813e^{\lambda_1(t-\tau)}-\right]
+		v_2(t)=\int_{0}^{t}\left[0.4813e^{\lambda_1(t-\tau)}-0.0440e^{\lambda_2(t-\tau)}\right]E(\tau)d\tau
 	\end{equation}
+	
+	Dónde $\lambda_1=-0.9645$ y $\lambda_2=-0.0882$. Asumir que todas las condiciones iniciales son cero. Sea la entrada un pulso $E(t)=\sin^2(\frac{\pi t}{5})$ para el intervalo de tiempo $0\leq t\leq 5$, $E(t)=0$ caso contrario. Encontrar el valor de $v_2(t)$ para el intervalo $0\leq t\leq 10$. Usar convolución numérica y comparar la solución con la obtenida por $Backwar\ Euler$. Los valores de los elementos son $C_1=1F$, $C_2=2F$, $C_3=3F$, $C_4=4F$, $C_5=5F$, $C_6=6F$, y $R_1=R_2=1\Omega$\\
+	
+	\textbf{9} Mostrar que la respuesta al impulso de una escalera de 5 secciones de la figura, que modela una longitud de interconexión en un circuito integrado, teniendo en cuenta que la salida es el último nodo, que $R=1\Omega$ y $C=0.1F$ y la expresión es:
+	\begin{equation}
+		v_{out}(t)=0.554e^{\lambda_1 t}-1.788e^{\lambda_2 t}+2.720e^{\lambda_3 t}-2.500e^{\lambda_4 t}+1.014e^{\lambda_5 t}
+	\end{equation}
+	
+	Dónde los valores de $\lambda_n$ son los siguientes:
+	\begin{center}
+		\begin{tabular}{ccc}
+			$\lambda_1=-36.8250$ & $\lambda_2=-28.3083$ & $\lambda_3=-17.1537$ \\ 
+			$\lambda_4=-6.9028$ & $\lambda_5=-0.8101$ &  \\
+		\end{tabular} 
+	\end{center}
+
+	\textbf{10} Considerar un circuito $LC$ de cuarto orden que consiste en un inductor $L_1$ en serie con un capacitor $C_1$ y con una combinación paralelo de un inductor $L_2$ y un capacitor $C_2$. Sea $L_1=1H$, $C_1=\frac{1}{25}F$, $L_2=18H$ y $C_2=\frac{1}{72}F$. Sean las variables de estado $i_{L1}$, $i_{L2}$,$v_{C1}$, $v_{C1}$. Mostrar que las respuestas a una condicion inicial $v_{C1}=1V$ son:
+	\begin{center}
+		\begin{tabular}{cc}
+			$i_{L1}=\dfrac{-16}{165}\sin(10t)-\dfrac{1}{33}\sin(t)$& $v_{C1}=\dfrac{25}{33}\cos(t)+\dfrac{8}{33}\cos(10t)$\\
+			&\\ 
+			$i_{L2}=\dfrac{-4}{99}\sin(t)+\dfrac{2}{495}\sin(10t)$ & $v_{C2}=\dfrac{8}{11}\cos(10t)-\dfrac{8}{11}\cos(t)$\\
+		\end{tabular} 
+	\end{center}
 	
 \end{document} 
