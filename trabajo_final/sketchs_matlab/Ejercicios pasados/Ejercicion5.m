@@ -40,33 +40,29 @@ q=M\u;
 solu=[];
 
 %Calculo de Autovalores
-
-autoval=eig(P);
-[autovec,D]=eig(P);
-constantes = autovec\Xant;
-
-
-%Se lleva a la forma general de la solución 
-%x(t)=C1*V1*e^(lamda1*t)+C2*V2*e^(lamda2*t)
-
+[T, lambda] = eig(P);
 syms t;
+elambda=diag(exp(eig(P).*t))
+H=T*elambda*inv(T)
+v=H*Xant;
 
-v=constantes(1)*autovec(1,1)*exp(autoval(1)*t)+constantes(2)*autovec(1,2)*exp(autoval(2)*t);
-i1=constantes(1)*autovec(2,1)*exp(autoval(1)*t)+constantes(2)*autovec(2,2)*exp(autoval(2)*t);
+cuenta1=vpa(v(1,:),4)
+cuenta2=vpa(v(2,:),4)
+cuenta3=vpa(v(3,:),4)
 
-pretty(v)
-pretty(i1)
+t=ti:h:tf;
+
+vcap1=double(subs(real(cuenta1)));
+vcap2=double(subs(real(cuenta2)));
+iInd=double(subs(real(cuenta3)));
 
 %Gráficos
 
 figure(1);
-fplot(v,[ti,tf]);
-hold on;
-fplot(i1,[ti,tf]);
-hold off;
-title('Solución mediante calculo de autovalores');
-
-
+plot(t,vcap1,'-g',t,vcap2,'-b',t,iInd,'-r');
+title('Solución analítica');
+    xlabel('Tiempo');
+    ylabel('Tensión/Corriente');
 
 
 figure(2);
@@ -85,7 +81,7 @@ for i= ti:h:tf
     Xant=X;
     
  
-    plot(i,X(1),'*g',i,X(2),'*b');
+    plot(i,X(1),'*g',i,X(2),'*b',i,X(3),'*r');
     title('Solución Respuesta temporal');
     xlabel('Tiempo');
     ylabel('Tensión/Corriente');
@@ -97,7 +93,7 @@ hold off
 figure(3); 
 solu=solu';
 t=ti:h:tf;
-plot(t,solu(:,1),'g',t,solu(:,2),'b',t,solu(:,3),'r');
+plot(t,solu(:,1),'-g',t,solu(:,2),'-b',t,solu(:,3),'-r');
 title('Solución respuesta temporal');
 xlabel('Tiempo');
 ylabel('Tensión/Corriente');

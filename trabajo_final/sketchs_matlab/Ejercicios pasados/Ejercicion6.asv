@@ -1,0 +1,53 @@
+%Ejercicio nº3
+clc;
+clear;
+
+%Valores de los componentes
+R1=1;
+R2=1;
+L=2;
+C1=1;
+C2=1;
+
+w=1;
+
+%Condiciones Iniciales
+v01=0.5;
+v02=0.5;
+i0=0.5;
+
+%Valores de tiempo y paso
+ti=0;
+tf=10;
+h=0.1;
+
+%Matrices del circuito 
+%Lleva la forma de:
+%M*(dx/dt)+N*x=u(t);
+
+M=[C1 0 0; 0 C2 0; 0 0 L];
+N=[1/R1 0 1; 0 1/R2 -1; -1 1 0];
+
+%Condiciones iniciales
+Xant=[vc1;vc2];
+
+%Se lleva a la forma 
+% dx/dt=q(t)-P*x
+
+P=-1.*(M\N);
+solu=[];
+
+%Método euler
+it=1;
+for i= ti:h:tf
+    %Fuente variable
+    E(it,1)=awgn(sin(w*i),20);
+
+    %Se calcula el valor de la matriz u para cada punto 
+    B=[E(it,1)/R1;0;0];
+    X=
+    solu=[solu X];
+    Xant=X;
+    it=it+1;
+end
+hold off
