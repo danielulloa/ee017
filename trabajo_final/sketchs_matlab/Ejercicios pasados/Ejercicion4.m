@@ -2,81 +2,78 @@
 clc;
 clear;
 
-syms t tau t1;
-
 %Valores de los componentes
 R1=1;
 R2=1;
 L1=1;
-C1=1;
-C2=1;
-C3=1;
-w=1;
+L2=1;
+L3=2;
+E=[];
+
 %Condiciones Iniciales
-vc1=0;
-vc2=0;
+il2=0;
+il3=0;
+
+w=1;
 
 %Valores de tiempo y paso
 ti=0;
-tf=6*pi;
+tf=2*pi;
 h=0.1;
 
 %Matrices del circuito 
 %Lleva la forma de:
 %M*(dx/dt)+N*x=u(t);
 
-M=[C3 -C2;C1+C3 C1];
-N=[0 -1/R2; 1/R1 1/R1];
-<<<<<<< HEAD
-u=[0;E];
-=======
-u=[0;1/R1];
->>>>>>> cbfd2674b4c5d29e112601398132b4dbf1cfd9a7
+M=[L1 L1+L3;L2 -L3];
+N=[R1 R1;R2 0];
 
 %Condiciones iniciales
-Xant=[vc1;vc2];
+Xant=[il2;il3];
 
 %Se lleva a la forma 
 % dx/dt=q(t)-P*x
 
 P=-1.*(M\N);
-Q=M\u;
+
 solu=[];
 
-[T, lambda] = eig(P);
 
-elambda=diag(exp(eig(P).*t1));
-H=T*elambda*inv(T);
-v=H*Q;
-cuenta1=vpa(v(1,:),4)
-cuenta2=vpa(v(2,:),4)
-t1= t-tau;
-cuenta1=subs(cuenta1*10*cos(w*tau));
-cuenta2=subs(cuenta2*10*cos(w*tau));
-%buscar un comando que reemplace t por (t-tau)
-resultado1= int(cuenta1,tau,0,t);
-resultado2= int(cuenta2,tau,0,t);
+% %Calculo de Autovalores
 
-t=0:0.01:20;
-
-vcap1=double(subs(resultado1));
-vcap2=double(subs(resultado2));
-vcap3=vcap1+vcap2;
-figure(1);
-plot(t,vcap1,'-r',t,vcap2,'-b',t,vcap3,'-g');
-title('Solución analítica');
-    xlabel('Tiempo');
-    ylabel('Tensión/Corriente');
+ autoval=eig(P);
+ [autovec,D]=eig(P);
+ constantes = autovec\Xant;
+% %Se lleva a la forma general de la solución 
+% %x(t)=K1*A1*e^(lamda1*t)+K2*A2*e^(lamda2*t)
+ 
+syms t;
+ 
+ i2=constantes(1)*autovec(1,1)*exp(autoval(1)*t)+constantes(2)*autovec(1,2)*exp(autoval(2)*t);
+ i3=constantes(1)*autovec(2,1)*exp(autoval(1)*t)+constantes(2)*autovec(2,2)*exp(autoval(2)*t);
+ i1=i2+i3;
+ 
+ pretty(v1)
+ pretty(v2)
+ pretty(v3)
+% 
+% figure(1);
+% fplot(v1,[ti,tf]);
+% hold on;
+% fplot(v2,[ti,tf]);
+% 
+% fplot(v3,[ti,tf]);
+% hold off;
+% title('Solución mediante calculo de autovalores');
 
 figure(2);
 %Método RK4
 it=1;
 for i= ti:h:tf
    %Fuente variable
-   E(it,1)=10*cos(w*i);
-   
+   E(it,1)=2*exp(-2*i);
    %Se calcula el valor de la matriz u para cada punto 
-   u=[0;E(it,1)/R1];
+   u=[E(it,1);0];
    q=M\u;
    
    %Acá comienza el método 
@@ -92,7 +89,6 @@ for i= ti:h:tf
     Y=X(1)+X(2);
     Xant=X;
     it=it+1;
-    
      
     %Gráfica 
     
