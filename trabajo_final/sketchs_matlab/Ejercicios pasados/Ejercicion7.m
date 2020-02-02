@@ -22,15 +22,15 @@ il2=0;
 
 %Valores de tiempo y paso
 ti=0;
-tf=2;
-h=0.1;
+tf=20;
+h=0.01;
 
 %Matrices del circuito 
 %Lleva la forma de:
 %M*(dx/dt)+N*x=u(t);
 
-M=[-C1*R1 -C1*R3 0 0;0 0 -L1 -L2; C1*R3 C2*R4 0 L2;0 C2*(R4+R2) 0 0];
-N=[-1 0 -R1 -R3; 1 -1 0 0;0 0 R3-R4 0; 0 1 -R2 -R1];
+M=[-C1*R1 -C1*R3 0 0;0 0 -L1 -L2; C1*R3 -C2*R4 0 L2;0 C2*(R4+R2) 0 0];
+N=[-1 0 -R1 -R3; 1 -1 0 0;0 0 R3+R4 0; 0 1 -R2 -R1];
 u=[0;0;0;0];
 
 %Condiciones iniciales
@@ -86,4 +86,5 @@ for i= ti:h:tf
 end
 solu=solu';
 t=ti:h:tf;
-plot(t,solu(:,1),'-g',t,solu(:,2),'-b',t,solu(:,3),'-r',t,solu(:,4),'-m')
+%plot(t,solu(:,1),'-g',t,solu(:,2),'-b',t,solu(:,3),'-r',t,solu(:,4),'-m')
+plot(t,solu(:,1),'-g')
