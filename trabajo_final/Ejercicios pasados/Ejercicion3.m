@@ -27,7 +27,11 @@ h=0.1;
 
 M=[C3 -C2;C1+C3 C1];
 N=[0 -1/R2; 1/R1 1/R1];
+<<<<<<< HEAD
+u=[0;E];
+=======
 u=[0;1/R1];
+>>>>>>> cbfd2674b4c5d29e112601398132b4dbf1cfd9a7
 
 %Condiciones iniciales
 Xant=[vc1;vc2];

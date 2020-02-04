@@ -1,36 +1,36 @@
 %Ejercicio nº7
+digits=2
 clc;
 clear;
 
 syms t tau t1;
 
 %Valores de los componentes
-R1=1;
-R2=1/2;
-R3=1/3;
-R4=1/4;
-R5=1/5;
+g1=1;
+g2=2;
+g3=3;
+g4=4;
 L1=1;
 L2=1;
 C1=1;
 C2=1;
 %Condiciones Iniciales
-vc1=1;
+vc1=10;
 vc2=0;
 il1=0;
 il2=0;
 
 %Valores de tiempo y paso
 ti=0;
-tf=20;
+tf=10;
 h=0.01;
 
 %Matrices del circuito 
 %Lleva la forma de:
 %M*(dx/dt)+N*x=u(t);
 
-M=[-C1*R1 -C1*R3 0 0;0 0 -L1 -L2; C1*R3 -C2*R4 0 L2;0 C2*(R4+R2) 0 0];
-N=[-1 0 -R1 -R3; 1 -1 0 0;0 0 R3+R4 0; 0 1 -R2 -R1];
+M=[C1*(1/g1 + 1/g3) 0 0 0;0 0 L1 -L2;-C1/g3 C2/g4 0 L2;0 C2*(-1/g2-1/g4) 0 0];
+N=[1 0 1/g1 -1/g3;-1 1 0 0;0 0 0 1/g4+1/g3; 0 -1 1/g2 -1/g4];
 u=[0;0;0;0];
 
 %Condiciones iniciales
@@ -43,32 +43,48 @@ P=-1.*(M\N);
 q=M\u;
 solu=[];
 
-% [T, lambda] = eig(P);
-% 
-% elambda=diag(exp(eig(P).*t1));
-% H=T*elambda*inv(T);
-% v=H*Q;
-% cuenta1=vpa(v(1,:),4)
-% cuenta2=vpa(v(2,:),4)
-% t1= t-tau;
-% cuenta1=subs(cuenta1*10*cos(w*tau));
-% cuenta2=subs(cuenta2*10*cos(w*tau));
-% %buscar un comando que reemplace t por (t-tau)
-% resultado1= int(cuenta1,tau,0,t);
-% resultado2= int(cuenta2,tau,0,t);
-% 
-% t=0:0.01:20;
-% 
-% vcap1=double(subs(resultado1));
-% vcap2=double(subs(resultado2));
-% vcap3=vcap1+vcap2;
-% figure(1);
-% plot(t,vcap1,'-r',t,vcap2,'-b',t,vcap3,'-g');
-% title('Solución analítica');
-%     xlabel('Tiempo');
-%     ylabel('Tensión/Corriente');
+[T, lambda] = eig(P);
+syms t;
+elambda=diag(exp(eig(P).*t))
+H=T*elambda*inv(T)
+v=H*Xant;
+
+cuenta1=vpa(v(1,:),4)
+cuenta2=vpa(v(2,:),4)
+cuenta3=vpa(v(3,:),4)
+cuenta4=vpa(v(4,:),4)
+
+%Cálculo de Vg4
+
+%Ig4=Vg4*g4;
+%Ig4=Il2+Ic2
+%Vg4=(Il2+Ic2)/g4
+%Ic2=C2*dVc2/dt
+
+Ic2=C2*diff(v(2,:),t);
+Vg4=(v(4,:)+Ic2)/g4
+
+t=ti:h:tf;
+vcap1=double(subs(real(cuenta1)));
+vcap2=double(subs(real(cuenta2)));
+iInd1=double(subs(real(cuenta3)));
+iInd2=double(subs(real(cuenta4)));
+vVg4=double(subs(real(Vg4)));
+%Gráficos
+
+figure(1);
+plot(t,vcap1,'-g',t,vcap2,'-b',t,iInd1,'-r',t,iInd2,'-m');
+title('Solución analítica');
+    xlabel('Tiempo');
+    ylabel('Tensión/Corriente');
 
 figure(2);
+plot(t,vVg4,'-g');
+title('Vg4');
+    xlabel('Tiempo');
+    ylabel('Tensión');
+
+ figure(3);
 %Método RK4
 it=1;
 for i= ti:h:tf
@@ -86,5 +102,26 @@ for i= ti:h:tf
 end
 solu=solu';
 t=ti:h:tf;
-%plot(t,solu(:,1),'-g',t,solu(:,2),'-b',t,solu(:,3),'-r',t,solu(:,4),'-m')
-plot(t,solu(:,1),'-g')
+plot(t,solu(:,1),'*g',t,solu(:,2),'*b',t,solu(:,3),'*r',t,solu(:,4),'*m')
+title('Solución respuesta temporal');
+xlabel('Tiempo');
+ylabel('Tensión/Corriente');
+
+figure(4);
+plot(solu(:,2),solu(:,4),'-b');
+hold on 
+plot(solu(:,2),solu(:,3),'-g');
+hold off
+title('Phase portrait');
+xlabel('Corriente');
+ylabel('Tensión'); 
+
+figure(5);
+plot3(solu(:,1),solu(:,2),solu(:,3),'-g');
+hold on
+plot3(solu(:,1),solu(:,2),solu(:,4),'-b');
+title('Phase portrait');
+xlabel('vc1');
+ylabel('vc2'); 
+zlabel('il1');
+rotate3d;
