@@ -78,3 +78,5 @@ plot(solu(:,4),solu(:,1),'r');
 title('Phase portrait');
 xlabel('Corriente');
 ylabel('Tensión'); 
+
+plot3(solu(:,1),solu(:,2),solu(:,3));rotate3d;grid;

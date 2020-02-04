@@ -1,4 +1,4 @@
-%Ejercicio nº3
+%Ejercicio n3
 clc;
 clear;
 
@@ -60,12 +60,12 @@ vcap2=double(subs(resultado2));
 vcap3=vcap1+vcap2;
 figure(1);
 plot(t,vcap1,'-r',t,vcap2,'-b',t,vcap3,'-g');
-title('Solución analítica');
+title('SoluciÃ³n analÃ­tica');
     xlabel('Tiempo');
-    ylabel('Tensión/Corriente');
+    ylabel('TensiÃ³n/Corriente');
 
 figure(2);
-%Método RK4
+%Mï¿½todo RK4
 it=1;
 for i= ti:h:tf
    %Fuente variable
@@ -75,7 +75,7 @@ for i= ti:h:tf
    u=[0;E(it,1)/R1];
    q=M\u;
    
-   %Acá comienza el método 
+   %Acï¿½ comienza el mï¿½todo 
     k1= (q+P*Xant).*h;
     Xant2=Xant+(k1.*0.5);
     k2=(q+P*Xant2).*h;
@@ -90,12 +90,12 @@ for i= ti:h:tf
     it=it+1;
     
      
-    %Gráfica 
+    %Grï¿½fica 
     
    plot(i,X(1),'*r',i,X(2),'*b',i,Y(1),'*g');
-    title('Solución Respuesta temporal mediante RK4');
+    title('Solucion Respuesta temporal mediante RK4');
     xlabel('Tiempo');
-    ylabel('Tensión/Corriente');
+    ylabel('TensiÃ³n/Corriente');
     hold on;
    drawnow limitrate; 
 end

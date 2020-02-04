@@ -1,4 +1,3 @@
-%Plantilla
 clc;
 clear;
 
@@ -6,12 +5,13 @@ clear;
 R1=1;
 R2=1;
 L1=1;
-C1=1;
-E=1;
+L2=1;
+L3=1;
 
 %Condiciones Iniciales
-v0=10;
-i0=1;
+i01=1;
+i02=1;
+i03=0;
 
 %Valores de tiempo y paso
 ti=0;
