@@ -27,11 +27,7 @@ h=0.1;
 
 M=[C3 -C2;C1+C3 C1];
 N=[0 -1/R2; 1/R1 1/R1];
-<<<<<<< HEAD
-u=[0;E];
-=======
 u=[0;1/R1];
->>>>>>> cbfd2674b4c5d29e112601398132b4dbf1cfd9a7
 
 %Condiciones iniciales
 Xant=[vc1;vc2];
@@ -64,9 +60,9 @@ vcap2=double(subs(resultado2));
 vcap3=vcap1+vcap2;
 figure(1);
 plot(t,vcap1,'-r',t,vcap2,'-b',t,vcap3,'-g');
-title('SoluciÃ³n analÃ­tica');
+title('Solución analítica');
     xlabel('Tiempo');
-    ylabel('TensiÃ³n/Corriente');
+    ylabel('Tensión/Corriente');
 
 figure(2);
 %Mï¿½todo RK4
@@ -99,7 +95,7 @@ for i= ti:h:tf
    plot(i,X(1),'*r',i,X(2),'*b',i,Y(1),'*g');
     title('Solucion Respuesta temporal mediante RK4');
     xlabel('Tiempo');
-    ylabel('TensiÃ³n/Corriente');
+    ylabel('Tensión/Corriente');
     hold on;
    drawnow limitrate; 
 end

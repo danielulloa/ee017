@@ -73,35 +73,23 @@ figure(2);
 %Método RK4
 for i= ti:h:tf
     if i<=5
-   E(it,1)=(sin(pi*i*0.2))^2;
-   u=[E(it,1);E(it,1);0];
-   q=M\u;
-    k1= (q+P*Xant).*h;
-    Xant2=Xant+(k1.*0.5);
-    k2=(q+P*Xant2).*h;
-    Xant3=Xant+(k2.*0.5);
-    k3=(q+P*Xant3).*h;
-    Xant4=Xant+k3;
-    k4=(q+P*Xant4).*h;
-    X=Xant+(k1+2.*k2+2.*k3+k4)/6;
-    solu=[solu X];
-    Xant=X;
-   
-    else 
-   E(it,1)=0;
-   u=[E(it,1);E(it,1);0];
-   q=M\u;
-    k1= (q+P*Xant).*h;
-    Xant2=Xant+(k1.*0.5);
-    k2=(q+P*Xant2).*h;
-    Xant3=Xant+(k2.*0.5);
-    k3=(q+P*Xant3).*h;
-    Xant4=Xant+k3;
-    k4=(q+P*Xant4).*h;
-    X=Xant+(k1+2.*k2+2.*k3+k4)/6;
-    solu=[solu X];
-    Xant=X;
+    E(it,1)=(sin(pi*i*0.2))^2;
+    else
+     E(it,1)=0;    
     end
+   u=[E(it,1);E(it,1);0];
+   q=M\u;
+    k1= (q+P*Xant).*h;
+    Xant2=Xant+(k1.*0.5);
+    k2=(q+P*Xant2).*h;
+    Xant3=Xant+(k2.*0.5);
+    k3=(q+P*Xant3).*h;
+    Xant4=Xant+k3;
+    k4=(q+P*Xant4).*h;
+    X=Xant+(k1+2.*k2+2.*k3+k4)/6;
+    solu=[solu X];
+    Xant=X;
+    it=it+1;
    
     plot(i,X(1),'*g',i,X(2),'*b',i,X(3),'*r');
     title('Solución Respuesta temporal');
