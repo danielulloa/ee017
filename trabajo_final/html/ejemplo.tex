@@ -1,0 +1,135 @@
+
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and republish this document.
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{color}
+
+\sloppy
+\definecolor{lightgray}{gray}{0.5}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+    
+    
+\subsection*{Contents}
+
+\begin{itemize}
+\setlength{\itemsep}{-1ex}
+   \item Graficas
+\end{itemize}
+\begin{verbatim}
+% https://la.mathworks.com/help/symbolic/solve-a-system-of-differential-equations.html
+clc;
+clear;
+
+syms t vc(t) il(t) C1 C2 R C L;
+
+%R=1;
+%C=1;
+%L=1;
+
+%Condiciones Iniciales
+%v0=1;
+%i0=1;
+
+%Valores de tiempo y paso
+ti=0;
+tf=10;
+h=0.01;
+
+%Matrices del circuito
+%Lleva la forma de|:
+%M*(dx/dt)+N*x=u(t);
+
+M=[0 L;C 0];
+N=[-1 0;1/R 1];
+u=[0;0];
+
+%Condiciones iniciales
+%Xant=[v0;i0];
+
+
+%Se lleva a la forma
+% dx/dt=q(t)-P*x
+
+P=-1.*(M\N)
+
+
+x=[vc;il];
+odes = diff(x) == P*x
+%constantes = x(0) == Xant;
+%[vSol(t), iSol(t)] = dsolve(odes,constantes);
+[vSol(t), iSol(t)] = dsolve(odes);
+vSol(t) = simplify(vSol(t))
+iSol(t) = simplify(iSol(t))
+\end{verbatim}
+
+        \color{lightgray} \begin{verbatim} 
+P =
+ 
+[ -1/(C*R), -1/C]
+[      1/L,    0]
+ 
+ 
+odes(t) =
+ 
+ diff(vc(t), t) == - il(t)/C - vc(t)/(C*R)
+                 diff(il(t), t) == vc(t)/L
+ 
+ 
+vSol(t) =
+ 
+C27*exp(-(t*(L + (L*(- 4*C*R^2 + L))^(1/2)))/(2*C*L*R)) + C28*exp(-(t*(L - (L*(- 4*C*R^2 + L))^(1/2)))/(2*C*L*R))
+ 
+ 
+iSol(t) =
+ 
+- (C28*exp(-(t*(L - (L*(- 4*C*R^2 + L))^(1/2)))/(2*C*L*R))*(L - (L*(- 4*C*R^2 + L))^(1/2)))/(2*C*R) - (C27*exp(-(t*(L + (L*(- 4*C*R^2 + L))^(1/2)))/(2*C*L*R))*(L + (L*(- 4*C*R^2 + L))^(1/2)))/(2*C*R)
+ 
+\end{verbatim} \color{black}
+    
+
+\subsection*{Graficas}
+
+\begin{verbatim}
+clf
+fplot(vSol,[ti,tf])
+hold on
+fplot(iSol,[ti,tf])
+grid on
+\end{verbatim}
+
+        \color{lightgray} \begin{verbatim}Error using fplot>singleFplot (line 229)
+Input must be a function or functions of a single variable.
+
+Error in fplot>@(f)singleFplot(cax,{f},limits,extraOpts,args) (line 193)
+        hObj = cellfun(@(f) singleFplot(cax,{f},limits,extraOpts,args),fn{1},'UniformOutput',false);
+
+Error in fplot>vectorizeFplot (line 193)
+        hObj = cellfun(@(f) singleFplot(cax,{f},limits,extraOpts,args),fn{1},'UniformOutput',false);
+
+Error in fplot (line 163)
+    hObj = vectorizeFplot(cax,fn,limits,extraOpts,args);
+
+Error in ejemplo (line 47)
+fplot(vSol,[ti,tf])
+\end{verbatim} \color{black}
+    \begin{verbatim}
+t=ti:h:tf;
+v1=eval(subs(vSol));
+i1=eval(subs(iSol));
+
+%[T, lambda] = eig(P);
+%syms t;
+%elambda=diag(exp(eig(P).*t))
+%H=T*elambda*inv(T)
+%v=H*Xant;
+\end{verbatim}
+
+
+
+\end{document}
+    

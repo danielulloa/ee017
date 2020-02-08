@@ -60,24 +60,126 @@
 	\tableofcontents
 	\newpage
 	\section{Introducción}
-	Este trabajo se enfoca en estudiar la dinámica de circuitos a partir de sus ecuaciones de estado. Para ello es necesario encontrar la solución de Sistemas de Ecuaciones Diferenciales Algebraicas en forma analítica y aplicando los métodos numéricos de Euler y Runge-Kutta Orden 4. A partir de las trayectorias de estado en distintos planos (X-Y, Y-Z, X-Z) es posible representar la relación existente entre las variables de estado del circuito, por ejemplo representar corriente versus tensión. Estas trayectorias dependen de las condiciones iniciales, es decir, este tipo de análisis muestra la respuesta transitoria y estacionaria, mientras que trabajando en el plano de Laplace sólo obtenemos la respuesta de estado estacionario y únicamente es válido si las condiciones iniciales son nulas.
+	Este trabajo se enfoca en estudiar la dinámica de circuitos presentados en la Unidad 3 del libro $\textsc{Classical Circuit Theory}$, para esto es necesario encontrar la solución de Sistemas de Ecuaciones Diferenciales Algebraicas en forma analítica y aplicando los métodos numéricos de Euler.\\
 	
-	Representando las ecuaciones de nodos modificadas de la siguiente forma:
+	Analizar los circuitos a partir de sus ecuaciones de estado permite obtener la respuesta transitoria y estacionaria, mientras que trabajando en el plano de Laplace sólo obtenemos la respuesta de estado estacionario y únicamente es válido si las condiciones iniciales son nulas.\\
+	
+	A partir de las trayectorias de estado en distintos planos (X-Y, Y-Z, X-Z) es posible representar la relación existente entre las variables de estado del circuito, por ejemplo representar corriente versus tensión, a este tipo de diagramas se los conoce como $\textsc{Phase Portrait}$. Estas trayectorias dependen de las condiciones iniciales.	
+	
+	\subsection{Obtención de las ecuaciones de estado}
+	
+	Representando las ecuaciones de nodos modificados de la siguiente forma:
 	
 	\begin{equation}
-		M\frac{d\vec{x}}{dt}+N\vec{x}=\vec{u}(t)
+		M\frac{d\vec{x}(t)}{dt}+N\vec{x}(t)=E\textbf{u}(t)\label{eq:general}
 	\end{equation}
 	
-	podemos observar que el vector $\vec{x}$ está compuesto por las variables de estado, $M$ es la matriz que expresa las relaciones constitutivas $C\frac{dV}{dt}$ y $L\frac{di}{dt}$, $N$ es la matriz de admitancias y $\vec{u}(t)$ es el vector de fuentes.
+	podemos observar que el vector $\vec{x}$(t) está compuesto por las variables de estado, $M$ es la matriz que expresa las relaciones constitutivas de los componentes dinámicos, $N$ es la matriz de admitancias, $E$ una matriz de fuentes y $\textbf{u}(t)$ una función vectorial.\\
 	
-	Despejando $\frac{d\vec{x}}{dt}$:
+	Despejando $\frac{d\vec{x(t)}}{dt}$ de \ref{eq:general}:
+	\begin{align}
+		M^{-1}M\frac{d\vec{x}(t)}{dt}&=M^{-1}\left(E\textbf{u}(t)-N\vec{x}(t)\right)\nonumber\\
+		I\frac{d\vec{x}(t)}{dt}&=M\backslash E\textbf{u}(t)- M\backslash N\vec{x}(t)\label{eq:mizquierda}
+	\end{align}
+	
+	De \ref{eq:mizquierda} se obtiene la expresión:
+	
 	\begin{equation}
-		\frac{d\vec{x}}{dt}=A\vec{x}(t)+B\vec{u}(t)
+		\frac{d\vec{x}(t)}{dt}=A\vec{x}(t)+B\textbf{u}(t) \label{eq:normalizada}
 	\end{equation}
-	donde A y B son matrices. La solución del sistema de ecuaciones tiene la forma
+	
+	Resolviendo \ref{eq:normalizada} se obtiene $\vec{x}(t)$ que satisface \ref{eq:general}\\
+	
+	Para expresar las salidas del circuito es necesario que estén en función de las variables de estado y se consideren las fuentes de excitación:
+	
+		\begin{equation}
+	\vec{y}(t)=C\vec{x}(t)+Du(t)\label{eq:salida}
+	\end{equation}
+	
+	Ahora en \ref{eq:salida} la función vectorial $\textbf{u}(t)$ queda expresada como una función escalar $u(t)$
+	
+	\subsection{Solución analítica utilizando Matlab}
+	
+	
+	utilizando matlab y el comando dsolve...
+	
+	va el script
+	
+	\subsection{Solución por método numérico}
+	Partiendo de \ref{eq:mizquierda} la derivada en un tiempo $t_n$ se aproxima por la pendiente de una linea recta pasando por la incógnita $\vec{x}_n$ y su último valor conocido $\vec{x}_{n-1}$:
 	\begin{equation}
-	\vec{y}(t)=C\vec{x}(t)+D\vec{u}(t)
+		\frac{d\vec{x}}{dt}\Bigr\rvert_{t_n}\approx\frac{\vec{x}_n-\vec{x}_{n-1}}{h}
 	\end{equation}
+	
+	Se obtiene el método \textsc{Backward Euler} en forma vectorial:
+	\begin{align}
+		\vec{x}_n&=\left[\frac{1}{h}M+N\right]\backslash \textbf{u}(t_n)+\left[\frac{1}{h}M+N\right]\backslash \left(\frac{1}{h}M \vec{x}_{n-1}\right)\label{euler}
+	\end{align}
+	
+	aca va el script...
+	
+	
+	\subsection{Solución de un circuito}
+	La respuesta temporal de la tensión de salida $V_R$ del siguiente circuito RLC se puede representar utilizando las soluciones del sistema \ref{eq:normalizada}, para esto debemos expresar las matrices C y D de la ecuacion \ref{eq:salida}
+		
+		\begin{center}
+			\begin{circuitikz}[american voltages]\label{fig1}
+				\ctikzset{label/align = smart}
+				\draw (0,0) node[ground]{} 
+				(0,0) to [V,label=E(t)](0,2)
+				(0,2) to [L, label=$L$]++(2,0) to [short,-*]++(0,0) coordinate (nodo1) to [C,l=C]++(0,-2) node[ground]{}
+				(nodo1) to [short,-]++(1.5,0) to [R,l=$R$]++(0,-2) node[ground]{}
+				;
+			\end{circuitikz}
+			\\ Figura \ref{fig1}
+		\end{center}
+	Planteando las ecuaciones y ordenandolas con la forma de \ref{eq:general}:
+	\begin{align}
+		C\frac{dV_C}{dt}+\frac{V_C}{R}-il&=0\\
+		-L\frac{di_L}{dt}+\frac{V_C}{R}&=0		
+	\end{align}
+	
+	
+	Expresando en forma matricial:
+	\begin{equation}
+		\begin{pmatrix}
+		0&L\\
+		C&0
+		\end{pmatrix}\frac{d}{dt}\begin{bmatrix}
+		V_C\\
+		i_L
+		\end{bmatrix}+\begin{pmatrix}
+		-1 & 0\\
+		\frac{1}{R}&1
+		\end{pmatrix}\begin{bmatrix}
+		V_C\\
+		i_L
+		\end{bmatrix}=\begin{pmatrix}
+		0\\
+		0
+		\end{pmatrix}\textbf{u}(t)
+	\end{equation}
+	
+	El vector salida es:
+	\begin{equation}
+	V_R=\begin{pmatrix}
+	1&0
+	\end{pmatrix}\begin{bmatrix}
+	V_c\\
+	i_L
+	\end{bmatrix}+\begin{pmatrix}
+	0\\
+	0
+	\end{pmatrix}\textbf{u}(t)
+	\end{equation}
+	
+Las soluciones son tal .... 
+
+
+
+	
+	
+	
 	
 	
 	
@@ -85,9 +187,9 @@
 	\section{Guía de Problemas}
 	\textbf{1} Escribir las ecuaciones de estado de un circuito formado por un inductor $L$ en paralelo con un capacitor $C$. Obtener la solución en términos de la corriente inicial del inductor $i_L(0)$ y del voltaje inicial del capacitor $v_C(0)$. Mostrar que la trayectoria es una elipse en el espacio de estados.\\
 	
-	\textbf{2} Mostrar que los valores propios del circuito de la Figura \ref{fig1} son $-1\pm j$. Encontrar la solución completa para condiciones iniciales arbitrarias y una excitación arbitraria $E(t)$. Sea $C=1F$, $L=1H$, $R_1=R_2=1\Omega$. Graficar la trayectoria de la solución homogénea para dos condiciones iniciales en el espacio de estados.\\
+	\textbf{2} Mostrar que los valores propios del circuito de la Figura \ref{fig2} son $-1\pm j$. Encontrar la solución completa para condiciones iniciales arbitrarias y una excitación arbitraria $E(t)$. Sea $C=1F$, $L=1H$, $R_1=R_2=1\Omega$. Graficar la trayectoria de la solución homogénea para dos condiciones iniciales en el espacio de estados.\\
 	 \begin{center}
-		\begin{circuitikz}[american voltages]\label{fig1}
+		\begin{circuitikz}[american voltages]\label{fig2}
 			\ctikzset{label/align = smart}
 			\draw (0,0) node[ground]{} 
 			(0,0) to [V,label=E(t)](0,2)
@@ -95,12 +197,12 @@
 			(nodo1) to [L,label=L]++(2,0) to [R,l=$R_2$]++(0,-2) node[ground]{}
 			;
 		\end{circuitikz}
-	\\ Figura \ref{fig1}
+	\\ Figura \ref{fig2}
 	\end{center}
 	
-	\textbf{3} Para el circuito de la Figura \ref{fig2}, $C_1=C_2=C_3=1F$, $R_1=R_2=1\Omega$. Mostrar que los valores propios son $-1$ y $-\frac{1}{3}$. Asumir que la excitacion $E(t)=10\cos(\omega t)$. Encontrar la respuesta de estado estacionario.
+	\textbf{3} Para el circuito de la Figura \ref{fig3}, $C_1=C_2=C_3=1F$, $R_1=R_2=1\Omega$. Mostrar que los valores propios son $-1$ y $-\frac{1}{3}$. Asumir que la excitacion $E(t)=10\cos(\omega t)$. Encontrar la respuesta de estado estacionario.
 	\begin{center}
-		\begin{circuitikz}[american voltages]\label{fig2}
+		\begin{circuitikz}[american voltages]\label{fig3}
 			\ctikzset{label/align = smart}
 			\draw (0,0) node[ground]{} 
 			(0,0) to [V,label=E(t)](0,2)
@@ -109,7 +211,7 @@
 			(nodo2) to [short]++(2,0) to [R,label=$R_2$]++(0,-2) node[ground]{}
 			;
 		\end{circuitikz}
-		\\ Figura \ref{fig2}
+		\\ Figura \ref{fig3}
 	\end{center}
 
 	\textbf{4} En el circuito de la figura, sea $v_{out}(t)$ el voltaje a traves de la resistencia $R_2$ y $E(t)=2e^-2t$ para $t\geq 0$ y $E(t)=0$ caso contrario. Mostrar que:\\
@@ -155,7 +257,7 @@
 		\end{tabular} 
 	\end{center}
 
-	\textbf{10} Considerar un circuito $LC$ de cuarto orden que consiste en un inductor $L_1$ en serie con un capacitor $C_1$ y con una combinación paralelo de un inductor $L_2$ y un capacitor $C_2$. Sea $L_1=1H$, $C_1=\frac{1}{25}F$, $L_2=18H$ y $C_2=\frac{1}{72}F$. Sean las variables de estado $i_{L1}$, $i_{L2}$,$v_{C1}$, $v_{C1}$. Mostrar que las respuestas a una condicion inicial $v_{C1}=1V$ son:
+	\textbf{10} Considerar un circuito $LC$ de cuarto orden que consiste en un inductor $L_1$ en serie con un capacitor $C_1$ y con una combinación paralelo de un inductor $L_2$ y un capacitor $C_2$. Sea $L_1=1H$, $C_1=\frac{1}{25}F$, $L_2=18H$ y $C_2=\frac{1}{72}F$. Sean las variables de estado $i_{L1}$, $i_{L2}$,$v_{C1}$, $v_{C1}$. Mostrar que las respuestas a una condición inicial $v_{C1}=1V$ son:
 	\begin{center}
 		\begin{tabular}{cc}
 			$i_{L1}=\dfrac{-16}{165}\sin(10t)-\dfrac{1}{33}\sin(t)$& $v_{C1}=\dfrac{25}{33}\cos(t)+\dfrac{8}{33}\cos(10t)$\\
