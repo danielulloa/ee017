@@ -3,7 +3,7 @@ clear;
 %RK4
 %Valores de los componentes
 ti=0;
-tf=10;
+tf=100;
 h=0.1;
 R1=1;
 R2=1;
@@ -29,8 +29,8 @@ autoval=eig(P);
 [autovec,D]=eig(P);
 constantes = inv(autovec)*Xant;
 syms t;
-v=constantes(1)*autovec(1,1)*exp(autoval(1)*t)+constantes(2)*autovec(1,2)*exp(autoval(2)*t);
-i1=constantes(1)*autovec(2,1)*exp(autoval(1)*t)+constantes(2)*autovec(2,2)*exp(autoval(2)*t);
+v=constantes(1)*autovec(1,1)*exp(autoval(1)*t)+constantes(2)*autovec(1,2)*exp(autoval(2)*t)
+i1=constantes(1)*autovec(2,1)*exp(autoval(1)*t)+constantes(2)*autovec(2,2)*exp(autoval(2)*t)
 figure(1);
 ezplot(v,[ti,tf]);
 hold on;
@@ -73,3 +73,6 @@ plot(solu(:,2),solu(:,1),'r');
 title('Phase portrait');
 xlabel('Corriente');
 ylabel('Tensión'); 
+
+volta=subs(v);
+volta2=double(vpa(volta,4))

@@ -49,7 +49,7 @@
 % function hola()
 % 
 ti=0;
-tf=15;
+tf=100;
 h=0.1;
 L1=1;
 C1=1;
@@ -71,7 +71,7 @@ for i= ti:h:tf
    plot(i,X(1),'*g',i,X(2),'*b');
    %plot(-X(1),X(2),'*b');
    hold on;
-   drawnow;
+   drawnow limitrate;
 end
 hold off
 

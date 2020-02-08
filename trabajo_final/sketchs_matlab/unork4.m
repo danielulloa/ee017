@@ -3,8 +3,8 @@ clear;
 %RK4
 %Valores de los componentes
 ti=0;
-tf=10;
-h=0.1;
+tf=2*pi*100;
+h=0.5;
 R1=1;
 R2=1;
 L1=1;
@@ -51,12 +51,12 @@ for i= ti:h:tf
     solu=[solu X];
     Xant=X;
     
-    plot(i,X(1),'*g',i,X(2),'*b');
-    title('Solución Respuesta temporal');
-    xlabel('Tiempo');
-    ylabel('Tensión/Corriente');
-    hold on;
-   drawnow limitrate; 
+    %plot(i,X(1),'*g',i,X(2),'*b');
+    %title('Solución Respuesta temporal');
+    %xlabel('Tiempo');
+    %ylabel('Tensión/Corriente');
+    %hold on;
+   %drawnow limitrate; 
 end
 hold off
 
@@ -70,6 +70,11 @@ ylabel('Tensión/Corriente');
 
 figure(4);
 plot(solu(:,2),solu(:,1),'r');
+hold on;
 title('Phase portrait');
 xlabel('Corriente');
 ylabel('Tensión'); 
+t=ti:0.001:2*pi;
+a1=sin(t);
+b1=cos(t);
+plot(a1,b1);

@@ -53,9 +53,6 @@ syms t;
  i3=constantes(1)*autovec(2,1)*exp(autoval(1)*t)+constantes(2)*autovec(2,2)*exp(autoval(2)*t);
  i1=i2+i3;
  
- pretty(v1)
- pretty(v2)
- pretty(v3)
 % 
 % figure(1);
 % fplot(v1,[ti,tf]);

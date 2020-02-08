@@ -37,7 +37,7 @@ solu=[];
 it=1;
 for i= ti:h:tf
     %Fuente variable
-    E(it,1)=awgn(0.5*sin(w*i),30);
+    E(it,1)=awgn(0.5*sin(w*i),20);
 
     %Se calcula el valor de la matriz u para cada punto 
     B=[E(it,1)/R1;0;0];

@@ -3,8 +3,8 @@ clear;
 %RK4
 %Valores de los componentes
 ti=0;
-tf=10;
-h=0.01;
+tf=20;
+h=0.1;
 R1=1;
 R2=1;
 L1=1;
