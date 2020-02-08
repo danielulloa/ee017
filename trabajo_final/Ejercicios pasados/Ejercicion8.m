@@ -2,6 +2,8 @@
 clc;
 clear;
 
+syms t vc1(t) vc3(t) vc5(t) vc6(t)
+
 %Valores de los componentes
 R1=1;
 R2=1;
@@ -13,25 +15,25 @@ C5=5;
 C6=6;
 
 %Condiciones Iniciales
-vc1=0;
-vc3=0;
-vc5=0;
-vc6=0;
+vc01=0;
+vc03=0;
+vc05=0;
+vc06=0;
 %Valores de tiempo y paso
 ti=0;
 tf=10;
-h=0.01;
+h=0.1;
 
 %Matrices del circuito 
 %Lleva la forma de:
 %M*(dx/dt)+N*x=u(t);
 
-M=[C1*R1 0 C5*R1;(C1*R1-R2*C2-(R2*C2*C1)/C6) R2*C3*C2/C6 (C5*(R1+R2))+R2*C2;-R2*(C4+C6)*C1/C6 R2*C4+R2*(C4+C6)*C3/C6 0];
-N=[1 1 0 ;0 0 1;-1 -1 1 ];
-u=[1;1;0];
+M=[C1*R1 0 C5*R1 0;-R2*C2 0 (C5*R2+R2*C2) -R2*C2; C1 -C3 0 -C6;C2 -C4 -C2 C6+C4+C2];
+N=[1 1 0 0;-1 -1 1 0;0 0 0 0;0 0 0 0];
+u=[u(t);0;0;0];
 
 %Condiciones iniciales
-Xant=[vc1;vc3;vc5];
+Xant=[vc01;vc03;vc05;vc06];
 
 %Se lleva a la forma 
 % dx/dt=q(t)-P*x
@@ -39,37 +41,32 @@ Xant=[vc1;vc3;vc5];
 P=-1.*(M\N);
 q=M\u;
 
-solu=[];
-
-%Calculo de Autovalores
-
-autoval=eig(P);
-[autovec,D]=eig(P);
-constantes = autovec\Xant;
-
-
-%Se lleva a la forma general de la solución 
-%x(t)=C1*V1*e^(lamda1*t)+C2*V2*e^(lamda2*t)
-
-syms t;
-
-v=constantes(1)*autovec(1,1)*exp(autoval(1)*t)+constantes(2)*autovec(1,2)*exp(autoval(2)*t);
-i1=constantes(1)*autovec(2,1)*exp(autoval(1)*t)+constantes(2)*autovec(2,2)*exp(autoval(2)*t);
-
-pretty(v)
-pretty(i1)
-
-%Gráficos
+x=[vc1;vc3;vc5;vc6];
+odes = diff(x) == P*x+q;
+constantes = x(0) == Xant;
+[v1Sol(t), v3Sol(t),v5Sol(t),v6Sol(t)] = dsolve(odes,constantes)
+v1Sol(t) = simplify(v1Sol(t));
+v3Sol(t) = simplify(v3Sol(t));
+v5Sol(t) = simplify(v5Sol(t));
+v6Sol(t) = simplify(v6Sol(t));
 
 figure(1);
-fplot(v,[ti,tf]);
+for t=ti:h:tf
+    if t<=5
+        u(t)=(sin(pi*0.2*t))^2;
+    else
+        u(t)=0;
+    end
+end
+fplot(v1Sol,[ti,tf]);
 hold on;
-fplot(i1,[ti,tf]);
+fplot(v3Sol,[ti,tf]);
 hold off;
 title('Solución mediante calculo de autovalores');
 
 it=1;
 figure(2);
+solu=[];
 %Método RK4
 for i= ti:h:tf
     if i<=5
@@ -77,7 +74,7 @@ for i= ti:h:tf
     else
      E(it,1)=0;    
     end
-   u=[E(it,1);E(it,1);0];
+   u=[E(it,1);0;0;0];
    q=M\u;
     k1= (q+P*Xant).*h;
     Xant2=Xant+(k1.*0.5);
@@ -107,10 +104,4 @@ plot(t,solu(:,1),'g',t,solu(:,2),'b');
 title('Solución respuesta temporal');
 xlabel('Tiempo');
 ylabel('Tensión/Corriente');
-
-
-figure(4);
-plot(solu(:,1),solu(:,2),'r');
-title('Phase portrait');
-xlabel('Corriente');
-ylabel('Tensión'); 
+ 
