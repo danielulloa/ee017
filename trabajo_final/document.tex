@@ -60,9 +60,30 @@
 	\tableofcontents
 	\newpage
 	\section{Introducción}
-	Éste trabajo se enfoca en encontrar las respuestas temporales a partir de representar circuitos con sus ecuaciones de estado. Para ello es necesario encontrar la solución de Sistemas de Ecuaciones Diferenciales Algebraicas
+	Este trabajo se enfoca en estudiar la dinámica de circuitos a partir de sus ecuaciones de estado. Para ello es necesario encontrar la solución de Sistemas de Ecuaciones Diferenciales Algebraicas en forma analítica y aplicando los métodos numéricos de Euler y Runge-Kutta Orden 4. A partir de las trayectorias de estado en distintos planos (X-Y, Y-Z, X-Z) es posible representar la relación existente entre las variables de estado del circuito, por ejemplo representar corriente versus tensión. Estas trayectorias dependen de las condiciones iniciales, es decir, este tipo de análisis muestra la respuesta transitoria y estacionaria, mientras que trabajando en el plano de Laplace sólo obtenemos la respuesta de estado estacionario y únicamente es válido si las condiciones iniciales son nulas.
+	
+	Representando las ecuaciones de nodos modificadas de la siguiente forma:
+	
+	\begin{equation}
+		M\frac{d\vec{x}}{dt}+N\vec{x}=\vec{u}(t)
+	\end{equation}
+	
+	podemos observar que el vector $\vec{x}$ está compuesto por las variables de estado, $M$ es la matriz que expresa las relaciones constitutivas $C\frac{dV}{dt}$ y $L\frac{di}{dt}$, $N$ es la matriz de admitancias y $\vec{u}(t)$ es el vector de fuentes.
+	
+	Despejando $\frac{d\vec{x}}{dt}$:
+	\begin{equation}
+		\frac{d\vec{x}}{dt}=A\vec{x}(t)+B\vec{u}(t)
+	\end{equation}
+	donde A y B son matrices. La solución del sistema de ecuaciones tiene la forma
+	\begin{equation}
+	\vec{y}(t)=C\vec{x}(t)+D\vec{u}(t)
+	\end{equation}
+	
+	
+	
+	 
 	\section{Guía de Problemas}
-	\textbf{1} Escribir las ecuaciones de estado de un circuito formado por un inductor $L$ en paralelo con un capacitor $C$. Obtener la solucion en términos de la corriente inicial del inductor $i_L(0)$ y del voltaje inicial del capacitor $v_C(0)$. Mostrar que la trayectoria es una elipse en el espacio de estados.\\
+	\textbf{1} Escribir las ecuaciones de estado de un circuito formado por un inductor $L$ en paralelo con un capacitor $C$. Obtener la solución en términos de la corriente inicial del inductor $i_L(0)$ y del voltaje inicial del capacitor $v_C(0)$. Mostrar que la trayectoria es una elipse en el espacio de estados.\\
 	
 	\textbf{2} Mostrar que los valores propios del circuito de la Figura \ref{fig1} son $-1\pm j$. Encontrar la solución completa para condiciones iniciales arbitrarias y una excitación arbitraria $E(t)$. Sea $C=1F$, $L=1H$, $R_1=R_2=1\Omega$. Graficar la trayectoria de la solución homogénea para dos condiciones iniciales en el espacio de estados.\\
 	 \begin{center}
