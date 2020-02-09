@@ -9,6 +9,7 @@
 \graphicspath{ {imagenes/}}
 \usepackage[margin=1in,bottom=1in]{geometry}
 \usepackage{hyperref} % paquete para tener marcadores en el pdf
+%Librerias para hacer circuitos 
 \usepackage{tikz}
 \usetikzlibrary{babel}
 \usepackage[siunitx, RPvoltages]{circuitikz}
@@ -16,14 +17,18 @@
 \usepackage{pgfplots}\pgfplotsset{compat=1.13}
 \usepackage{float}
 \usepackage[T1]{fontenc}
-\usepackage[numbered,framed]{matlab-prettifier}
-\pgfplotsset{width=12cm,legend style={at={(0.11,0.75)},anchor=south},select coords between index/.style 2 args={
-		x filter/.code={
-			\ifnum\coordindex<#1\def\pgfmathresult{}\fi
-			\ifnum\coordindex>#2\def\pgfmathresult{}\fi
-		}
-}}
+
+%Librerias adicionales para documentos exportados de Matlab live
+\usepackage{lmodern}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{epstopdf}
+\usepackage{matlab}
+
 \author{Ulloa Daniel & Rodriguez Victoria}
+
+\sloppy
+
 \begin{document}
 	\begin{titlepage}
 		\hbox{
@@ -99,65 +104,46 @@
 	Ahora en \ref{eq:salida} la función vectorial $\textbf{u}(t)$ queda expresada como una función escalar $u(t)$
 	
 	\subsection{Solución analítica utilizando Matlab}
+		La respuesta temporal de la tensión de salida $V_R$ del siguiente circuito RLC se puede representar utilizando las soluciones del sistema \ref{eq:normalizada}, para esto debemos expresar las matrices C y D de la ecuacion \ref{eq:salida}
 	
-	
-	utilizando matlab y el comando dsolve...
-	
-	va el script
-	
-	\subsection{Solución por método numérico}
-	Partiendo de \ref{eq:mizquierda} la derivada en un tiempo $t_n$ se aproxima por la pendiente de una linea recta pasando por la incógnita $\vec{x}_n$ y su último valor conocido $\vec{x}_{n-1}$:
-	\begin{equation}
-		\frac{d\vec{x}}{dt}\Bigr\rvert_{t_n}\approx\frac{\vec{x}_n-\vec{x}_{n-1}}{h}
-	\end{equation}
-	
-	Se obtiene el método \textsc{Backward Euler} en forma vectorial:
-	\begin{align}
-		\vec{x}_n&=\left[\frac{1}{h}M+N\right]\backslash \textbf{u}(t_n)+\left[\frac{1}{h}M+N\right]\backslash \left(\frac{1}{h}M \vec{x}_{n-1}\right)\label{euler}
-	\end{align}
-	
-	aca va el script...
-	
-	
-	\subsection{Solución de un circuito}
-	La respuesta temporal de la tensión de salida $V_R$ del siguiente circuito RLC se puede representar utilizando las soluciones del sistema \ref{eq:normalizada}, para esto debemos expresar las matrices C y D de la ecuacion \ref{eq:salida}
-		
-		\begin{center}
-			\begin{circuitikz}[american voltages]\label{fig1}
-				\ctikzset{label/align = smart}
-				\draw (0,0) node[ground]{} 
-				(0,0) to [V,label=E(t)](0,2)
-				(0,2) to [L, label=$L$]++(2,0) to [short,-*]++(0,0) coordinate (nodo1) to [C,l=C]++(0,-2) node[ground]{}
-				(nodo1) to [short,-]++(1.5,0) to [R,l=$R$]++(0,-2) node[ground]{}
-				;
-			\end{circuitikz}
-			\\ Figura \ref{fig1}
-		\end{center}
+	\begin{center}
+		\begin{circuitikz}[american voltages]\label{fig1}
+			\ctikzset{label/align = smart}
+			\draw (0,0) node[ground]{} 
+			(0,0) to [L,label=$L$](0,2)
+			(0,2) to [short,-*]++(2,0) to [short,-*]++(0,0) coordinate (nodo1) to [C,l=C]++(0,-2) node[ground]{}
+			(nodo1) to [short,-]++(1.5,0) to [R,l=$R$]++(0,-2) node[ground]{}
+			;
+		\end{circuitikz}
+		\\ Figura \ref{fig1}
+	\end{center}
+En donde la tensión inicial del capacitor C es de 1V y la corrienteinicial del inductor L es de 1A. \\
+
 	Planteando las ecuaciones y ordenandolas con la forma de \ref{eq:general}:
 	\begin{align}
-		C\frac{dV_C}{dt}+\frac{V_C}{R}-il&=0\\
-		-L\frac{di_L}{dt}+\frac{V_C}{R}&=0		
+	C\frac{dV_C}{dt}+\frac{V_C}{R}-il&=0\\
+	-L\frac{di_L}{dt}+\frac{V_C}{R}&=0		
 	\end{align}
 	
 	
 	Expresando en forma matricial:
 	\begin{equation}
-		\begin{pmatrix}
-		0&L\\
-		C&0
-		\end{pmatrix}\frac{d}{dt}\begin{bmatrix}
-		V_C\\
-		i_L
-		\end{bmatrix}+\begin{pmatrix}
-		-1 & 0\\
-		\frac{1}{R}&1
-		\end{pmatrix}\begin{bmatrix}
-		V_C\\
-		i_L
-		\end{bmatrix}=\begin{pmatrix}
-		0\\
-		0
-		\end{pmatrix}\textbf{u}(t)
+	\begin{pmatrix}
+	0&L\\
+	C&0
+	\end{pmatrix}\frac{d}{dt}\begin{bmatrix}
+	V_C\\
+	i_L
+	\end{bmatrix}+\begin{pmatrix}
+	-1 & 0\\
+	\frac{1}{R}&1
+	\end{pmatrix}\begin{bmatrix}
+	V_C\\
+	i_L
+	\end{bmatrix}=\begin{pmatrix}
+	0\\
+	0
+	\end{pmatrix}\textbf{u}(t)
 	\end{equation}
 	
 	El vector salida es:
@@ -173,17 +159,33 @@
 	\end{pmatrix}\textbf{u}(t)
 	\end{equation}
 	
-Las soluciones son tal .... 
-
-
-
+	Utilizando Matlab se encuentra la solución 
 	
+	\begin{matlabsymbolicoutput}
+		$V_R$ = 
+		$\displaystyle \begin{array}{l}
+		\frac{e^{-\frac{t {\left(L-\sigma_1 \right)}}{2 C L R}}  {\left(L+\sigma_1 +2 C R\right)}}{2 \sigma_1 }-\frac{e^{-\frac{t {\left(L+\sigma_1 \right)}}{2 C L R}}  {\left(L-\sigma_1 +2 C R\right)}}{2 \sigma_1 }\\
+		\mathrm{}\\
+		\textrm{En dónde}\\
+		\mathrm{}\\
+		\;\;\sigma_1 =\sqrt{L {\left(L-4 C R^2 \right)}}
+		\end{array}$
+	\end{matlabsymbolicoutput}
 	
+	\subsection{Solución por método numérico}
+	Partiendo de \ref{eq:mizquierda} la derivada en un tiempo $t_n$ se aproxima por la pendiente de una linea recta pasando por la incógnita $\vec{x}_n$ y su último valor conocido $\vec{x}_{n-1}$:
+	\begin{equation}
+		\frac{d\vec{x}}{dt}\Bigr\rvert_{t_n}\approx\frac{\vec{x}_n-\vec{x}_{n-1}}{h}
+	\end{equation}
 	
+	Se obtiene el método \textsc{Backward Euler} en forma vectorial:
+	\begin{align}
+		\vec{x}_n&=\left[\frac{1}{h}M+N\right]\backslash \textbf{u}(t_n)+\left[\frac{1}{h}M+N\right]\backslash \left(\frac{1}{h}M \vec{x}_{n-1}\right)\label{euler}
+	\end{align}
 	
+	aca va el script...
 	
-	
-	 
+ 
 	\section{Guía de Problemas}
 	\textbf{1} Escribir las ecuaciones de estado de un circuito formado por un inductor $L$ en paralelo con un capacitor $C$. Obtener la solución en términos de la corriente inicial del inductor $i_L(0)$ y del voltaje inicial del capacitor $v_C(0)$. Mostrar que la trayectoria es una elipse en el espacio de estados.\\
 	

@@ -2,6 +2,7 @@
 clc;
 clear;
 
+%%
 syms t vc(t) il(t) C1 C2;
 
 %Valores de los componentes
@@ -32,7 +33,7 @@ Xant=[v0;i0];
 %Se lleva a la forma 
 % dx/dt=q(t)-P*x
 
-P=-1.*(M\N)
+A=-1.*(M\N)
 
 
 x=[vc;il];
