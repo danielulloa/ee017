@@ -62,203 +62,205 @@
 				\\[1\baselineskip]
 		}}
 	\end{titlepage}
+	\section{Resumen ejecutivo}
 	\tableofcontents
 	\newpage
-	\section{Introducción}
-	Este trabajo se enfoca en estudiar la dinámica de circuitos presentados en la Unidad 3 del libro $\textsc{Classical Circuit Theory}$, para esto es necesario encontrar la solución de Sistemas de Ecuaciones Diferenciales Algebraicas en forma analítica y aplicando los métodos numéricos de Euler.\\
+	\section{Objetivos}
+	Este trabajo se enfoca en estudiar la dinámica de circuitos presentados en la Unidad 3 del libro $\textsc{Classical Circuit Theory (Wing, Omar;2008))}$, para esto es necesario encontrar la solución de Sistemas de Ecuaciones Diferenciales Algebraicas en forma analítica y aplicando métodos numéricos.\\
 	
-	Analizar los circuitos a partir de sus ecuaciones de estado permite obtener la respuesta transitoria y estacionaria, mientras que trabajando en el plano de Laplace sólo obtenemos la respuesta de estado estacionario y únicamente es válido si las condiciones iniciales son nulas.\\
+	Analizar los circuitos a partir de sus ecuaciones de estado permite obtener la respuesta transitoria y estacionaria\\
 	
-	A partir de las trayectorias de estado en distintos planos (X-Y, Y-Z, X-Z) es posible representar la relación existente entre las variables de estado del circuito, por ejemplo representar corriente versus tensión, a este tipo de diagramas se los conoce como $\textsc{Phase Portrait}$. Estas trayectorias dependen de las condiciones iniciales.	
+	A partir de las trayectorias de estado en distintos planos (X-Y, Y-Z, X-Z) es posible representar la relación existente entre las variables de estado del circuito, por ejemplo representar corriente versus tensión, a este tipo de diagramas se los conoce como $\textsc{plano de fase}$. Estas trayectorias dependen de las condiciones iniciales.	
 	
 	\subsection{Obtención de las ecuaciones de estado}
 	
 	Representando las ecuaciones de nodos modificados de la siguiente forma:
 	
 	\begin{equation}
-		M\frac{d\vec{x}(t)}{dt}+N\vec{x}(t)=E\textbf{u}(t)\label{eq:general}
+		M\frac{d\textbf{x}(t)}{dt}+N\textbf{x}(t)=E\textbf{u}(t)\label{eq:general}
 	\end{equation}
 	
-	podemos observar que el vector $\vec{x}$(t) está compuesto por las variables de estado, $M$ es la matriz que expresa las relaciones constitutivas de los componentes dinámicos, $N$ es la matriz de admitancias, $E$ una matriz de fuentes y $\textbf{u}(t)$ una función vectorial.\\
+	%podemos observar que el vector $\textbf{x}$(t) está compuesto por las variables de estado, $M$ es la matriz que expresa las relaciones constitutivas de los componentes dinámicos, $N$ es la matriz de admitancias, $E$ una matriz de fuentes y $\textbf{u}(t)$ una función vectorial.\\
 	
-	Despejando $\frac{d\vec{x(t)}}{dt}$ de \ref{eq:general}:
+	podemos observar que el vector $\textbf{x}$(t) está compuesto por las variables de estado, $M,\ N\ y\ E$ son matrices constantes y $\textbf{u}(t)$ es el vector de entradas.\\
+	
+	Despejando $\frac{d\textbf{x(t)}}{dt}$ de \ref{eq:general}:
 	\begin{align}
-		M^{-1}M\frac{d\vec{x}(t)}{dt}&=M^{-1}\left(E\textbf{u}(t)-N\vec{x}(t)\right)\nonumber\\
-		I\frac{d\vec{x}(t)}{dt}&=M\backslash E\textbf{u}(t)- M\backslash N\vec{x}(t)\label{eq:mizquierda}
+		M^{-1}M\frac{d\textbf{x}(t)}{dt}&=M^{-1}\left(E\textbf{u}(t)-N\textbf{x}(t)\right)\nonumber\\
+		I\frac{d\textbf{x}(t)}{dt}&=M^{-1} E\textbf{u}(t)- M^{-1} N\textbf{x}(t)\label{eq:mizquierda}
 	\end{align}
 	
 	De \ref{eq:mizquierda} se obtiene la expresión:
 	
 	\begin{equation}
-		\frac{d\vec{x}(t)}{dt}=A\vec{x}(t)+B\textbf{u}(t) \label{eq:normalizada}
+		\frac{d\textbf{x}(t)}{dt}=A\textbf{x}(t)+B\textbf{u}(t) \label{eq:normalizada}
 	\end{equation}
 	
-	Resolviendo \ref{eq:normalizada} se obtiene $\vec{x}(t)$ que satisface \ref{eq:general}\\
+	Resolviendo \ref{eq:normalizada} se obtiene $\textbf{x}(t)$ que satisface \ref{eq:general}\\
 	
 	Para expresar las salidas del circuito es necesario que estén en función de las variables de estado y se consideren las fuentes de excitación:
 	
 		\begin{equation}
-	\vec{y}(t)=C\vec{x}(t)+Du(t)\label{eq:salida}
+	\vec{y}(t)=C\textbf{x}(t)+Du(t)\label{eq:salida}
 	\end{equation}
 	
-	Ahora en \ref{eq:salida} la función vectorial $\textbf{u}(t)$ queda expresada como una función escalar $u(t)$
+	Ahora en \ref{eq:salida} el vector de fuentes $\textbf{u}(t)$ queda expresado como un vector de funciones temporales $u(t)$
 	
-	\subsection{Solución analítica utilizando Matlab}
-		La respuesta temporal de la tensión de salida $V_R$ del siguiente circuito RLC se puede representar utilizando las soluciones del sistema \ref{eq:normalizada}, para esto debemos expresar las matrices C y D de la ecuacion \ref{eq:salida}
+%	\subsection{Solución analítica utilizando Matlab}
+%		La respuesta temporal de la tensión de salida $V_R$ del siguiente circuito RLC se puede representar utilizando las soluciones del sistema \ref{eq:normalizada}, para esto debemos expresar las matrices C y D de la ecuacion \ref{eq:salida}
 	
-	\begin{center}
-		\begin{circuitikz}[american voltages]\label{fig1}
-			\ctikzset{label/align = smart}
-			\draw (0,0) node[ground]{} 
-			(0,0) to [L,label=$L$](0,2)
-			(0,2) to [short,-*]++(2,0) to [short,-*]++(0,0) coordinate (nodo1) to [C,l=C]++(0,-2) node[ground]{}
-			(nodo1) to [short,-]++(1.5,0) to [R,l=$R$]++(0,-2) node[ground]{}
-			;
-		\end{circuitikz}
-		\\ Figura \ref{fig1}
-	\end{center}
-En donde la tensión inicial del capacitor C es de 1V y la corrienteinicial del inductor L es de 1A. \\
+%	\begin{center}
+%		\begin{circuitikz}[american voltages]\label{fig1}
+%			\ctikzset{label/align = smart}
+%			\draw (0,0) node[ground]{} 
+%			(0,0) to [L,label=$L$](0,2)
+%			(0,2) to [short,-*]++(2,0) to [short,-*]++(0,0) coordinate (nodo1) to [%C,l=C]++(0,-2) node[ground]{}
+%			(nodo1) to [short,-]++(1.5,0) to [R,l=$R$]++(0,-2) node[ground]{}
+%			;
+%		\end{circuitikz}
+%		\\ Figura \ref{fig1}
+%	\end{center}
+%En donde la tensión inicial del capacitor C es de 1V y la corrienteinicial del inductor L es de 1A. \\
 
-	Planteando las ecuaciones y ordenandolas con la forma de \ref{eq:general}:
-	\begin{align}
-	C\frac{dV_C}{dt}+\frac{V_C}{R}-il&=0\\
-	-L\frac{di_L}{dt}+\frac{V_C}{R}&=0		
-	\end{align}
+%	Planteando las ecuaciones y ordenandolas con la forma de \ref{eq:general}:
+%	\begin{align}
+%	C\frac{dV_C}{dt}+\frac{V_C}{R}-il&=0\\
+%	-L\frac{di_L}{dt}+\frac{V_C}{R}&=0		
+%	\end{align}
 	
 	
-	Expresando en forma matricial:
-	\begin{equation}
-	\begin{pmatrix}
-	0&L\\
-	C&0
-	\end{pmatrix}\frac{d}{dt}\begin{bmatrix}
-	V_C\\
-	i_L
-	\end{bmatrix}+\begin{pmatrix}
-	-1 & 0\\
-	\frac{1}{R}&1
-	\end{pmatrix}\begin{bmatrix}
-	V_C\\
-	i_L
-	\end{bmatrix}=\begin{pmatrix}
-	0\\
-	0
-	\end{pmatrix}\textbf{u}(t)
-	\end{equation}
+%	Expresando en forma matricial:
+%	\begin{equation}
+%	\begin{pmatrix}
+%	0&L\\
+%	C&0
+%	\end{pmatrix}\frac{d}{dt}\begin{bmatrix}
+%	V_C\\
+%	i_L
+%	\end{bmatrix}+\begin{pmatrix}
+%	-1 & 0\\
+%	\frac{1}{R}&1
+%	\end{pmatrix}\begin{bmatrix}
+%	V_C\\
+%	i_L
+%	\end{bmatrix}=\begin{pmatrix}
+%	0\\
+%	0
+%	\end{pmatrix}\textbf{u}(t)
+%	\end{equation}
 	
-	El vector salida es:
-	\begin{equation}
-	V_R=\begin{pmatrix}
-	1&0
-	\end{pmatrix}\begin{bmatrix}
-	V_c\\
-	i_L
-	\end{bmatrix}+\begin{pmatrix}
-	0\\
-	0
-	\end{pmatrix}\textbf{u}(t)
-	\end{equation}
+%	El vector salida es:
+%	\begin{equation}
+%	V_R=\begin{pmatrix}
+%	1&0
+%	\end{pmatrix}\begin{bmatrix}
+%	V_c\\
+%	i_L
+%	\end{bmatrix}+\begin{pmatrix}
+%	0\\
+%	0
+%	\end{pmatrix}\textbf{u}(t)
+%	\end{equation}
+%	
+%	Utilizando Matlab se encuentra la solución 
+%	
+%	\begin{matlabsymbolicoutput}
+%		$V_R$ = 
+%		$\displaystyle \begin{array}{l}
+%		\frac{e^{-\frac{t {\left(L-\sigma_1 \right)}}{2 C L R}}  {\left(L+\sigma_1 +2 C R\right)}}{2 \sigma_1 }-\frac{e^{-\frac{t {\left(L+\sigma_1 \right)}}{2 C L R}}  {\left(L-\sigma_1 +2 C R\right)}}{2 \sigma_1 }\\
+%		\mathrm{}\\
+%		\textrm{En dónde}\\
+%		\mathrm{}\\
+%		\;\;\sigma_1 =\sqrt{L {\left(L-4 C R^2 \right)}}
+%		\end{array}$
+%	\end{matlabsymbolicoutput}
 	
-	Utilizando Matlab se encuentra la solución 
+%	\subsection{Solución por método numérico}
+%	Partiendo de \ref{eq:mizquierda} la derivada en un tiempo $t_n$ se aproxima por la pendiente de una linea recta pasando por la incógnita $\vec{x}_n$ y su último valor conocido $\vec{x}_{n-1}$:
+%	\begin{equation}
+%		\frac{d\vec{x}}{dt}\Bigr\rvert_{t_n}\approx\frac{\vec{x}_n-\vec{x}_{n-1}}{h}
+%	\end{equation}
 	
-	\begin{matlabsymbolicoutput}
-		$V_R$ = 
-		$\displaystyle \begin{array}{l}
-		\frac{e^{-\frac{t {\left(L-\sigma_1 \right)}}{2 C L R}}  {\left(L+\sigma_1 +2 C R\right)}}{2 \sigma_1 }-\frac{e^{-\frac{t {\left(L+\sigma_1 \right)}}{2 C L R}}  {\left(L-\sigma_1 +2 C R\right)}}{2 \sigma_1 }\\
-		\mathrm{}\\
-		\textrm{En dónde}\\
-		\mathrm{}\\
-		\;\;\sigma_1 =\sqrt{L {\left(L-4 C R^2 \right)}}
-		\end{array}$
-	\end{matlabsymbolicoutput}
+%	Se obtiene el método \textsc{Backward Euler} en forma vectorial:
+%	\begin{align}
+%		\vec{x}_n&=\left[\frac{1}{h}M+N\right]\backslash \textbf{u}(t_n)+\left[\frac{1}{h}M+N\right]\backslash \left(\frac{1}{h}M \vec{x}_{n-1}\right)\label{euler}
+%	\end{align}
 	
-	\subsection{Solución por método numérico}
-	Partiendo de \ref{eq:mizquierda} la derivada en un tiempo $t_n$ se aproxima por la pendiente de una linea recta pasando por la incógnita $\vec{x}_n$ y su último valor conocido $\vec{x}_{n-1}$:
-	\begin{equation}
-		\frac{d\vec{x}}{dt}\Bigr\rvert_{t_n}\approx\frac{\vec{x}_n-\vec{x}_{n-1}}{h}
-	\end{equation}
+%	\matlabheading{Valores de los componentes}
 	
-	Se obtiene el método \textsc{Backward Euler} en forma vectorial:
-	\begin{align}
-		\vec{x}_n&=\left[\frac{1}{h}M+N\right]\backslash \textbf{u}(t_n)+\left[\frac{1}{h}M+N\right]\backslash \left(\frac{1}{h}M \vec{x}_{n-1}\right)\label{euler}
-	\end{align}
+%	\begin{matlabcode}
+%		R=1;
+%		L=1;
+%		C=1;
+%	\end{matlabcode}
 	
-	\matlabheading{Valores de los componentes}
+%	\matlabheading{Condiciones iniciales}
 	
-	\begin{matlabcode}
-		R=1;
-		L=1;
-		C=1;
-	\end{matlabcode}
+%	\begin{matlabcode}
+%		vc01=1;
+%	\end{matlabcode}
 	
-	\matlabheading{Condiciones iniciales}
+%	\matlabheading{Valores de tiempo y paso}
 	
-	\begin{matlabcode}
-		vc01=1;
-		il01=0;
-	\end{matlabcode}
-	
-	\matlabheading{Valores de tiempo y paso}
-	
-	\begin{matlabcode}
-		ti=0;
-		tf=10;
-		h=0.001;
-	\end{matlabcode}
-	
-	\matlabheading{Matrices de forma generalizadas}
-	
-	\begin{matlabcode}
-		M=[0 L;C 0]
-	\end{matlabcode}
-	\begin{matlaboutput}
-		M = 2x2    
-		0     1
-		1     0		
-	\end{matlaboutput}
-	\begin{matlabcode}
-		N=[-1 0;1/R 1]
-	\end{matlabcode}
-	\begin{matlaboutput}
-		N = 2x2    
-		-1     0
-		 1     1		
-	\end{matlaboutput}
-	\begin{matlabcode}
-		Xant=[vc01;il01]
-	\end{matlabcode}
-	\begin{matlaboutput}
-		Xant = 2x1    
-		1
-		0.0		
-	\end{matlaboutput}
-	\begin{matlabcode}
-		u=[0;0]
-	\end{matlabcode}
-	\begin{matlaboutput}
-		u = 2x1    
-		0.0
-		0.0		
-	\end{matlaboutput}
-	\begin{matlabcode}
-		solu=[];
-	\end{matlabcode}
-	
-	\begin{matlabcode}
-		for i= ti:h:tf
-		X=((((1/h).*M)+N)\ u) + ((((1/h).*M)+N)\ ((1/h).*M)*Xant);
-		solu=[solu X];
-		Xant=X;
-		end
-	\end{matlabcode}
-	
-	\vspace{1em}
-	
-	\begin{matlabcode}
-		solu=solu';
-	\end{matlabcode}
-	
- \newpage
+%	\begin{matlabcode}
+%		ti=0;
+%		tf=10;
+%		h=0.001;
+%	\end{matlabcode}
+%	
+%	\matlabheading{Matrices de forma generalizadas}
+%	
+%	\begin{matlabcode}
+%		M=[0 L;C 0]
+%	\end{matlabcode}
+%	\begin{matlaboutput}
+%		M = 2x2    
+%		0     1
+%		1     0		
+%	\end{matlaboutput}
+%	\begin{matlabcode}
+%		N=[-1 0;1/R 1]
+%	\end{matlabcode}
+%	\begin{matlaboutput}
+%		N = 2x2    
+%		-1     0
+%		 1     1		
+%	\end{matlaboutput}
+%	\begin{matlabcode}
+%		Xant=[vc01;il01]
+%	\end{matlabcode}
+%	\begin{matlaboutput}
+%		Xant = 2x1    
+%		1
+%		0.0		
+%	\end{matlaboutput}
+%	\begin{matlabcode}
+%		u=[0;0]
+%	\end{matlabcode}
+%	\begin{matlaboutput}
+%		u = 2x1    
+%		0.0
+%		0.0		
+%	\end{matlaboutput}
+%	\begin{matlabcode}
+%		solu=[];
+%	\end{matlabcode}
+%	
+%	\begin{matlabcode}
+%		for i= ti:h:tf
+%		X=((((1/h).*M)+N)\ u) + ((((1/h).*M)+N)\ ((1/h).*M)*Xant);
+%		solu=[solu X];
+%		Xant=X;
+%		end
+%	\end{matlabcode}
+%	
+%	\vspace{1em}
+%	
+%	\begin{matlabcode}
+%		solu=solu';
+%	\end{matlabcode}
+%	
+\newpage
 	\section{Guía de Problemas}
 	\subsection{Ejercicio 1} Escribir las ecuaciones de estado de un circuito formado por un inductor $L$ en paralelo con un capacitor $C$. Obtener la solución en términos de la corriente inicial del inductor $i_L(0)$ y del voltaje inicial del capacitor $v_C(0)$. Mostrar que la trayectoria es una elipse en el espacio de estados.\\
 	
@@ -1595,9 +1597,13 @@ En donde la tensión inicial del capacitor C es de 1V y la corrienteinicial del 
 	\end{matlabcode}
 	\begin{matlabsymbolicoutput}
 	ans = 
-	$\displaystyle e^{-1.125 t}  {\left(-0.1434+1.625 {10}^{-17}  i\right)}+e^{-0.6786 t}  {\left(-0.07908+1.431 {10}^{-17}  i\right)}+e^{t {\left(-0.5563-0.9145 i\right)}}  {\left(0.1112-0.004343 i\right)}+e^{t {\left(-0.5563+0.9145 i\right)}}  {\left(0.1112+0.004343 i\right)}$
 	\end{matlabsymbolicoutput}
-	
+	\begin{equation*}
+	\begin{split}
+		e^{-1.125 t}  {\left(-0.1434\right)}+e^{-0.6786 t}  {\left(-0.07908\right)}+e^{t {\left(-0.5563-0.9145 i\right)}}  {\left(0.1112-0.004343 i\right)}\\
+	+e^{t {\left(-0.5563+0.9145 i\right)}}  {\left(0.1112+0.004343 i\right)}
+	\end{split}
+	\end{equation*}
 	
 	\matlabtitle{Trayectorias de estado}
 	
@@ -2221,11 +2227,18 @@ En donde la tensión inicial del capacitor C es de 1V y la corrienteinicial del 
 \end{center}
 \newpage
 	\section{Conclusión}
-	Se encontró una herramienta muy útil para estudiar la dinámica de circuitos eléctricos que puede ser implementada de forma muy sencilla, plantear las ecuaciones de estado y obtener soluciones rápidamente. Se aumentó la noción sobre el funcionamiento de software de simulación SPICE, ya que las ecuaciones se pueden plantear de forma sistemática y con los métodos vistos se vuelve trivial su resolución. En este trabajo se aplicaron conceptos de métodos numéricos, álgebra lineal, ecuaciones diferenciales, teoría de grafos y convolución de señales adquiridos en la carrera, lo que muestra que la Teoría de Circuitos es una rama multidisciplinaria dentro de la matemática aplicada y no sólo una base para simplificar cálculos en temas más avanzados de Ingeniería Electrónica.
+	
+	%Se encontró una herramienta muy útil para estudiar la dinámica de circuitos eléctricos que puede ser implementada de forma muy sencilla, plantear las ecuaciones de estado y obtener soluciones rápidamente. 
+	%Hasta el Ejercicio 5 se utilizó un método analítico de resolución a partir de las ecuaciones de estado, desde el Ejercicio 6 se aplicaron métodos numéricos y se observó que se obtienen las soluciones con un error despreciable.\\
+	
+	%En el Ejercicio 8 para encontrar la respuesta temporal era necesario realizar la convolución entre la respuesta al impulso del sistema y una fuente arbitraria, para esto se desarrollaron las ecuaciones de nodos por el método de inspección y se aplicó la Transformada Inversa de Laplace, luego se comparó este resultado con la resolución a partir de variables de estado y la aplicación de un método numérico. Se observó una diferencia despreciable entre ambos métodos.\\
+	
+	Se aumentó la noción sobre el funcionamiento de software de simulación SPICE, ya que las ecuaciones se pueden plantear de forma sistemática y con los métodos vistos se vuelve trivial su resolución. En este trabajo se aplicaron conceptos de métodos numéricos, álgebra lineal, ecuaciones diferenciales, teoría de grafos y convolución de señales adquiridos en la carrera, lo que muestra que la Teoría de Circuitos es una rama multidisciplinaria dentro de la matemática aplicada y no solo una base para simplificar cálculos en temas más avanzados de Ingeniería Electrónica.
 	
 	\section{Bibliografía}
 	\begin{itemize}
 		\item	Wing, O. (2008). Classical circuit theory (Vol. 773). Springer Science \& Business Media.
+		\item Friedland, B. (1986). Control system design: an introduction to state-space methods.
 		\item Strogatz, S. (2001). Nonlinear dynamics and chaos: with applications to physics, biology, chemistry, and engineering (studies in nonlinearity).
 		\item  Najm, F. N. (2010). Circuit simulation. John Wiley \& Sons.
 		\item Bendtsen, C., \& Thomsen, P. G. (1999). Numerical solution of differential algebraic equations. IMM, Department of Mathematical Modelling, Technical Universityof Denmark.
