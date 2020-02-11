@@ -1,0 +1,229 @@
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and export to LaTeX again.
+
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{epstopdf}
+\usepackage{matlab}
+
+\sloppy
+\epstopdfsetup{outdir=./}
+\graphicspath{ {./ejercicio03_images/} }
+
+\begin{document}
+
+\matlabtitle{Ejercicio N°3}
+
+
+\begin{matlabcode}
+clear;clc;
+\end{matlabcode}
+
+\begin{par}
+\begin{flushleft}
+Se definen simbólicas las variables
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+syms t vc1(t) vc2(t) C1 C2 C3 R1 R2 w;
+\end{matlabcode}
+
+\begin{par}
+\begin{flushleft}
+Se plantean las ecuaciones y se obtienen las matrices de la forma generalizada
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+M=[C3 -C2;C1+C3 C1]
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+M = 
+    $\displaystyle \left(\begin{array}{cc}
+C_3  & -C_2 \\
+C_1 +C_3  & C_1 
+\end{array}\right)$
+\end{matlabsymbolicoutput}
+\begin{matlabcode}
+N=[0 -1/R2; 1/R1 1/R1]
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+N = 
+    $\displaystyle \left(\begin{array}{cc}
+0 & -\frac{1}{R_2 }\\
+\frac{1}{R_1 } & \frac{1}{R_1 }
+\end{array}\right)$
+\end{matlabsymbolicoutput}
+\begin{matlabcode}
+u=[0;10*cos(w*t)/R1];
+\end{matlabcode}
+
+\begin{par}
+\begin{flushleft}
+Se expresan las matrices de la forma normalizada
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+A=-1.*(M\N)
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+A = 
+    $\displaystyle \begin{array}{l}
+\left(\begin{array}{cc}
+-\frac{C_2 }{\sigma_2 } & \frac{C_1  R_1 -C_2  R_2 }{\sigma_1 }\\
+-\frac{C_3 }{\sigma_2 } & -\frac{C_1  R_1 +C_3  R_1 +C_3  R_2 }{\sigma_1 }
+\end{array}\right)\\
+\mathrm{}\\
+\textrm{where}\\
+\mathrm{}\\
+\;\;\sigma_1 =R_1  R_2  {\left(C_1  C_2 +C_1  C_3 +C_2  C_3 \right)}\\
+\mathrm{}\\
+\;\;\sigma_2 =R_1  {\left(C_1  C_2 +C_1  C_3 +C_2  C_3 \right)}
+\end{array}$
+\end{matlabsymbolicoutput}
+\begin{matlabcode}
+
+B=M\u
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+B = 
+    $\displaystyle \left(\begin{array}{c}
+\frac{10 C_2  \cos \left(t w\right)}{R_1  {\left(C_1  C_2 +C_1  C_3 +C_2  C_3 \right)}}\\
+\frac{10 C_3  \cos \left(t w\right)}{R_1  {\left(C_1  C_2 +C_1  C_3 +C_2  C_3 \right)}}
+\end{array}\right)$
+\end{matlabsymbolicoutput}
+
+\begin{par}
+\begin{flushleft}
+Se definen las variables de estado
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+x=[vc1;vc2]
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+x(t) = 
+    $\displaystyle \left(\begin{array}{c}
+{\textrm{vc}}_1 \left(t\right)\\
+{\textrm{vc}}_2 \left(t\right)
+\end{array}\right)$
+\end{matlabsymbolicoutput}
+
+\begin{par}
+\begin{flushleft}
+Expresando el sistema en forma diferencial
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+odes = diff(x) ==  A*x + B
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+odes(t) = 
+    $\displaystyle \begin{array}{l}
+\left(\begin{array}{c}
+\frac{\partial }{\partial t}\;{\textrm{vc}}_1 \left(t\right)=\frac{10 C_2  \cos \left(t w\right)}{R_1  \sigma_1 }-\frac{C_2  {\textrm{vc}}_1 \left(t\right)}{R_1  \sigma_1 }+\frac{{\textrm{vc}}_2 \left(t\right) {\left(C_1  R_1 -C_2  R_2 \right)}}{R_1  R_2  \sigma_1 }\\
+\frac{\partial }{\partial t}\;{\textrm{vc}}_2 \left(t\right)=\frac{10 C_3  \cos \left(t w\right)}{R_1  \sigma_1 }-\frac{C_3  {\textrm{vc}}_1 \left(t\right)}{R_1  \sigma_1 }-\frac{{\textrm{vc}}_2 \left(t\right) {\left(C_1  R_1 +C_3  R_1 +C_3  R_2 \right)}}{R_1  R_2  \sigma_1 }
+\end{array}\right)\\
+\mathrm{}\\
+\textrm{where}\\
+\mathrm{}\\
+\;\;\sigma_1 =C_1  C_2 +C_1  C_3 +C_2  C_3 
+\end{array}$
+\end{matlabsymbolicoutput}
+
+\begin{par}
+\begin{flushleft}
+Reemplazando los valores de R1, R2 y los capacitores
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+clear C1 C2 C3 R1 R2 w;
+syms C11 C12;
+R1=1;R2=1;C1=1;C2=1;C3=1;w=1;
+A=subs(A);
+B=subs(B);
+\end{matlabcode}
+
+\matlabheading{Autovalores del circuito}
+
+\begin{matlabcode}
+autovalores= eig(A)
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+autovalores = 
+    $\displaystyle \left(\begin{array}{c}
+-1\\
+-\frac{1}{3}
+\end{array}\right)$
+\end{matlabsymbolicoutput}
+
+\begin{par}
+\begin{flushleft}
+Las ecuaciones diferenciales son
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+odes = diff(x) == A*x + B
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+odes(t) = 
+    $\displaystyle \left(\begin{array}{c}
+\frac{\partial }{\partial t}\;{\textrm{vc}}_1 \left(t\right)=\frac{10 \cos \left(t\right)}{3}-\frac{{\textrm{vc}}_1 \left(t\right)}{3}\\
+\frac{\partial }{\partial t}\;{\textrm{vc}}_2 \left(t\right)=\frac{10 \cos \left(t\right)}{3}-\frac{{\textrm{vc}}_1 \left(t\right)}{3}-{\textrm{vc}}_2 \left(t\right)
+\end{array}\right)$
+\end{matlabsymbolicoutput}
+
+\matlabheading{Estableciendo condiciones iniciales y tiempo de simulación}
+
+\begin{par}
+\begin{flushleft}
+Para el primer par de condiciones iniciales
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+vc01=0;
+vc02=0;
+ti=0;
+tf=6*pi;
+Xant=[vc01;vc02];
+constantes=x(0)==Xant;
+[vc1Sol(t), vc2Sol(t)] = dsolve(odes,constantes)
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+vc1Sol(t) = 
+    $\displaystyle \sqrt{10} \cos \left(t-\textrm{atan}\left(3\right)\right)-\frac{1}{{{\left(e^t \right)}}^{1/3} }$
+vc2Sol(t) = 
+    $\displaystyle \frac{1}{2 {{\left(e^t \right)}}^{1/3} }-\frac{5 e^{-t} }{2}+\sqrt{5} \cos \left(t-\textrm{atan}\left(\frac{1}{2}\right)\right)$
+\end{matlabsymbolicoutput}
+
+\begin{par}
+\begin{flushleft}
+Las exponenciales se extinguen pasado cierto tiempo y la respuesta de estado estacionario es:
+\end{flushleft}
+\end{par}
+
+\begin{par}
+$$VC_1(t)=\sqrt{10}\cos(t-\arctan{3})$$
+\end{par}
+
+\begin{par}
+$$VC_2(t)=\sqrt{5}\cos(t-\arctan{\frac{1}{2}})$$
+\end{par}
+
+\end{document}

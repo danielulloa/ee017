@@ -1,0 +1,196 @@
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and export to LaTeX again.
+
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{epstopdf}
+\usepackage{matlab}
+
+\sloppy
+\epstopdfsetup{outdir=./}
+\graphicspath{ {./ejercicio04_images/} }
+
+\begin{document}
+
+\matlabtitle{Ejercicio Nº4}
+
+
+\begin{matlabcode}
+clear;clc;
+\end{matlabcode}
+
+\begin{par}
+\begin{flushleft}
+Se definen simbólicas las variables
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+syms t il1(t) il2(t) il3(t) L1 L2 L3 R1 R2 E;
+\end{matlabcode}
+
+\begin{par}
+\begin{flushleft}
+Se plantean las ecuaciones y se obtienen las matrices de la forma generalizada
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+M=[L1 L1+L3;L2 -L3]
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+M = 
+    $\displaystyle \left(\begin{array}{cc}
+L_1  & L_1 +L_3 \\
+L_2  & -L_3 
+\end{array}\right)$
+\end{matlabsymbolicoutput}
+\begin{matlabcode}
+N=[R1 R1;R2 0]
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+N = 
+    $\displaystyle \left(\begin{array}{cc}
+R_1  & R_1 \\
+R_2  & 0
+\end{array}\right)$
+\end{matlabsymbolicoutput}
+\begin{matlabcode}
+u=[E;0]
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+u = 
+    $\displaystyle \left(\begin{array}{c}
+\textrm{E}\\
+0
+\end{array}\right)$
+\end{matlabsymbolicoutput}
+
+\begin{par}
+\begin{flushleft}
+Se expresan las matrices de la forma normalizada
+\end{flushleft}
+\end{par}
+
+\vspace{1em}
+
+\begin{matlabcode}
+A=-1.*(M\N)
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+A = 
+    $\displaystyle \left(\begin{array}{cc}
+-\frac{L_1  R_2 +L_3  R_1 +L_3  R_2 }{L_1  L_2 +L_1  L_3 +L_2  L_3 } & -\frac{L_3  R_1 }{L_1  L_2 +L_1  L_3 +L_2  L_3 }\\
+\frac{L_1  R_2 -L_2  R_1 }{L_1  L_2 +L_1  L_3 +L_2  L_3 } & -\frac{L_2  R_1 }{L_1  L_2 +L_1  L_3 +L_2  L_3 }
+\end{array}\right)$
+\end{matlabsymbolicoutput}
+\begin{matlabcode}
+
+B=M\u
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+B = 
+    $\displaystyle \left(\begin{array}{c}
+\frac{\textrm{E} L_3 }{L_1  L_2 +L_1  L_3 +L_2  L_3 }\\
+\frac{\textrm{E} L_2 }{L_1  L_2 +L_1  L_3 +L_2  L_3 }
+\end{array}\right)$
+\end{matlabsymbolicoutput}
+
+\begin{par}
+\begin{flushleft}
+Se definen las variables de estado
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+x=[il2;il3]
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+x(t) = 
+    $\displaystyle \left(\begin{array}{c}
+{\textrm{il}}_2 \left(t\right)\\
+{\textrm{il}}_3 \left(t\right)
+\end{array}\right)$
+\end{matlabsymbolicoutput}
+
+\begin{par}
+\begin{flushleft}
+Expresando el sistema en forma diferencial
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+odes = diff(x) ==  A*x + B
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+odes(t) = 
+    $\displaystyle \begin{array}{l}
+\left(\begin{array}{c}
+\frac{\partial }{\partial t}\;{\textrm{il}}_2 \left(t\right)=\frac{\textrm{E} L_3 }{\sigma_1 }-\frac{{\textrm{il}}_2 \left(t\right) {\left(L_1  R_2 +L_3  R_1 +L_3  R_2 \right)}}{\sigma_1 }-\frac{L_3  R_1  {\textrm{il}}_3 \left(t\right)}{\sigma_1 }\\
+\frac{\partial }{\partial t}\;{\textrm{il}}_3 \left(t\right)=\frac{{\textrm{il}}_2 \left(t\right) {\left(L_1  R_2 -L_2  R_1 \right)}}{\sigma_1 }+\frac{\textrm{E} L_2 }{\sigma_1 }-\frac{L_2  R_1  {\textrm{il}}_3 \left(t\right)}{\sigma_1 }
+\end{array}\right)\\
+\mathrm{}\\
+\textrm{where}\\
+\mathrm{}\\
+\;\;\sigma_1 =L_1  L_2 +L_1  L_3 +L_2  L_3 
+\end{array}$
+\end{matlabsymbolicoutput}
+
+\begin{par}
+\begin{flushleft}
+Resolviendo el sistema con el comando dsolve
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+[i2Sol(t), i3Sol(t)] = dsolve(odes);
+\end{matlabcode}
+
+\begin{par}
+\begin{flushleft}
+Reemplazando los valores de E,R1, R2, L y C
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+clear L1 L2 L3 R1 R2 E;
+syms C1 C2;
+R1=1;R2=1;L1=1;L2=1;L3=2;
+E=2*exp(-2*t);
+A=subs(A);
+B=subs(B);
+odes = diff(x) == A*x + B;
+\end{matlabcode}
+
+\matlabheading{Estableciendo condiciones iniciales y tiempo de simulación}
+
+\begin{matlabcode}
+i0l2=0;
+i0l3=0;
+ti=0;
+tf=4*pi;
+Xant=[i0l2;i0l3];
+constantes=x(0)==Xant;
+[i2Sol(t), i3Sol(t)] = dsolve(odes,constantes);
+\end{matlabcode}
+
+\matlabheading{Voltaje en la resistencia R2}
+
+\begin{matlabcode}
+VR2=simplify(i2Sol*R2)
+\end{matlabcode}
+\begin{matlabsymbolicoutput}
+VR2(t) = 
+    $\displaystyle -\frac{e^{-2 t}  {\left(e^{\frac{9 t}{5}} -9 e^t +8\right)}}{9}$
+\end{matlabsymbolicoutput}
+
+\end{document}

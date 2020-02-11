@@ -1,5 +1,4 @@
 %Ejercicio nº7
-digits=2
 clc;
 clear;
 
