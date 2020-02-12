@@ -20,7 +20,7 @@
 
 %Librerias adicionales para documentos exportados de Matlab live
 \usepackage{lmodern}
-\usepackage{color}
+\usepackage{color} 
 \usepackage{listings}
 \usepackage{epstopdf}
 \usepackage{matlab}
@@ -63,26 +63,52 @@
 		}}
 	\end{titlepage}
 	\section{Resumen ejecutivo}
+	
+	En este informe se presentan los conceptos de variables de estado y ecuaciones de estados de un sistema dinámico.\\
+	
+	Mediante la utilización de métodos numéricos, álgebra lineal y ecuaciones diferenciales se demostrará que es posible representar la solución de un sistema y sus variables de estado y que el uso de la notación matricial simplifica la representación matemática de los sistemas de ecuaciones.\\
+	
+	Para ello, se propone la resolución de ejercicios de la Unidad 3 del libro  $\textsc{Classical Circuit Theory (Wing, Omar;2008)}$ mediante los programas LTspice, Matlab y Mathematica.  \\
+	
+	
+	\newpage
+	
 	\tableofcontents
 	\newpage
 	\section{Objetivos}
-	Este trabajo se enfoca en estudiar la dinámica de circuitos presentados en la Unidad 3 del libro $\textsc{Classical Circuit Theory (Wing, Omar;2008))}$, para esto es necesario encontrar la solución de Sistemas de Ecuaciones Diferenciales Algebraicas en forma analítica y aplicando métodos numéricos.\\
+	%Este trabajo se enfoca en 
+	\begin{itemize}
+		\item Estudiar la dinámica de circuitos presentados en la Unidad 3 del libro $\textsc{Classical Circuit Theory (Wing, Omar;2008)}$, para esto es necesario encontrar la solución de Sistemas de Ecuaciones Diferenciales Algebraicas en forma analítica y aplicando métodos numéricos.
+		
+		\item Analizar los circuitos a partir de sus ecuaciones de estado permite obtener la respuesta transitoria y estacionaria
+		
+		\item A partir de las trayectorias de estado en distintos planos (X-Y, Y-Z, X-Z), representar la relación existente entre las variables de estado del circuito, por ejemplo representar corriente versus tensión, a este tipo de diagramas se los conoce como $\textsc{plano de fase}$. Estas trayectorias dependen de las condiciones iniciales.	
+	\end{itemize}
 	
-	Analizar los circuitos a partir de sus ecuaciones de estado permite obtener la respuesta transitoria y estacionaria\\
+	\section{Introducción}
 	
-	A partir de las trayectorias de estado en distintos planos (X-Y, Y-Z, X-Z) es posible representar la relación existente entre las variables de estado del circuito, por ejemplo representar corriente versus tensión, a este tipo de diagramas se los conoce como $\textsc{plano de fase}$. Estas trayectorias dependen de las condiciones iniciales.	
+	\subsection{Noción física de las variables de estado}
+	
+	Las variables de estado están presentes en los sistemas dinámicos. Un sistema dinámico se caracteriza por sus estados que resumen la información pasada requerida para determinar el comportamiento futuro del mismo. Al analizar estos sistemas, las ecuaciones diferenciales relatan la dinámica de las variables y sus derivadas temporales de varios ordenes. \\
+	
+	En el enfoque de espacio de estado, todas las ecuaciones diferenciales del modelo matemático de un sistema son de primer orden.\\
+	
+	La teoría de espacio de estados se basa en la descripción de las ecuaciones de un sistema en términos de n ecuaciones diferenciales de primer orden, que se combinan en una ecuación diferencial vectorial de primer orden. El uso de la notación matricial simplifica enormemente la representación matemática de los sistemas de ecuaciones. El incremento en el número de variables de estado, de entradas o de salidas no aumenta la complejidad de las ecuaciones.\\
+	
+	 El número de variables de estado en un circuito eléctrico, está dado por los elementos
+	que almacenan energía, estos son los capacitores y los inductores. 
 	
 	\subsection{Obtención de las ecuaciones de estado}
-	
-	Representando las ecuaciones de nodos modificados de la siguiente forma:
+	Utilizando la teoría de espacio de estados se puede representar las ecuaciones de un sistema dinámico de la siguiente forma
+ %Representando las ecuaciones de nodos modificados de la siguiente forma:
 	
 	\begin{equation}
 		M\frac{d\textbf{x}(t)}{dt}+N\textbf{x}(t)=E\textbf{u}(t)\label{eq:general}
 	\end{equation}
 	
 	%podemos observar que el vector $\textbf{x}$(t) está compuesto por las variables de estado, $M$ es la matriz que expresa las relaciones constitutivas de los componentes dinámicos, $N$ es la matriz de admitancias, $E$ una matriz de fuentes y $\textbf{u}(t)$ una función vectorial.\\
-	
-	podemos observar que el vector $\textbf{x}$(t) está compuesto por las variables de estado, $M,\ N\ y\ E$ son matrices constantes y $\textbf{u}(t)$ es el vector de entradas.\\
+	%podemos observar que 
+	el vector $\textbf{x}$(t) está compuesto por las variables de estado, $M,\ N\ y\ E$ son matrices constantes y $\textbf{u}(t)$ es el vector de entradas.\\
 	
 	Despejando $\frac{d\textbf{x(t)}}{dt}$ de \ref{eq:general}:
 	\begin{align}
@@ -96,15 +122,14 @@
 		\frac{d\textbf{x}(t)}{dt}=A\textbf{x}(t)+B\textbf{u}(t) \label{eq:normalizada}
 	\end{equation}
 	
-	Resolviendo \ref{eq:normalizada} se obtiene $\textbf{x}(t)$ que satisface \ref{eq:general}\\
+	Resolviendo \ref{eq:normalizada} se obtiene $\textbf{x}(t)$ que satisface \ref{eq:general}. De esta manera es posible conocer las variables de estado del sistema\\
 	
-	Para expresar las salidas del circuito es necesario que estén en función de las variables de estado y se consideren las fuentes de excitación:
-	
+	La salida del sistema $\textbf{y}(t)$ es una combinación lineal de las variables de estado $\textbf{x}(t)$ y las entradas $\textbf{u}(t)$. 
+
 		\begin{equation}
-	\vec{y}(t)=C\textbf{x}(t)+Du(t)\label{eq:salida}
+	\textbf{y}(t)=C\textbf{x}(t)+Du(t)\label{eq:salida}
 	\end{equation}
-	
-	Ahora en \ref{eq:salida} el vector de fuentes $\textbf{u}(t)$ queda expresado como un vector de funciones temporales $u(t)$
+	donde C y D son matrices constantes. La presencia de la matriz D habla de una relación directa entre la salida y la entrada del sistema sin la intervención de las variables de estado $\textbf{x}(t)$
 	
 %	\subsection{Solución analítica utilizando Matlab}
 %		La respuesta temporal de la tensión de salida $V_R$ del siguiente circuito RLC se puede representar utilizando las soluciones del sistema \ref{eq:normalizada}, para esto debemos expresar las matrices C y D de la ecuacion \ref{eq:salida}
@@ -262,8 +287,19 @@
 %	
 \newpage
 	\section{Guía de Problemas}
-	\subsection{Ejercicio 1} Escribir las ecuaciones de estado de un circuito formado por un inductor $L$ en paralelo con un capacitor $C$. Obtener la solución en términos de la corriente inicial del inductor $i_L(0)$ y del voltaje inicial del capacitor $v_C(0)$. Mostrar que la trayectoria es una elipse en el espacio de estados.\\
-	
+	\subsection{Ejercicio 1} Escribir las ecuaciones de estado de un circuito formado por un inductor $L$ en paralelo con un capacitor $C$ (Figura \ref{fig1}). Obtener la solución en términos de la corriente inicial del inductor $i_L(0)$ y del voltaje inicial del capacitor $v_C(0)$. Mostrar que la trayectoria es una elipse en el espacio de estados.\\
+\begin{center}
+			\begin{circuitikz}[american voltages]\label{fig1}
+				\ctikzset{label/align = smart}
+				\draw (0,0) node[ground]{} 
+				(0,0) to [L,label=$L$](0,2)
+				(0,2) to [short,-] (2,2)
+				(2,2) to [C,label=$C$] (2,0)
+				(2,0) node[ground]{}
+				;
+			\end{circuitikz}
+			\\ Figura \ref{fig1}
+		\end{center}
 	\begin{par}
 		\begin{flushleft}
 			Se definen simbólicas las variables
@@ -1361,7 +1397,7 @@
 	\end{center}
 
 	
-	\subsection{Ejercicio 6} Aplicar el metodo $Backward\ Euler$ para resolver las ecuaciones de estado del problema anterior siendo $E(t)=\sin t + r(t)$ dónde $r(t)$ es un ruido aleatorio cuya amplitud se encuentra uniformemente distribuida en el rango $[-0.1,0.1]$. Graficar la salida.\\
+	\subsection{Ejercicio 6} Aplicar el método $Backward\ Euler$ para resolver las ecuaciones de estado del problema anterior siendo $E(t)=\sin t + r(t)$ dónde $r(t)$ es un ruido aleatorio cuya amplitud se encuentra uniformemente distribuida en el rango $[-0.1,0.1]$. Graficar la salida.\\
 	
 	\matlabheading{Valores de los componentes}
 	
@@ -1467,8 +1503,15 @@
 		\includegraphics[width=\maxwidth{56.196688409433015em}]{figure_0_06}
 		\end{center}
 		
-		
-	\subsection{Ejercicio 7} En el circuito de la figura \ref{fig6}, suponer que el voltaje inicial del capacitor $C_1$ es $1V$, y que todas las condiciones iniciales restante son nulas. Mostrar que el voltaje a traves de $g_4$ para todo $t\geq 0$ está dado por la siguiente ecuación:
+	Se realizó la simulación mediante el programa LT Spice para comparar la solución temporal obtenida en Matlab. 
+
+	\begin{center}
+		\includegraphics[scale=0.5]{simulacion62}
+		\includegraphics[scale=0.4]{simulacion61}
+	\end{center}
+ Se observa que la tensión sobre la resistencia en R2 medida tanto en LTspice como la calculada en Matlab son similares, por lo tanto se concluye que el método numérico (Backward Euler) aplicado tiene un error despreciable.
+ 
+	\subsection{Ejercicio 7} En el circuito de la figura \ref{fig6}, suponer que el voltaje inicial del capacitor $C_1$ es $1V$, y que todas las condiciones iniciales restante son nulas. Mostrar que el voltaje a través de $g_4$ para todo $t\geq 0$ está dado por la siguiente ecuación:
 	\begin{equation}
 		v_{4_n}(t)=0.225e^{\alpha t}\cos \beta t-0.0087e^{\alpha t}\sin \beta t-0.1434e^{\lambda_3 t}-0.0791e^{\lambda_4 t}
 	\end{equation}
@@ -1672,12 +1715,12 @@
 	\end{center}
 	
 	
-	\subsection{Ejercicio 8} Mostar que en el circuito de la figura \ref{fig7} el voltaje a través de $R_2$ es, con una precision de 4 dígitos:
+	\subsection{Ejercicio 8} Mostrar que en el circuito de la figura \ref{fig7} el voltaje a través de $R_2$ es, con una precisión de 4 dígitos:
 	\begin{equation}
 		v_2(t)=\int_{0}^{t}\left[0.4813e^{\lambda_1(t-\tau)}-0.0440e^{\lambda_2(t-\tau)}\right]E(\tau)d\tau
 	\end{equation}
 	
-	Dónde $\lambda_1=-0.9645$ y $\lambda_2=-0.0882$. Asumir que todas las condiciones iniciales son cero. Sea la entrada un pulso $E(t)=\sin^2(\frac{\pi t}{5})$ para el intervalo de tiempo $0\leq t\leq 5$, $E(t)=0$ caso contrario. Encontrar el valor de $v_2(t)$ para el intervalo $0\leq t\leq 10$. Usar convolución numérica y comparar la solución con la obtenida por $Backwar\ Euler$. Los valores de los elementos son $C_1=1F$, $C_2=2F$, $C_3=3F$, $C_4=4F$, $C_5=5F$, $C_6=6F$, y $R_1=R_2=1\Omega$\\
+	Donde $\lambda_1=-0.9645$ y $\lambda_2=-0.0882$. Asumir que todas las condiciones iniciales son cero. Sea la entrada un pulso $E(t)=\sin^2(\frac{\pi t}{5})$ para el intervalo de tiempo $0\leq t\leq 5$, $E(t)=0$ caso contrario. Encontrar el valor de $v_2(t)$ para el intervalo $0\leq t\leq 10$. Usar convolución numérica y comparar la solución con la obtenida por $Backward Euler$. Los valores de los elementos son $C_1=1F$, $C_2=2F$, $C_3=3F$, $C_4=4F$, $C_5=5F$, $C_6=6F$, y $R_1=R_2=1\Omega$\\
 	
 	\begin{center}
 		\begin{circuitikz}[american voltages]\label{fig7}
@@ -1842,7 +1885,7 @@
 		\includegraphics[width=\maxwidth{56.196688409433015em}]{figure_0_08}
 		\end{center}
 		
-	
+		Para encontrar la respuesta temporal era necesario realizar la convolución entre la respuesta al impulso del sistema y una fuente arbitraria, para esto se desarrollaron las ecuaciones de nodos por el método de inspección y se aplicó la Transformada Inversa de Laplace, luego se comparó este resultado con la resolución a partir de variables de estado y la aplicación de un método numérico. Se observó una diferencia despreciable entre ambos métodos.\\
 	\subsection{Ejercicio 9} Mostrar que la respuesta al impulso de una escalera de 5 secciones de la figura \ref{fig8}, que modela una longitud de interconexión en un circuito integrado, teniendo en cuenta que la salida es el último nodo, que $R=1\Omega$ y $C=0.1F$ y la expresión es:
 	\begin{equation}
 		v_{out}(t)=0.554e^{\lambda_1 t}-1.788e^{\lambda_2 t}+2.720e^{\lambda_3 t}-2.500e^{\lambda_4 t}+1.014e^{\lambda_5 t}
@@ -1855,7 +1898,7 @@
 			$\lambda_4=-6.9028$ & $\lambda_5=-0.8101$ &  \\
 		\end{tabular} 
 	\end{center}
-
+Use $Backward Euler$ para obtener el voltaje de salia para un pulso de $1V$ y una duración de $1s$.
 \begin{center}
 	\begin{circuitikz}[american voltages]\label{fig8}
 		\draw (0,0) node[ground]{}
@@ -1980,8 +2023,14 @@
 	\begin{center}
 	\includegraphics[width=\maxwidth{56.196688409433015em}]{figure_0_09}
 	\end{center}
+Por último se simulo la respuesta temporal de la salida en LTspice 
 
+\begin{center}
+	\includegraphics[scale=0.5]{simulacion91}
+	\includegraphics[scale=0.4]{simulacion92}
 
+\end{center}
+Se puede observar nuevamente que el método numérico utilizado tiene un error despreciable y las gráficas son similares. 
 	\subsection{Ejercicio 10} Considerar un circuito $LC$ de cuarto orden que consiste en un inductor $L_1$ en serie con un capacitor $C_1$ y con una combinación paralelo de un inductor $L_2$ y un capacitor $C_2$. Sea $L_1=1H$, $C_1=\frac{1}{25}F$, $L_2=18H$ y $C_2=\frac{1}{72}F$. Sean las variables de estado $i_{L1}$, $i_{L2}$,$v_{C1}$, $v_{C1}$. Mostrar que las respuestas a una condición inicial $v_{C1}=1V$ son:
 	\begin{center}
 		\begin{tabular}{cc}
@@ -2225,7 +2274,19 @@
 \begin{center}
 	\includegraphics[width=\maxwidth{56.196688409433015em}]{figure_3_10}
 \end{center}
+Se obtuvieron las mismas trayectorias en distintos planos por medio de Ltspice.
+\begin{center}
+		\includegraphics[scale=0.5]{simulacion101}
+	    \includegraphics[scale=0.4]{simulacion102}
+    	\includegraphics[scale=0.4]{simulacion103}
+   		\includegraphics[scale=0.4]{simulacion104}
+		\includegraphics[scale=0.4]{simulacion105}
+	
+\end{center}
+
+
 \newpage
+
 	\section{Conclusión}
 	
 	%Se encontró una herramienta muy útil para estudiar la dinámica de circuitos eléctricos que puede ser implementada de forma muy sencilla, plantear las ecuaciones de estado y obtener soluciones rápidamente. 
