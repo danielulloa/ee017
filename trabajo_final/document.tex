@@ -64,13 +64,12 @@
 	\end{titlepage}
 	\section{Resumen ejecutivo}
 	
-	En este informe se presentan los conceptos de variables de estado y ecuaciones de estados de un sistema dinámico.\\
+	En este informe se presentan los conceptos de variables y ecuaciones de estado de un sistema dinámico.\\
 	
-	Mediante la utilización de métodos numéricos, álgebra lineal y ecuaciones diferenciales se demostrará que es posible representar la solución de un sistema y sus variables de estado y que el uso de la notación matricial simplifica la representación matemática de los sistemas de ecuaciones.\\
+	Mediante la utilización de métodos numéricos, álgebra lineal y ecuaciones diferenciales se mostrará que es posible obtener la solución de un sistema y sus variables de estado, como referencia se utiliza LTspice y que el uso de la notación matricial simplifica la representación matemática de los sistemas de ecuaciones.\\
 	
-	Para ello, se propone la resolución de ejercicios de la Unidad 3 del libro  $\textsc{Classical Circuit Theory (Wing, Omar;2008)}$ mediante los programas LTspice, Matlab y Mathematica.  \\
-	
-	
+	Para ello, se propone la resolución de ejercicios de la Unidad 3 del libro Classical Circuit Theory (Wing, Omar;2008) mediante los programas LTspice, Matlab y Mathematica.  \\
+		
 	\newpage
 	
 	\tableofcontents
@@ -89,7 +88,7 @@
 	
 	\subsection{Noción física de las variables de estado}
 	
-	Las variables de estado están presentes en los sistemas dinámicos. Un sistema dinámico se caracteriza por sus estados que resumen la información pasada requerida para determinar el comportamiento futuro del mismo. Al analizar estos sistemas, las ecuaciones diferenciales relatan la dinámica de las variables y sus derivadas temporales de varios ordenes. \\
+	Las variables de estado están presentes en los sistemas dinámicos. Un sistema dinámico se caracteriza por sus estados que resumen la información del pasado requerida para determinar el comportamiento futuro del mismo. Al analizar estos sistemas, las ecuaciones diferenciales relatan la dinámica de las variables y sus derivadas temporales de varios ordenes. \\
 	
 	En el enfoque de espacio de estado, todas las ecuaciones diferenciales del modelo matemático de un sistema son de primer orden.\\
 	
@@ -2039,6 +2038,28 @@ Se puede observar nuevamente que el método numérico utilizado tiene un error d
 			$i_{L2}=\dfrac{-4}{99}\sin(t)+\dfrac{2}{495}\sin(10t)$ & $v_{C2}=\dfrac{8}{11}\cos(10t)-\dfrac{8}{11}\cos(t)$\\
 		\end{tabular} 
 	\end{center}
+\begin{center}
+	\begin{circuitikz}[american voltages]\label{fig1}
+		\ctikzset{label/align = smart}
+		\draw 
+		(0,0) node[ground]{}
+		(0,0) to [C,label=$C$](0,1)
+		(0,1) to [L,label=$L$](0,2)
+		(0,2) to [short,-] (2,2)
+		(2,2) to [short,-*](2,1.5)
+		(2,1.5) to [short,-] (1.5,1.5)
+		(1.5,1.5) to [short,-] (2.5,1.5)
+		(2.5,1.5) to [C,label=$C$] (2.5,0.5)
+		(1.5,1.5) to [L,label=$L$] (1.5,0.5)
+        (1.5,0.5) to [short,-] (1.5,0.0)
+        (2.5,0.5) to [short,-] (2.5,0.0)
+		(2.5,0.0) node[ground]{}
+		(1.5,0.0) node[ground]{}	
+		;
+	\end{circuitikz}
+	\\ Figura \ref{fig1}
+\end{center}
+
 \begin{par}
 	\begin{flushleft}
 		Se definen simbólicas las variables
@@ -2294,7 +2315,7 @@ Se obtuvieron las mismas trayectorias en distintos planos por medio de Ltspice.
 	
 	%En el Ejercicio 8 para encontrar la respuesta temporal era necesario realizar la convolución entre la respuesta al impulso del sistema y una fuente arbitraria, para esto se desarrollaron las ecuaciones de nodos por el método de inspección y se aplicó la Transformada Inversa de Laplace, luego se comparó este resultado con la resolución a partir de variables de estado y la aplicación de un método numérico. Se observó una diferencia despreciable entre ambos métodos.\\
 	
-	Se aumentó la noción sobre el funcionamiento de software de simulación SPICE, ya que las ecuaciones se pueden plantear de forma sistemática y con los métodos vistos se vuelve trivial su resolución. En este trabajo se aplicaron conceptos de métodos numéricos, álgebra lineal, ecuaciones diferenciales, teoría de grafos y convolución de señales adquiridos en la carrera, lo que muestra que la Teoría de Circuitos es una rama multidisciplinaria dentro de la matemática aplicada y no solo una base para simplificar cálculos en temas más avanzados de Ingeniería Electrónica.
+	Al resolver los ejercicios de forma matricial y aplicando métodos numericos se logró comprender el funcionamiento del motor SPICE de los simuladores de circuitos, ya que las ecuaciones se pueden plantear de forma sistemática y con los métodos vistos se vuelve trivial su resolución. En este trabajo se aplicaron conceptos de métodos numéricos, álgebra lineal, ecuaciones diferenciales, teoría de grafos y convolución de señales adquiridos en la carrera, lo que muestra que la Teoría de Circuitos es una rama multidisciplinaria dentro de la matemática aplicada y no solo una base para simplificar cálculos en temas más avanzados de Ingeniería Electrónica.
 	
 	\section{Bibliografía}
 	\begin{itemize}
