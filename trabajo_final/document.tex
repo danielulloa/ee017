@@ -63,8 +63,7 @@
 		}}
 	\end{titlepage}
 	\section{Resumen ejecutivo}
-	
-	En este informe se presentan los conceptos de variables y ecuaciones de estado de un sistema dinámico.\\
+	En este informe se presentan los conceptos de variables y ecuaciones de estado de un sistema dinámico. Se indicará paso a paso cómo obtener las ecuaciones, ya que en la bibliografía consultada se omite este procedimiento.\\
 	
 	Mediante la utilización de métodos numéricos, álgebra lineal y ecuaciones diferenciales se mostrará que es posible obtener la solución de un sistema y sus variables de estado, como referencia se utiliza LTspice y que el uso de la notación matricial simplifica la representación matemática de los sistemas de ecuaciones.\\
 	
@@ -130,48 +129,75 @@
 	\end{equation}
 	donde C y D son matrices constantes. La presencia de la matriz D habla de una relación directa entre la salida y la entrada del sistema sin la intervención de las variables de estado $\textbf{x}(t)$
 	
-%	\subsection{Solución analítica utilizando Matlab}
-%		La respuesta temporal de la tensión de salida $V_R$ del siguiente circuito RLC se puede representar utilizando las soluciones del sistema \ref{eq:normalizada}, para esto debemos expresar las matrices C y D de la ecuacion \ref{eq:salida}
+	\subsection{Ejemplo}
+		
+		La respuesta temporal de la tensión de salida $V_R$ del siguiente circuito se puede representar utilizando las soluciones del sistema \ref{eq:normalizada}, para esto debemos expresar las matrices C y D de la ecuación \ref{eq:salida}
 	
-%	\begin{center}
-%		\begin{circuitikz}[american voltages]\label{fig1}
-%			\ctikzset{label/align = smart}
-%			\draw (0,0) node[ground]{} 
-%			(0,0) to [L,label=$L$](0,2)
-%			(0,2) to [short,-*]++(2,0) to [short,-*]++(0,0) coordinate (nodo1) to [%C,l=C]++(0,-2) node[ground]{}
-%			(nodo1) to [short,-]++(1.5,0) to [R,l=$R$]++(0,-2) node[ground]{}
-%			;
-%		\end{circuitikz}
-%		\\ Figura \ref{fig1}
-%	\end{center}
-%En donde la tensión inicial del capacitor C es de 1V y la corrienteinicial del inductor L es de 1A. \\
+	\begin{center}
+		\begin{circuitikz}[american voltages]\label{fig10}
+			\ctikzset{label/align = smart}
+			\draw (0,0) node[ground]{} 
+			(0,0) to [L,label=$L$](0,2)
+			(0,2) to [short,-*]++(2,0) to [short,-*]++(0,0) coordinate (nodo1) to [C,l=C]++(0,-2) node[ground]{}
+			(nodo1) to [short,-]++(1.5,0) to [R,l=$R$]++(0,-2) node[ground]{}
+			;
+		\end{circuitikz}
+		\\ Figura \ref{fig10}
+	\end{center}
+En donde la tensión inicial del capacitor C es de 1V y la corriente inicial del inductor L es de 1A. \\
 
-%	Planteando las ecuaciones y ordenandolas con la forma de \ref{eq:general}:
-%	\begin{align}
-%	C\frac{dV_C}{dt}+\frac{V_C}{R}-il&=0\\
-%	-L\frac{di_L}{dt}+\frac{V_C}{R}&=0		
-%	\end{align}
+	Las ecuaciones que se plantean son las siguientes:
+	\begin{equation}
+		-i_L-i_C-i_R=0
+	\end{equation}
+	Las corrientes de los componentes salen del nodo.
+	\begin{equation}
+		V_L=V_C
+	\end{equation}
 	
+	Juntando ambas ecuaciones podemos formar el siguiente sistema de ecuaciones:
+	\begin{align}
+		-i_L-i_C-i_R=0\\
+		V_L=V_C
+	\end{align}
+	Reemplazando las relaciones constitutivas para el inductor y el capacitor:
+	\begin{align}
+		-i_L-C\frac{dV_C}{dt}-\frac{V_C}{R}=0\\
+		L\frac{di_L}{dt}=V_C
+	\end{align}
+	El sistema queda expresado en términos de dos variables de estado, la tensión del capacitor y la corriente del inductor.
+
+	Ordenando las ecuaciones con la forma de \ref{eq:general}:
+	\begin{align}
+	C\frac{dV_C}{dt}+\frac{V_C}{R}-i_L&=0\\
+	-L\frac{di_L}{dt}+V_C&=0		
+	\end{align}
 	
-%	Expresando en forma matricial:
-%	\begin{equation}
-%	\begin{pmatrix}
-%	0&L\\
-%	C&0
-%	\end{pmatrix}\frac{d}{dt}\begin{bmatrix}
-%	V_C\\
-%	i_L
-%	\end{bmatrix}+\begin{pmatrix}
-%	-1 & 0\\
-%	\frac{1}{R}&1
-%	\end{pmatrix}\begin{bmatrix}
-%	V_C\\
-%	i_L
-%	\end{bmatrix}=\begin{pmatrix}
-%	0\\
-%	0
-%	\end{pmatrix}\textbf{u}(t)
-%	\end{equation}
+	Podemos escribir los términos nulos para poder reconocer los coeficientes que forman la matriz:
+	
+	\begin{align}
+	C\frac{dV_C}{dt}+0\frac{di_L}{dt}+\frac{V_C}{R}-i_L&=0\\
+	0\frac{dV_C}{dt}-L\frac{di_L}{dt}+V_C+0i_L&=0		
+	\end{align}
+	Y se representa:
+	\begin{equation}
+	\begin{pmatrix}
+	C&0\\
+	0&-L
+	\end{pmatrix}\frac{d}{dt}\begin{bmatrix}
+	V_C\\
+	i_L
+	\end{bmatrix}+\begin{pmatrix}
+	\frac{1}{R} & -1\\
+	1&0
+	\end{pmatrix}\begin{bmatrix}
+	V_C\\
+	i_L
+	\end{bmatrix}=\begin{pmatrix}
+	0\\
+	0
+	\end{pmatrix}\textbf{u}(t)
+	\end{equation}
 	
 %	El vector salida es:
 %	\begin{equation}
